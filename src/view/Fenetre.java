@@ -28,7 +28,9 @@ public class Fenetre {
         ProxyHTTP proxy;
 
         while (listening) {
-            new ProxyHTTP(serverSocket.accept()).start();
+            proxy = new ProxyHTTP(serverSocket.accept());
+            proxy.start();
+            //proxy.stop();
         }
         serverSocket.close();
     }
