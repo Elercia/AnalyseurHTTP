@@ -1,4 +1,4 @@
-package proxy;
+package model.proxy;
 
 import java.net.*;
 import java.io.*;
