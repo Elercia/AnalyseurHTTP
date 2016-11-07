@@ -1,6 +1,6 @@
 package view;
 
-import proxy.ProxyHTTP;
+import model.proxy.ProxyHTTP;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -30,7 +30,7 @@ public class Fenetre {
         while (listening) {
             proxy = new ProxyHTTP(serverSocket.accept());
             proxy.start();
-            //proxy.stop();
+            //model.proxy.stop();
         }
         serverSocket.close();
     }

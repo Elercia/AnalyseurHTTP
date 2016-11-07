@@ -1,4 +1,4 @@
-package analyseur;
+package modele.analyseur;
 
 public class Analyseur {
 
