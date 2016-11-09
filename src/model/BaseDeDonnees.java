@@ -17,5 +17,6 @@ public class BaseDeDonnees{
 
   public String lecture(String s){
     //TODO
+    return "";
   }
 }

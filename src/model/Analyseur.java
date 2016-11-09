@@ -1,7 +1,5 @@
 package model;
 
-import model.proxy.ProxyHTTP.java;
-
 public class Analyseur {
 
   private ProxyHTTP proxy;
@@ -13,14 +11,14 @@ public class Analyseur {
     //Instanciation d'une nouvelle BaseDeDonnees
     bdd = new BaseDeDonnees(fileName);
     //On instancie le proxy avec le port voulu
-    proxy = new ProxyHTTP(port);
+    //proxy = new ProxyHTTP();
     //On démarre le proxy qui démarera dans un Thread
-    proxy.start();
+    //proxy.start();
   }
 
   public void finEcoute(){
     //On stop le proxy
-    proxy.stop();
+    //proxy.stop();
   }
 
   public void traite(String requete){
@@ -29,9 +27,11 @@ public class Analyseur {
 
   public String recuperationDonnees(String donnees){
     //TODO
+    return "";
   }
 
   public String traiteAffichage(String s){
     //TODO
+    return "";
   }
 }
