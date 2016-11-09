@@ -16,11 +16,30 @@ public class Vue {
 
     JTabbedPane onglets = new JTabbedPane(SwingConstants.TOP);
 
-    JPanel onglet1 = new JPanel();
-    onglet1.setLayout(new GridLayout(4, 3));
+
+
+    JPanel onglet1_1 = new JPanel();
+    onglet1_1.setLayout(new GridLayout(1, 3));//l,c
+
+    JLabel txtparam =new JLabel("configuration :");
+    onglet1_1.add(txtparam);
+
+    ButtonGroup bg2 = new ButtonGroup();
+    JRadioButton param_auto = new JRadioButton("automatique");
+    JRadioButton param_man = new JRadioButton("manuel");
+    // ajout des boutons radio dans le groupe bg
+    bg2.add(param_auto);
+    bg2.add(param_man);
+    onglet1_1.add(param_auto);
+    onglet1_1.add(param_man);
+
+
+
+    JPanel onglet1_2 = new JPanel();
+    onglet1_2.setLayout(new GridLayout(4, 3));
 
     JLabel txtprox =new JLabel("utiliser un proxy ?");
-    onglet1.add(txtprox);
+    onglet1_2.add(txtprox);
 
     ButtonGroup bg = new ButtonGroup();
     JRadioButton proxy_oui = new JRadioButton("oui");
@@ -28,38 +47,44 @@ public class Vue {
     // ajout des boutons radio dans le groupe bg
     bg.add(proxy_oui);
     bg.add(proxy_non);
-    onglet1.add(proxy_oui);
-    onglet1.add(proxy_non);
+    onglet1_2.add(proxy_oui);
+    onglet1_2.add(proxy_non);
 
-    JLabel txtproxy = new JLabel("addresse : ");
-    onglet1.add(txtproxy);
+    JLabel txtproxy = new JLabel("addresse proxy : ");
+    onglet1_2.add(txtproxy);
 
     JTextField proxy = new JTextField("");
-    onglet1.add(proxy);
+    onglet1_2.add(proxy);
 
     JLabel bricolage = new JLabel("");
-    onglet1.add(bricolage);
+    onglet1_2.add(bricolage);
 
     JLabel txtport = new JLabel("port : ");
-    onglet1.add(txtport);
+    onglet1_2.add(txtport);
 
     JSpinner port = new JSpinner();
-    onglet1.add(port);
+    onglet1_2.add(port);
 
     JLabel bricolage0 = new JLabel("");
-    onglet1.add(bricolage0);
+    onglet1_2.add(bricolage0);
 
     JLabel bricolage1 = new JLabel("");
-    onglet1.add(bricolage1);
+    onglet1_2.add(bricolage1);
 
     JLabel bricolage2 = new JLabel("");
-    onglet1.add(bricolage2);
+    onglet1_2.add(bricolage2);
 
-    JButton valide = new JButton("VALIDE");
-    onglet1.add(valide);
+    JButton valide = new JButton("Start");
+    onglet1_2.add(valide);
 
 
-    onglets.addTab("Proxy", onglet1);
+    JPanel onglet1_G = new JPanel();
+    onglet1_G.setLayout(new GridLayout(2, 1));//l,c
+
+    onglet1_G.add(onglet1_1);
+    onglet1_G.add(onglet1_2);
+
+    onglets.addTab("Proxy", onglet1_G);
 
     JPanel onglet2 = new JPanel();
     JLabel contenu_onglet2 = new JLabel("Onglet 2");
