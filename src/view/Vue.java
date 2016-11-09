@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 
 
@@ -64,6 +65,45 @@ public class Vue {
     JLabel contenu_onglet2 = new JLabel("Onglet 2");
     onglet2.add(contenu_onglet2);
     onglets.addTab("affichage", onglet2);
+
+    JMenuBar menuBar;
+    JMenu menu, submenu;
+    JMenuItem menuItem;
+    JRadioButtonMenuItem rbMenuItem;
+    JCheckBoxMenuItem cbMenuItem;
+
+    //Create the menu bar.
+    menuBar = new JMenuBar();
+
+    //Build the first menu.
+    menu = new JMenu("Menu");
+    menu.getAccessibleContext().setAccessibleDescription(
+            "The only menu in this program that has menu items");
+    menuBar.add(menu);
+
+
+    //a group of JMenuItems
+    submenu = new JMenu("Fichier");
+    submenu.setMnemonic(KeyEvent.VK_S);
+
+    menuItem = new JMenuItem("Ouvrir");
+    menuItem.setAccelerator(KeyStroke.getKeyStroke(
+            KeyEvent.VK_2, ActionEvent.ALT_MASK));
+    submenu.add(menuItem);
+
+    menuItem = new JMenuItem("Enregistrer");
+    submenu.add(menuItem);
+    menu.add(submenu);
+
+    menuItem = new JMenuItem("help",
+                             KeyEvent.VK_T);
+    menuItem.setAccelerator(KeyStroke.getKeyStroke(
+            KeyEvent.VK_1, ActionEvent.ALT_MASK));
+    menuItem.getAccessibleContext().setAccessibleDescription(
+            "This doesn't really do anything");
+    menu.add(menuItem);
+
+    f.setJMenuBar(menuBar);
 
     onglets.setOpaque(true);
     pannel.add(onglets);
