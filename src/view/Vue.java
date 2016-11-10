@@ -68,6 +68,10 @@ public class Vue {
     JLabel bricolage0 = new JLabel("");
     onglet1_2.add(bricolage0);
 
+
+    /*a virer
+    remplacer 1 bouton start/pause + un bouton stop
+    modifier layout et rajouter pannel*/
     JLabel bricolage1 = new JLabel("");
     onglet1_2.add(bricolage1);
 
@@ -76,7 +80,7 @@ public class Vue {
 
     JButton valide = new JButton("Start");
     onglet1_2.add(valide);
-
+    /*fin a virer*/
 
     JPanel onglet1_G = new JPanel();
     onglet1_G.setLayout(new GridLayout(2, 1));//l,c
