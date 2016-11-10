@@ -5,12 +5,15 @@ import java.awt.event.KeyEvent;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import controleur.*;
 
 
 
 public class Vue {
+  /*variable*/
+  private JButton start_pause, stop;
 
-  public static void main(String[] args) {
+  public Vue(){
     JFrame f = new JFrame("affichge");
     JPanel pannel = new JPanel();
 
@@ -36,7 +39,7 @@ public class Vue {
 
 
     JPanel onglet1_2 = new JPanel();
-    onglet1_2.setLayout(new GridLayout(4, 3));
+    onglet1_2.setLayout(new GridLayout(3, 3));
 
     JLabel txtprox =new JLabel("utiliser un proxy ?");
     onglet1_2.add(txtprox);
@@ -65,28 +68,29 @@ public class Vue {
     JSpinner port = new JSpinner();
     onglet1_2.add(port);
 
-    JLabel bricolage0 = new JLabel("");
-    onglet1_2.add(bricolage0);
+
+    JPanel onglet1_3 = new JPanel();
+    onglet1_3.setLayout(new GridLayout(1, 2));
+
+    stop = new JButton("Stop");
+    stop.setVisible(false);
+    onglet1_3.add(stop);
+    Control_stop control_stop = new Control_stop(stop, this);
+    stop.addActionListener(control_stop);
 
 
-    /*a virer
-    remplacer 1 bouton start/pause + un bouton stop
-    modifier layout et rajouter pannel*/
-    JLabel bricolage1 = new JLabel("");
-    onglet1_2.add(bricolage1);
+    start_pause = new JButton("Start");
+    onglet1_3.add(start_pause);
+		Control_start control_start = new Control_start(start_pause, this);
+		start_pause.addActionListener(control_start);
 
-    JLabel bricolage2 = new JLabel("");
-    onglet1_2.add(bricolage2);
-
-    JButton valide = new JButton("Start");
-    onglet1_2.add(valide);
-    /*fin a virer*/
 
     JPanel onglet1_G = new JPanel();
-    onglet1_G.setLayout(new GridLayout(2, 1));//l,c
+    onglet1_G.setLayout(new GridLayout(3, 1));//l,c
 
     onglet1_G.add(onglet1_1);
     onglet1_G.add(onglet1_2);
+    onglet1_G.add(onglet1_3);
 
     onglets.addTab("Proxy", onglet1_G);
 
@@ -141,4 +145,23 @@ public class Vue {
 		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		f.pack();
   }
+
+
+
+
+  public static void main(String[] args) {
+    Vue fenetre = new Vue();
+  }
+
+  public void start(){
+    this.start_pause.setText("Pause");
+    this.stop.setVisible(true);
+  }
+
+  public void stop(){
+    this.start_pause.setText("Start");
+    this.stop.setVisible(false);
+  }
+
+
 }
