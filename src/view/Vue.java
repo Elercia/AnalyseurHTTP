@@ -12,6 +12,10 @@ import controleur.*;
 public class Vue {
   /*variable*/
   private JButton start_pause, stop;
+  private JLabel txtprox, txtproxy, txtport;
+  private JRadioButton proxy_oui, proxy_non;
+  private JTextField proxy;
+  private JSpinner port;
 
   public Vue(){
     JFrame f = new JFrame("affichge");
@@ -29,43 +33,59 @@ public class Vue {
 
     ButtonGroup bg2 = new ButtonGroup();
     JRadioButton param_auto = new JRadioButton("automatique");
+    param_auto.setSelected(true);
     JRadioButton param_man = new JRadioButton("manuel");
     // ajout des boutons radio dans le groupe bg
     bg2.add(param_auto);
     bg2.add(param_man);
     onglet1_1.add(param_auto);
     onglet1_1.add(param_man);
+    Control_config control_conf = new Control_config(param_auto, param_man, this);
+    param_auto.addActionListener(control_conf);
+    param_man.addActionListener(control_conf);
 
 
 
     JPanel onglet1_2 = new JPanel();
     onglet1_2.setLayout(new GridLayout(3, 3));
 
-    JLabel txtprox =new JLabel("utiliser un proxy ?");
+    txtprox =new JLabel("utiliser un proxy ?");
+    txtprox.setVisible(false);
     onglet1_2.add(txtprox);
 
     ButtonGroup bg = new ButtonGroup();
-    JRadioButton proxy_oui = new JRadioButton("oui");
-    JRadioButton proxy_non = new JRadioButton("non");
+    proxy_oui = new JRadioButton("oui");
+    proxy_non = new JRadioButton("non");
+    proxy_non.setSelected(true);
+    proxy_non.setVisible(false);
+    proxy_oui.setVisible(false);
     // ajout des boutons radio dans le groupe bg
     bg.add(proxy_oui);
     bg.add(proxy_non);
     onglet1_2.add(proxy_oui);
     onglet1_2.add(proxy_non);
 
-    JLabel txtproxy = new JLabel("addresse proxy : ");
+    Control_proxy control_prox = new Control_proxy(proxy_oui, proxy_non, this);
+    proxy_oui.addActionListener(control_prox);
+    proxy_non.addActionListener(control_prox);
+
+    txtproxy = new JLabel("addresse proxy : ");
+    txtproxy.setVisible(false);
     onglet1_2.add(txtproxy);
 
-    JTextField proxy = new JTextField("");
+    proxy = new JTextField("");
+    proxy.setVisible(false);
     onglet1_2.add(proxy);
 
     JLabel bricolage = new JLabel("");
     onglet1_2.add(bricolage);
 
-    JLabel txtport = new JLabel("port : ");
+    txtport = new JLabel("port : ");
+    txtport.setVisible(false);
     onglet1_2.add(txtport);
 
-    JSpinner port = new JSpinner();
+    port = new JSpinner();
+    port.setVisible(false);
     onglet1_2.add(port);
 
 
@@ -158,10 +178,40 @@ public class Vue {
     this.stop.setVisible(true);
   }
 
+  public void pause(){
+    this.start_pause.setText("Start");
+  }
+
   public void stop(){
     this.start_pause.setText("Start");
     this.stop.setVisible(false);
   }
 
+  public void question1_oui(){
+    txtprox.setVisible(true);
+    proxy_oui.setVisible(true);
+    proxy_non.setVisible(true);
+  }
 
+  public void question1_non(){
+    txtprox.setVisible(false);
+    proxy_oui.setVisible(false);
+    proxy_non.setVisible(false);
+    proxy_non.setSelected(true);
+    this.question2_non();
+  }
+
+  public void question2_oui(){
+    txtproxy.setVisible(true);
+    proxy.setVisible(true);
+    txtport.setVisible(true);
+    port.setVisible(true);
+  }
+
+  public void question2_non(){
+    txtproxy.setVisible(false);
+    proxy.setVisible(false);
+    txtport.setVisible(false);
+    port.setVisible(false);
+  }
 }
