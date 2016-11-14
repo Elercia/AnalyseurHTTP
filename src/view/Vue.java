@@ -15,7 +15,7 @@ public class Vue {
   private JLabel txtprox, txtproxy, txtport;
   private JRadioButton proxy_oui, proxy_non;
   private JTextField proxy;
-  private JSpinner port;
+  private JSpinner port, portlog;
 
   public Vue(){
     JFrame f = new JFrame("affichge");
@@ -26,7 +26,16 @@ public class Vue {
 
 
     JPanel onglet1_1 = new JPanel();
-    onglet1_1.setLayout(new GridLayout(1, 3));//l,c
+    onglet1_1.setLayout(new GridLayout(2, 3));//l,c
+
+    JLabel txtportlog = new JLabel("port logiciel ecouter : ");
+    onglet1_1.add(txtportlog);
+
+    portlog = new JSpinner();
+    onglet1_1.add(portlog);
+
+    JLabel bricolage2 = new JLabel("");
+    onglet1_1.add(bricolage2);
 
     JLabel txtparam =new JLabel("configuration :");
     onglet1_1.add(txtparam);
@@ -114,10 +123,73 @@ public class Vue {
 
     onglets.addTab("Proxy", onglet1_G);
 
-    JPanel onglet2 = new JPanel();
-    JLabel contenu_onglet2 = new JLabel("Onglet 2");
-    onglet2.add(contenu_onglet2);
-    onglets.addTab("affichage", onglet2);
+    //JPanel onglet2_G = new JPanel();
+    //onglet2_G.setLayout(new GridLayout(6,3));
+
+    JPanel onglet2_G = new JPanel(new GridLayout(6,3, -1, -1));//l,c
+    onglet2_G.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
+
+    /*for (int i =0; i<(6*3); i++){
+      final JLabel label = new JLabel("Label");
+      label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+      onglet2_G.add(label);
+    }*/
+
+
+    JLabel txtcap = new JLabel("temps capture");
+    txtcap.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    JLabel txtpagechar = new JLabel("nombre de page chargé");
+    txtpagechar.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    JLabel txtpoid = new JLabel("poid page chargé");
+    txtpoid.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    JLabel txtcookie = new JLabel("nombre de cookie cree");
+    txtcookie.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    JLabel txtsite = new JLabel("site le plus chargé");
+    txtsite.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    JLabel txtmethode = new JLabel("methode la plus utilisé");
+    txtmethode.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+    JLabel cap = new JLabel("<valeur>");
+    cap.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    JLabel pagechar = new JLabel("<valeur>");
+    pagechar.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    JLabel poid = new JLabel("<valeur>");
+    poid.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    JLabel cookie = new JLabel("<valeur>");
+    cookie.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    JLabel site = new JLabel("<valeur>");
+    site.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    JLabel methode = new JLabel("<valeur>");
+    methode.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+    JButton bcap =new JButton("plus info");
+    JButton bpagechar =new JButton("plus info");
+    JButton bpoid =new JButton("plus info");
+    JButton bcookie =new JButton("plus info");
+    JButton bsite =new JButton("plus info");
+    JButton bmethode =new JButton("plus info");
+
+    onglet2_G.add(txtcap);
+    onglet2_G.add(cap);
+    onglet2_G.add(bcap);
+    onglet2_G.add(txtpagechar);
+    onglet2_G.add(pagechar);
+    onglet2_G.add(bpagechar);
+    onglet2_G.add(txtpoid);
+    onglet2_G.add(poid);
+    onglet2_G.add(bpoid);
+    onglet2_G.add(txtcookie);
+    onglet2_G.add(cookie);
+    onglet2_G.add(bcookie);
+    onglet2_G.add(txtsite);
+    onglet2_G.add(site);
+    onglet2_G.add(bsite);
+    onglet2_G.add(txtmethode);
+    onglet2_G.add(methode);
+    onglet2_G.add(bmethode);
+
+
+    onglets.addTab("affichage", onglet2_G);
 
     JMenuBar menuBar;
     JMenu menu, submenu;
