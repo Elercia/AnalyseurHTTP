@@ -15,7 +15,7 @@ public class Vue {
   private JLabel txtprox, txtproxy, txtport;
   private JRadioButton proxy_oui, proxy_non;
   private JTextField proxy;
-  private JSpinner port;
+  private JSpinner port, portlog;
 
   public Vue(){
     JFrame f = new JFrame("affichge");
@@ -26,7 +26,16 @@ public class Vue {
 
 
     JPanel onglet1_1 = new JPanel();
-    onglet1_1.setLayout(new GridLayout(1, 3));//l,c
+    onglet1_1.setLayout(new GridLayout(2, 3));//l,c
+
+    JLabel txtportlog = new JLabel("port logiciel ecouter : ");
+    onglet1_1.add(txtportlog);
+
+    portlog = new JSpinner();
+    onglet1_1.add(portlog);
+
+    JLabel bricolage2 = new JLabel("");
+    onglet1_1.add(bricolage2);
 
     JLabel txtparam =new JLabel("configuration :");
     onglet1_1.add(txtparam);
