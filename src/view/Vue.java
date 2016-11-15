@@ -16,14 +16,13 @@ public class Vue {
   private JRadioButton proxy_oui, proxy_non;
   private JTextField proxy;
   private JSpinner port, portlog;
+  private JLabel cap, pagechar,poid,cookie,site,methode; //affichage
 
   public Vue(){
     JFrame f = new JFrame("affichge");
     JPanel pannel = new JPanel();
 
     JTabbedPane onglets = new JTabbedPane(SwingConstants.TOP);
-
-
 
     JPanel onglet1_1 = new JPanel();
     onglet1_1.setLayout(new GridLayout(2, 3));//l,c
@@ -126,8 +125,8 @@ public class Vue {
     //JPanel onglet2_G = new JPanel();
     //onglet2_G.setLayout(new GridLayout(6,3));
 
-    JPanel onglet2_G = new JPanel(new GridLayout(6,3, -1, -1));//l,c
-    onglet2_G.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
+    JPanel onglet2_1 = new JPanel(new GridLayout(6,3, -1, -1));//l,c
+    onglet2_1.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
 
     /*for (int i =0; i<(6*3); i++){
       final JLabel label = new JLabel("Label");
@@ -149,17 +148,17 @@ public class Vue {
     JLabel txtmethode = new JLabel("methode la plus utilisé");
     txtmethode.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-    JLabel cap = new JLabel("<valeur>");
+    cap = new JLabel("<valeur>");
     cap.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    JLabel pagechar = new JLabel("<valeur>");
+    pagechar = new JLabel("<valeur>");
     pagechar.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    JLabel poid = new JLabel("<valeur>");
+    poid = new JLabel("<valeur>");
     poid.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    JLabel cookie = new JLabel("<valeur>");
+    cookie = new JLabel("<valeur>");
     cookie.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    JLabel site = new JLabel("<valeur>");
+    site = new JLabel("<valeur>");
     site.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    JLabel methode = new JLabel("<valeur>");
+    methode = new JLabel("<valeur>");
     methode.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
     JButton bcap =new JButton("plus info");
@@ -169,26 +168,38 @@ public class Vue {
     JButton bsite =new JButton("plus info");
     JButton bmethode =new JButton("plus info");
 
-    onglet2_G.add(txtcap);
-    onglet2_G.add(cap);
-    onglet2_G.add(bcap);
-    onglet2_G.add(txtpagechar);
-    onglet2_G.add(pagechar);
-    onglet2_G.add(bpagechar);
-    onglet2_G.add(txtpoid);
-    onglet2_G.add(poid);
-    onglet2_G.add(bpoid);
-    onglet2_G.add(txtcookie);
-    onglet2_G.add(cookie);
-    onglet2_G.add(bcookie);
-    onglet2_G.add(txtsite);
-    onglet2_G.add(site);
-    onglet2_G.add(bsite);
-    onglet2_G.add(txtmethode);
-    onglet2_G.add(methode);
-    onglet2_G.add(bmethode);
+    onglet2_1.add(txtcap);
+    onglet2_1.add(cap);
+    onglet2_1.add(bcap);
+    onglet2_1.add(txtpagechar);
+    onglet2_1.add(pagechar);
+    onglet2_1.add(bpagechar);
+    onglet2_1.add(txtpoid);
+    onglet2_1.add(poid);
+    onglet2_1.add(bpoid);
+    onglet2_1.add(txtcookie);
+    onglet2_1.add(cookie);
+    onglet2_1.add(bcookie);
+    onglet2_1.add(txtsite);
+    onglet2_1.add(site);
+    onglet2_1.add(bsite);
+    onglet2_1.add(txtmethode);
+    onglet2_1.add(methode);
+    onglet2_1.add(bmethode);
+
+    JPanel onglet2_2 = new JPanel();
+    JButton actu = new JButton("actualisé");
+    onglet2_2.add(actu);
+    Control_actu control_actu = new Control_actu(actu, this);
+    actu.addActionListener(control_actu);
 
 
+
+    JPanel onglet2_G=new JPanel();
+    onglet2_G.setLayout(new BorderLayout()); //North, South, East, West
+    onglet2_G.add("Center",onglet2_1);
+    onglet2_G.add("East",onglet2_2);
+    onglet2_G.add(onglet2_1);
     onglets.addTab("affichage", onglet2_G);
 
     JMenuBar menuBar;
@@ -285,5 +296,30 @@ public class Vue {
     proxy.setVisible(false);
     txtport.setVisible(false);
     port.setVisible(false);
+  }
+
+  //maj affichge
+  public void maj_cap(String s){
+    cap.setText(s);
+  }
+
+  public void maj_pagecharge(String s){
+    pagechar.setText(s);
+  }
+
+  public void maj_poid(String s){
+    poid.setText(s);
+  }
+
+  public void maj_cookie(String s){
+    cookie.setText(s);
+  }
+
+  public void maj_site(String s){
+    site.setText(s);
+  }
+
+  public void maj_methode(String s){
+    methode.setText(s);
   }
 }
