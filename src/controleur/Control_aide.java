@@ -24,15 +24,15 @@ public class Control_aide implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if ((e.getSource()).equals(aide)){
 
-			try{
-        //text file, should be opening in default text editor
-        File file = new File("./help");
+			String command = "xdg-open help.txt";
+			Runtime runtime = Runtime.getRuntime();
+			Process process = null;
 
-         Desktop desktop = Desktop.getDesktop();
-         if(file.exists()) desktop.open(file); 
-			}
-			catch (IOException f) {
-				System.out.println(f.getMessage());
+			try
+			{
+				process = runtime.exec(command);
+			} catch(Exception err) {
+				System.out.println(err.getMessage());
 			}
 		}
 	}
