@@ -213,30 +213,28 @@ public class Vue {
 
     //Build the first menu.
     menu = new JMenu("Menu");
-    menu.getAccessibleContext().setAccessibleDescription(
-            "The only menu in this program that has menu items");
+    menu.getAccessibleContext().setAccessibleDescription("The only menu in this program that has menu items");
     menuBar.add(menu);
 
 
     //a group of JMenuItems
-    submenu = new JMenu("Fichier");
+    submenu = new JMenu("Fichier     ");
     submenu.setMnemonic(KeyEvent.VK_S);
 
     menuItem = new JMenuItem("Ouvrir");
-    menuItem.setAccelerator(KeyStroke.getKeyStroke(
-            KeyEvent.VK_2, ActionEvent.ALT_MASK));
     submenu.add(menuItem);
 
     menuItem = new JMenuItem("Enregistrer");
     submenu.add(menuItem);
     menu.add(submenu);
 
-    menuItem = new JMenuItem("help",
-                             KeyEvent.VK_T);
-    menuItem.setAccelerator(KeyStroke.getKeyStroke(
-            KeyEvent.VK_1, ActionEvent.ALT_MASK));
-    menuItem.getAccessibleContext().setAccessibleDescription(
-            "This doesn't really do anything");
+    menuItem = new JMenuItem("help",KeyEvent.VK_T);
+
+
+    Control_aide control_aide = new Control_aide(menuItem, this);
+    menuItem.addActionListener(control_aide);
+
+    menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
     menu.add(menuItem);
 
     f.setJMenuBar(menuBar);
