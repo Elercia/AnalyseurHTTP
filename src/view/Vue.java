@@ -245,6 +245,7 @@ public class Vue {
     f.setVisible(true);
 		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		f.pack();
+    f.setExtendedState(Frame.MAXIMIZED_BOTH);
   }
 
 
