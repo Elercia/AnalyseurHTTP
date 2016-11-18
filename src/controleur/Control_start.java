@@ -28,8 +28,42 @@ public class Control_start implements ActionListener {
       - si pause alors start
       - si start alors pause
       */
-
-			v.start();
+			if(v.getPortLog()<1){
+				JOptionPane.showMessageDialog(null,"port plus petit que 1","IMPOSSIBLE",JOptionPane.ERROR_MESSAGE);
+			}
+			else{
+				if(v.getPortLog()>65535){
+					JOptionPane.showMessageDialog(null,"port plus grand que 65535","IMPOSSIBLE",JOptionPane.ERROR_MESSAGE);
+				}
+				else{
+					if(v.getQuestion1()=="manuel" && v.getQuestion2()=="oui"){
+						if(v.getPortProxy()<1){
+							JOptionPane.showMessageDialog(null,"port plus petit que 1","IMPOSSIBLE",JOptionPane.ERROR_MESSAGE);
+						}
+						else{
+							if(v.getPortProxy()>65535){
+								JOptionPane.showMessageDialog(null,"port plus grand que 65535","IMPOSSIBLE",JOptionPane.ERROR_MESSAGE);
+							}
+							else{
+								System.out.println("man+prox");
+								v.start();
+							}
+						}
+					}
+					else{
+						if(v.getQuestion1()=="manuel" && v.getQuestion2()=="non"){
+							//pas de proxy
+							System.out.println("man+0prox");
+							v.start();
+						}
+						else{
+							//automatique
+							System.out.println("auto");
+							v.start();
+						}
+					}
+				}
+			}
 		}
 	}
 }

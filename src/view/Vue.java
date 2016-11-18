@@ -6,17 +6,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import controleur.*;
-
+//port 1 à 65535
 
 
 public class Vue {
   /*variable*/
   private JButton start_pause, stop;
   private JLabel txtprox, txtproxy, txtport;
-  private JRadioButton proxy_oui, proxy_non;
+  private JRadioButton proxy_oui, proxy_non, param_auto, param_man;
   private JTextField proxy;
   private JSpinner port, portlog;
   private JLabel cap, pagechar,poid,cookie,site,methode; //affichage
+  private ButtonGroup bg, bg2;
 
   public Vue(){
     JFrame f = new JFrame("affichge");
@@ -39,10 +40,10 @@ public class Vue {
     JLabel txtparam =new JLabel("configuration :");
     onglet1_1.add(txtparam);
 
-    ButtonGroup bg2 = new ButtonGroup();
-    JRadioButton param_auto = new JRadioButton("automatique");
+    bg2 = new ButtonGroup();
+    param_auto = new JRadioButton("automatique");
     param_auto.setSelected(true);
-    JRadioButton param_man = new JRadioButton("manuel");
+    param_man = new JRadioButton("manuel");
     // ajout des boutons radio dans le groupe bg
     bg2.add(param_auto);
     bg2.add(param_man);
@@ -61,7 +62,7 @@ public class Vue {
     txtprox.setVisible(false);
     onglet1_2.add(txtprox);
 
-    ButtonGroup bg = new ButtonGroup();
+    bg = new ButtonGroup();
     proxy_oui = new JRadioButton("oui");
     proxy_non = new JRadioButton("non");
     proxy_non.setSelected(true);
@@ -320,5 +321,27 @@ public class Vue {
 
   public void maj_methode(String s){
     methode.setText(s);
+  }
+
+  public int getPortLog(){
+    return (int)portlog.getValue();
+  }
+
+  public int getPortProxy(){
+    return (int)port.getValue();
+  }
+
+  public String getQuestion1(){
+    if(param_auto.isSelected()){
+      return param_auto.getText();
+    }
+    return param_man.getText();
+  }
+
+  public String getQuestion2(){
+    if(proxy_oui.isSelected()){
+      return proxy_oui.getText();
+    }
+    return proxy_non.getText();
   }
 }
