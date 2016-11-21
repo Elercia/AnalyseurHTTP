@@ -4,6 +4,7 @@ import model.ProxyHTTP;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.HashMap;
 
 public class Fenetre {
     public static void main(String[] args) throws IOException {
@@ -26,11 +27,15 @@ public class Fenetre {
         }
 
         ProxyHTTP proxy;
+        HashMap<Integer, ProxyHTTP> list = new HashMap<>();
+
 
         while (listening) {
-            proxy = new ProxyHTTP(serverSocket.accept());
+            proxy = new ProxyHTTP(serverSocket.accept(), ProxyHTTP.PROXY_NUMBERS);
+            proxy.setPriority(Thread.MAX_PRIORITY);
+            list.put(ProxyHTTP.PROXY_NUMBERS, proxy);
+            ProxyHTTP.PROXY_NUMBERS++;
             proxy.start();
-
         }
         serverSocket.close();
     }
