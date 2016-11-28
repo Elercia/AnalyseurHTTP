@@ -1,5 +1,6 @@
 package view;
 
+import model.BaseDeDonnees;
 import model.ProxyHTTP;
 
 import java.io.IOException;
@@ -8,7 +9,7 @@ import java.util.HashMap;
 
 public class Fenetre {
     public static void main(String[] args) throws IOException {
-        ServerSocket serverSocket = null;
+        /*ServerSocket serverSocket = null;
         boolean listening = true;
 
         int port = 9999;	//default
@@ -33,11 +34,15 @@ public class Fenetre {
         while (listening) {
             proxy = new ProxyHTTP(serverSocket.accept(), ProxyHTTP.PROXY_NUMBERS);
             proxy.setPriority(Thread.MAX_PRIORITY);
-            list.put(ProxyHTTP.PROXY_NUMBERS, proxy);
-            ProxyHTTP.PROXY_NUMBERS++;
+            list.put(ProxyHTTP.PROXY_NUMBERS++, proxy);
             proxy.start();
         }
-        serverSocket.close();
+        serverSocket.close();*/
+	    BaseDeDonnees bd = new BaseDeDonnees(null);
+	    bd.enregistrement("lol", "mdr1");
+	    bd.enregistrement("lol", "mdr2");
+	    bd.enregistrement("lol", "mdr3");
+
     }
 
 }

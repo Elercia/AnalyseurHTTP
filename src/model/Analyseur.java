@@ -16,12 +16,12 @@ public class Analyseur {
 		this.bdd = new BaseDeDonnees(fileName);
 		this.proxys = new ArrayList<>();
 		serverSocket = new ServerSocket(port);
+
 	}
 
 
 	/**
 	 * Method permettant de démarrer des proxys en fonction des demandes du navigateur
-	 * !! Cette method ne retourne pas pour l'insant
 	 * @throws IOException
 	 */
 	public void debutEcoute() throws IOException{
