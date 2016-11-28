@@ -4,8 +4,8 @@ import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import controleur.*;
+import model.Analyseur;
 //port 1 à 65535
 
 
@@ -18,6 +18,9 @@ public class Vue {
   private JSpinner port, portlog;
   private JLabel cap, pagechar,poid,cookie,site,methode; //affichage
   private ButtonGroup bg, bg2;
+
+  //modele
+  private Analyseur anal;
 
   public Vue(){
     JFrame f = new JFrame("affichge");
@@ -107,14 +110,14 @@ public class Vue {
     stop.setPreferredSize(new Dimension(100, 25));
     stop.setVisible(false);
     onglet1_3.add(stop);
-    Control_stop control_stop = new Control_stop(stop, this);
+    Control_stop control_stop = new Control_stop(stop, this, anal);
     stop.addActionListener(control_stop);
 
 
     start_pause = new JButton("Start");
     start_pause.setPreferredSize(new Dimension(100, 25));
     onglet1_3.add(start_pause);
-		Control_start control_start = new Control_start(start_pause, this);
+		Control_start control_start = new Control_start(start_pause, this, anal);
 		start_pause.addActionListener(control_start);
 
 
@@ -259,6 +262,7 @@ public class Vue {
   public static void main(String[] args) {
     Vue fenetre = new Vue();
   }
+
 
   public void start(){
     this.start_pause.setText("Pause");

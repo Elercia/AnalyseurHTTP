@@ -1,20 +1,25 @@
 package controleur;
 
 import java.awt.event.*;
+import java.io.IOException;
 import javax.swing.*;
+
+import model.Analyseur;
 import view.*;
-//import ihm.modele.*;
+
 
 public class Control_start implements ActionListener {
 
 	private JButton start;
 	private Vue v;
+	private Analyseur anal;
 	/*private CarnetAdresse c;*/
 
 
-	public Control_start(JButton st, Vue vu) {
+	public Control_start(JButton st, Vue vu, Analyseur a) {
 		v=vu;
-    start=st;
+    	start=st;
+		anal=a;
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -60,6 +65,13 @@ public class Control_start implements ActionListener {
 							//automatique
 							System.out.println("auto");
 							v.start();
+							/*try {
+								anal =new Analyseur(v.getPortLog(), "");
+								anal.debutEcoute();
+							}
+							catch(IOException exe){
+								System.out.println(exe.getMessage());
+							}*/
 						}
 					}
 				}

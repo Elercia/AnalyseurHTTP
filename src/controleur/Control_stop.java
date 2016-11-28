@@ -1,26 +1,32 @@
 package controleur;
 
 import java.awt.event.*;
+import java.io.IOException;
 import javax.swing.*;
+import model.Analyseur;
 import view.*;
-//import ihm.modele.*;
 
 public class Control_stop implements ActionListener {
 
 	private JButton stop;
 	private Vue v;
-	/*private CarnetAdresse c;*/
+	private Analyseur anal;
 
-
-	public Control_stop(JButton sp, Vue vu) {
+	public Control_stop(JButton sp, Vue vu, Analyseur a) {
 		v=vu;
-    stop=sp;
+    	stop=sp;
+		anal=a;
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		if ((e.getSource()).equals(stop)){
 
 			v.stop();
+			/*try {
+				anal.finEcoute();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}*/
 		}
 	}
 }
