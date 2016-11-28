@@ -11,13 +11,14 @@ import java.net.Socket;
 public class ProxyHTTP extends Thread {
     private Socket clientSocket = null;
     private int id;
-    private static final int BUFFER_SIZE = 32768*2;
+
+    private static final int BUFFER_SIZE = 327680;
     public static int PROXY_NUMBERS = 0;
 
     public ProxyHTTP(Socket socket, int id) {
         this.clientSocket = socket;
         this.id = id;
-//        System.out.println("Démarage Thread id = "+id);
+        System.out.println("------DEBUT thread id = "+id+"-------");
     }
 
     public void run() {
@@ -35,11 +36,12 @@ public class ProxyHTTP extends Thread {
 
                 //on écrit la demande au serveur
                 outgoingOS.write(b, 0, len);
-                System.out.println("------DEMANDE-------");
+                System.out.println("client -> serveur");
                 System.out.write(b, 0, len);
-                System.out.println("------REPONSE-------");
+                System.out.println("serveur -> client");
                 OutputStream incommingOS = clientSocket.getOutputStream();
                 InputStream outgoingIS = socket.getInputStream();
+
 
                 //On lit la réponse du serveur et on l'ecrit au client
                 for (int length; (length = outgoingIS.read(b2)) != -1; ) {
@@ -47,26 +49,24 @@ public class ProxyHTTP extends Thread {
                     System.out.write(b, 0, length);
                 }
 
-//                incommingOS.close();
-//                outgoingIS.close();
-//                outgoingOS.close();
-//                incommingIS.close();
-//                socket.close();
-
+                //faire enregistrement ici plz
+                incommingOS.close();
+                outgoingIS.close();
+                outgoingOS.close();
+                incommingIS.close();
+                socket.close();
             } else {
-                //incommingIS.close();
+                incommingIS.close();
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-//            try {
-                //clientSocket.close();
-//                System.out.println("Arret du thread id = " +this.id);
-                System.out.println("------FIN-------");
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
+            try {
+                clientSocket.close();
+                System.out.println("------FIN thread id = "+id+"---------");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
