@@ -24,16 +24,18 @@ public class Control_aide implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if ((e.getSource()).equals(aide)){
 
-			String command = "xdg-open help.txt";
-			Runtime runtime = Runtime.getRuntime();
-			Process process = null;
+			// String command = "xdg-open help.txt";
+			// Runtime runtime = Runtime.getRuntime();
+			// Process process = null;
+			//
+			// try
+			// {
+			// 	process = runtime.exec(command);
+			// } catch(Exception err) {
+			// 	System.out.println(err.getMessage());
+			// }
 
-			try
-			{
-				process = runtime.exec(command);
-			} catch(Exception err) {
-				System.out.println(err.getMessage());
-			}
+			JOptionPane.showMessageDialog(null,"ceci cera le message d'aide" ,"help", JOptionPane.PLAIN_MESSAGE);
 		}
 	}
 }
