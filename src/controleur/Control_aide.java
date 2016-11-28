@@ -35,7 +35,24 @@ public class Control_aide implements ActionListener {
 			// 	System.out.println(err.getMessage());
 			// }
 
-			JOptionPane.showMessageDialog(null,"ceci cera le message d'aide" ,"help", JOptionPane.PLAIN_MESSAGE);
+			//JOptionPane.showMessageDialog(null,"ceci cera le message d'aide" ,"help", JOptionPane.PLAIN_MESSAGE);
+			try{
+				File f=new File("help.txt");
+				String chaine=new String("");
+				InputStream ips=new FileInputStream(f);
+				InputStreamReader ipsr=new InputStreamReader(ips);
+				BufferedReader br=new BufferedReader(ipsr);
+				String ligne;
+				while ((ligne=br.readLine())!=null){
+					//System.out.println(ligne);
+					chaine+=ligne+"\n";
+				}
+				br.close();
+				JOptionPane.showMessageDialog(null,chaine ,"help", JOptionPane.PLAIN_MESSAGE);
+			}
+			catch (Exception exec){
+				System.out.println(exec.toString());
+			}
 		}
 	}
 }
