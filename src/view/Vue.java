@@ -99,9 +99,12 @@ public class Vue {
 
 
     JPanel onglet1_3 = new JPanel();
-    onglet1_3.setLayout(new GridLayout(1, 2));
+    FlowLayout layout1_3=new FlowLayout();
+    layout1_3.setHgap(50);
+    onglet1_3.setLayout(layout1_3);
 
     stop = new JButton("Stop");
+    stop.setPreferredSize(new Dimension(100, 25));
     stop.setVisible(false);
     onglet1_3.add(stop);
     Control_stop control_stop = new Control_stop(stop, this);
@@ -109,6 +112,7 @@ public class Vue {
 
 
     start_pause = new JButton("Start");
+    start_pause.setPreferredSize(new Dimension(100, 25));
     onglet1_3.add(start_pause);
 		Control_start control_start = new Control_start(start_pause, this);
 		start_pause.addActionListener(control_start);
