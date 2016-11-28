@@ -1,6 +1,8 @@
 package model;
 
 import java.io.*;
+import java.util.Date;
+
 import org.json.simple.JSONObject;
 
 
@@ -9,9 +11,18 @@ public class BaseDeDonnees{
 
     private File fichier;
 
+	/**
+	 * Se servir de ce constructeur si on veut continuer une capture antérieur
+	 * @param fileName
+	 */
     public BaseDeDonnees(String fileName){
         //On instancie un Fichier pour pouvoir écrire et lire dans ce dernier.
-        fichier = new File("../../data/"+fileName);
+	    if(!fileName.isEmpty())
+            fichier = new File("data/"+fileName);
+        else {
+        	Date d = new Date();
+		    fichier = new File("data/" +d.toString());
+	    }
     }
 
 	/**
@@ -31,17 +42,18 @@ public class BaseDeDonnees{
 	 *	 Content-Type: text/html; charset=utf-8
 	 *	 Content-Language: fr
      *
-	 * @param s Correspond au header recu ou envoyé
-	 *
+	 * @param titre Correspond au header recu ou envoyé
+	 * @param values Correspond aux valeur qui doivent etre enregistré
 	 */
-    public synchronized void enregistrement(String s){
+    public synchronized void enregistrement(String titre, String values){
 	    try {
-		    FileWriter fw = new FileWriter(this.fichier);
+		    FileWriter fw = new FileWriter(this.fichier, true);
 		    JSONObject json = new JSONObject();
 
-			json.put("", "");
+			json.put(titre, values);
 
 		    fw.write(json.toString());
+
 		    fw.close();
 	    } catch (IOException e) {
 		    e.printStackTrace();

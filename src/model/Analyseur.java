@@ -18,6 +18,7 @@ public class Analyseur {
 		serverSocket = new ServerSocket(port);
 	}
 
+
 	/**
 	 * Method permettant de démarrer des proxys en fonction des demandes du navigateur
 	 * !! Cette method ne retourne pas pour l'insant
@@ -26,12 +27,11 @@ public class Analyseur {
 	public void debutEcoute() throws IOException{
 		this.listening = true;
 		ProxyHTTP proxy = null;
-		while (this.listening) {
+
 			proxy = new ProxyHTTP(serverSocket.accept(), ProxyHTTP.PROXY_NUMBERS++);
 			proxy.setPriority(Thread.MAX_PRIORITY);
 			this.proxys.add(proxy);
 			proxy.start();
-		}
 	}
 
 	/**
@@ -41,15 +41,23 @@ public class Analyseur {
 	 * @throws IOException
 	 * @throws InterruptedException
 	 */
-	public void finEcoute() throws IOException, InterruptedException {
+	public void finEcoute() throws IOException {
+		this.listening = false;
 		this.serverSocket.close();
 		Iterator<ProxyHTTP> it = this.proxys.iterator();
 		ProxyHTTP p;
 		while(it.hasNext())
 		{
 			p = it.next();
-			p.join();
+			try {
+				p.join();
+			}catch (InterruptedException e){
+				//rien de plus
+			}
 		}
+	}
 
+	public boolean estLancer(){
+		return this.listening;
 	}
 }
