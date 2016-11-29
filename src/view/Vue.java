@@ -11,7 +11,8 @@ import model.Analyseur;
 
 public class Vue {
   /*variable*/
-  private JButton start_pause, stop;
+  //private JButton start_pause, stop;
+  private JRoundButton start_pause, stop;
   private JLabel txtprox, txtproxy, txtport;
   private JRadioButton proxy_oui, proxy_non, param_auto, param_man;
   private JTextField proxy;
@@ -106,7 +107,9 @@ public class Vue {
     layout1_3.setHgap(50);
     onglet1_3.setLayout(layout1_3);
 
-    stop = new JButton("Stop");
+    //stop = new JButton("Stop");
+
+    stop = new JRoundButton("Stop");
     stop.setPreferredSize(new Dimension(100, 25));
     stop.setVisible(false);
     onglet1_3.add(stop);
@@ -114,7 +117,8 @@ public class Vue {
     stop.addActionListener(control_stop);
 
 
-    start_pause = new JButton("Start");
+    //start_pause = new JButton("Start");
+    start_pause = new JRoundButton("Start");
     start_pause.setPreferredSize(new Dimension(100, 25));
     onglet1_3.add(start_pause);
 		Control_start control_start = new Control_start(start_pause, this, anal);

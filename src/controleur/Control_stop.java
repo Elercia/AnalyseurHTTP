@@ -8,11 +8,12 @@ import view.*;
 
 public class Control_stop implements ActionListener {
 
-	private JButton stop;
+	//private JButton stop;
+	private JRoundButton stop;
 	private Vue v;
 	private Analyseur anal;
 
-	public Control_stop(JButton sp, Vue vu, Analyseur a) {
+	public Control_stop(JRoundButton sp, Vue vu, Analyseur a) {
 		v=vu;
     	stop=sp;
 		anal=a;
