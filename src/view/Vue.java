@@ -12,7 +12,8 @@ import model.Analyseur;
 public class Vue {
   /*variable*/
   //private JButton start_pause, stop;
-  private JRoundButton start_pause, stop;
+  private JRoundButton start_pause;
+  private JCoolButton stop;
   private JLabel txtprox, txtproxy, txtport;
   private JRadioButton proxy_oui, proxy_non, param_auto, param_man;
   private JTextField proxy;
@@ -109,7 +110,7 @@ public class Vue {
 
     //stop = new JButton("Stop");
 
-    stop = new JRoundButton("Stop");
+    stop = new JCoolButton("Stop");
     stop.setPreferredSize(new Dimension(100, 25));
     stop.setVisible(false);
     onglet1_3.add(stop);
@@ -264,6 +265,7 @@ public class Vue {
 
 
   public static void main(String[] args) {
+    setBestLookAndFeelAvailable();
     Vue fenetre = new Vue();
   }
 
@@ -355,5 +357,21 @@ public class Vue {
       return proxy_oui.getText();
     }
     return proxy_non.getText();
+  }
+
+
+
+
+  public static void setBestLookAndFeelAvailable(){
+    String system_lf = UIManager.getSystemLookAndFeelClassName().toLowerCase();
+    if(system_lf.contains("metal")){
+      try {
+        UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+      }catch (Exception e) {}
+    }else{
+      try {
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+      }catch (Exception e) {}
+    }
   }
 }
