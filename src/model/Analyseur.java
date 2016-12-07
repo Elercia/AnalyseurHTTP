@@ -23,8 +23,6 @@ public class Analyseur extends Thread {
 		this.serverSocket = new ServerSocket(port);
 	}
 
-	//TODO a changer
-	//ne récupérer que le file et pas le nom du fichier (récupéré partout)
 	public void setFile(File f){
 		if(f == null) {
 			this.bdd = new BaseDeDonnees((File)null);
@@ -67,7 +65,6 @@ public class Analyseur extends Thread {
 	 * Normalement elle ferme le socket utilisé pour ecouté le navigateur
 	 * Elle regroupe aussi tous les threads dans un thread
 	 * @throws IOException
-	 * @throws InterruptedException
 	 */
 	public void finEcoute() throws IOException {
 		this.listening = false;
