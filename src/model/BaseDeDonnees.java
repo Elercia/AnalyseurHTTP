@@ -3,15 +3,7 @@ package model;
 import java.io.*;
 import java.text.DateFormat;
 import java.util.Date;
-import java.util.Locale;
-import java.util.Objects;
 import java.util.Scanner;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
 
 public class BaseDeDonnees{
 
@@ -19,7 +11,7 @@ public class BaseDeDonnees{
 
 	/**
 	 * Se servir de ce constructeur si on veut continuer une capture antérieur
-	 * @param fileName
+	 * @param fileName le nom du fichier ou null ou vide
 	 */
     public BaseDeDonnees(String fileName){
         //On instancie un Fichier pour pouvoir écrire et lire dans ce dernier.
@@ -30,21 +22,18 @@ public class BaseDeDonnees{
 		    DateFormat format = DateFormat.getDateTimeInstance(
 				    DateFormat.MEDIUM,
 				    DateFormat.MEDIUM);
-		    fichier = new File("data/capture_"+format.format(d).replace(' ','_')+".json");
+		    fichier = new File("data/capture_"+format.format(d).replace(' ','_')+".csv");
+	    }
+	    try{
+		    fichier.createNewFile();
+	    }catch (IOException e){
+		    System.err.println("Probleme de création de fichier de base de données : "+fichier.getName());
 	    }
     }
 
 	/**
 	 * Enregistre au format json dans le fichier
-	 * {
-	 *     "google":{
-	 *         "length":100,
-	 *
-	 *     },
-	 *     "autresite":{
-	 *
-	 *     }
-	 * }
+	 * Il n'y a pas d'indication concernant si le header enregistré est la demande ou la réponse
      *
 	 * @param values Correspond au header recu ou envoyé du type :
 	 *
@@ -65,53 +54,37 @@ public class BaseDeDonnees{
 	 *	 Nous devons récupérer le host (la page qui a été demandé) et
 	 *      y ajouter l'heure actuel pour l'ajouter
 	 */
-    public synchronized void enregistrement(String nom, String values){
+    public synchronized void enregistrement(String values){
+		//recup le contenu du fichier
+	    String filecontent="";
+
 	    try {
-		    Scanner fr = new Scanner(this.fichier);
-		    String fileContent = "";
-		    JSONObject json = new JSONObject();
-		    JSONParser parse = new JSONParser();
+		    Scanner sc = new Scanner(this.fichier);
+		    while (sc.hasNextLine())
+			    filecontent+=sc.nextLine();
+			sc.close();
+	    } catch (FileNotFoundException e) {
+		    System.err.println("Fichier de base de données non trouvé. Echec de la sauvegarde");
+		    return;
+	    }
 
-		    //on récupere le contenu du fichier
-		    while(fr.hasNextLine())
-				fileContent+=fr.nextLine();
-			fr.close();
+		//on parse ce que l'on nous a fournis pour l'enregistrer
+	    String[] lines = values.split("\n");
 
-		    try {
-		    	json = (JSONObject)parse.parse(fileContent);
+	    for (String line : lines){
+	    	filecontent+="\n";
+			String[] res = line.split(":", 1);
+		    filecontent+=res[0]+";"+res[1]+";";
+	    }
 
-		    } catch (ParseException e) {
-			    e.printStackTrace();
-		    }
-
-		    FileWriter fw = new FileWriter(this.fichier, true);
-
-
-		    /*String[] tab = values.split(":", 1);
-		    if(json.containsKey(tab[0])){
-			    JSONArray ar = new JSONArray();
-
-				Object obj = json.get(tab[0]);
-
-			    ar.add(tab[1]);
-			    ar.add(obj);
-			    json.put(tab[0], ar);
-		    }else{
-			    json.put(tab[0], tab[1]);
-		    }*/
-
-		    if(json.containsKey(nom)){
-			    Object obj = json.get(nom);
-		    }else{
-
-		    }
-
-
-		    fw.write(json.toJSONString());
-
+	    //on enregistre dans le fichier
+	    try {
+		    FileWriter fw = new FileWriter(this.fichier);
+		    fw.write(filecontent);
 		    fw.close();
 	    } catch (IOException e) {
-		    e.printStackTrace();
+		    System.err.println("Fichier de base de données non trouvé. Echec de la sauvegarde");
+		    return;
 	    }
     }
 

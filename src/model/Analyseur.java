@@ -1,24 +1,48 @@
 package model;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Analyseur {
+public class Analyseur extends Thread {
 
 	private ArrayList<ProxyHTTP> proxys;
 	private BaseDeDonnees bdd;
 	private ServerSocket serverSocket;
 	private boolean listening;
 
-	public Analyseur(int port, String fileName) throws IOException{
-		this.bdd = new BaseDeDonnees(fileName);
+	public Analyseur(){
+		this.bdd = null;
 		this.proxys = new ArrayList<>();
-		serverSocket = new ServerSocket(port);
-
+		this.serverSocket = null;
 	}
 
+	public void setPort(int port)throws IOException{
+		this.serverSocket = new ServerSocket(port);
+	}
+
+	public void setFile(File f){
+		if(f == null)
+			this.bdd= new BaseDeDonnees("");
+		else
+			this.bdd= new BaseDeDonnees(f.getName());
+	}
+
+	@Override
+	public void run() {
+		try {
+			if(this.bdd == null)
+				this.setFile(null);
+			if(this.serverSocket == null)
+				this.setPort(9999);
+
+			this.debutEcoute();
+		}catch(IOException e){
+			//rien pour l'instant
+		}
+	}
 
 	/**
 	 * Method permettant de démarrer des proxys en fonction des demandes du navigateur
@@ -27,11 +51,12 @@ public class Analyseur {
 	public void debutEcoute() throws IOException{
 		this.listening = true;
 		ProxyHTTP proxy = null;
-
-			proxy = new ProxyHTTP(serverSocket.accept(), ProxyHTTP.PROXY_NUMBERS++);
+		while(this.listening) {
+			proxy = new ProxyHTTP(serverSocket.accept(), ProxyHTTP.PROXY_NUMBERS++, bdd);
 			proxy.setPriority(Thread.MAX_PRIORITY);
 			this.proxys.add(proxy);
 			proxy.start();
+		}
 	}
 
 	/**
