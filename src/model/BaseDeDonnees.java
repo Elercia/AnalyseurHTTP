@@ -3,6 +3,7 @@ package model;
 import java.io.*;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class BaseDeDonnees{
@@ -32,10 +33,12 @@ public class BaseDeDonnees{
     }
 
 	/**
-	 * Enregistre au format json dans le fichier
-	 * Il n'y a pas d'indication concernant si le header enregistré est la demande ou la réponse
+	 * Enregistre les deux headers
+	 * On ne verfie pas non plus quel est le site qui a été visitées
+	 * !! il faut le rajouter en premier dans le csv sous la forme site;nomdusite;....values
      *
-	 * @param values Correspond au header recu ou envoyé du type :
+	 *
+	 * @param values Correspond au headers qui ont étés recus ou envoyé du type :
 	 *
 	    Age: 2237
 		Cache-Control: max-age=31536000, public
@@ -88,8 +91,44 @@ public class BaseDeDonnees{
 	    }
     }
 
-    public String lecture(String s){
-	    //TODO
-        return "";
+	/**
+	 * hashmap qui fait correspondre : site vers données
+	 * les données sont représenté par une hashMap se string vers string
+	 * le 1er string représente les noms des headers et le 2nd les valeurs
+	 * @return une hashmap qui fait correspondre : site vers données
+	 */
+	public HashMap<String, HashMap<String, String>> lecture(){
+
+	    //onlit le fichier on le split par "\n"
+	    //pour toutes les lignes on les split par ";"
+	    //  On a donc des couples de valeurs name -> values
+	    //  Le premier coupl => les nom du site
+	    //  tous les autres => les nom, valeurs des headers
+	    HashMap<String, HashMap<String, String>> retour = new HashMap<>();
+	    HashMap<String, String> values = new HashMap<>();
+	    String sitename="";
+	    try {
+
+		    Scanner sc=new Scanner(this.fichier);
+		    while(sc.hasNextLine()){//pour toute les lignes
+		    	String[] couples = sc.nextLine().split(";");//on récupére les couples
+			    if(!couples[0].equals("site"))//si le premier couple ne donne pas le nom du site
+			    	return null;
+				//on vérifie que la taille soit pair (un nom vers une values et pas de valeurs seuls)
+			    if(couples.length%2 != 0)
+			    	return null;
+
+
+			    sitename = couples[1];
+			    for(int i=2; i < couples.length; i+=2){
+					values.put(couples[i], couples[i+1]);
+			    }
+			    retour.put(sitename, values);
+			    values = new HashMap<>();
+		    }
+	    } catch (FileNotFoundException e) {
+		    e.printStackTrace();
+	    }
+	    return retour;
     }
 }

@@ -23,6 +23,8 @@ public class Analyseur extends Thread {
 		this.serverSocket = new ServerSocket(port);
 	}
 
+	//TODO a changer
+	//ne récupérer que le file et pas le nom du fichier (récupéré partout)
 	public void setFile(File f){
 		if(f == null)
 			this.bdd= new BaseDeDonnees("");
