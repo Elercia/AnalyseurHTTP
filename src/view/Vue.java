@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+
 import controleur.*;
 import model.Analyseur;
 //port 1 à 65535
@@ -12,8 +14,8 @@ import model.Analyseur;
 public class Vue {
   /*variable*/
   //private JButton start_pause, stop;
-  private JRoundButton start_pause;
-  private JCoolButton stop;
+  //private JRoundButton start_pause;
+  private JCoolButton stop, start_pause;
   private JLabel txtprox, txtproxy, txtport;
   private JRadioButton proxy_oui, proxy_non, param_auto, param_man;
   private JTextField proxy;
@@ -25,6 +27,8 @@ public class Vue {
   private Analyseur anal;
 
   public Vue(){
+    Analyseur anal=new Analyseur();
+
     JFrame f = new JFrame("affichge");
     JPanel pannel = new JPanel();
 
@@ -119,7 +123,7 @@ public class Vue {
 
 
     //start_pause = new JButton("Start");
-    start_pause = new JRoundButton("Start");
+    start_pause = new JCoolButton("Start");
     start_pause.setPreferredSize(new Dimension(100, 25));
     onglet1_3.add(start_pause);
 		Control_start control_start = new Control_start(start_pause, this, anal);
@@ -217,7 +221,7 @@ public class Vue {
 
     JMenuBar menuBar;
     JMenu menu, submenu;
-    JMenuItem menuItem;
+    JMenuItem menuItem, ouvrir;
     JRadioButtonMenuItem rbMenuItem;
     JCheckBoxMenuItem cbMenuItem;
 
@@ -234,8 +238,11 @@ public class Vue {
     submenu = new JMenu("Fichier     ");
     submenu.setMnemonic(KeyEvent.VK_S);
 
-    menuItem = new JMenuItem("Ouvrir");
-    submenu.add(menuItem);
+
+    ouvrir = new JMenuItem("Ouvrir");
+    submenu.add(ouvrir);
+    Control_ouvrir control_ouvrir = new Control_ouvrir(ouvrir, this);
+    ouvrir.addActionListener(control_ouvrir);
 
     menuItem = new JMenuItem("Enregistrer");
     submenu.add(menuItem);
@@ -357,6 +364,10 @@ public class Vue {
       return proxy_oui.getText();
     }
     return proxy_non.getText();
+  }
+
+  public void setFile(File f){
+    anal.setFile(f);
   }
 
 
