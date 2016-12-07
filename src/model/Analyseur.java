@@ -43,7 +43,7 @@ public class Analyseur extends Thread {
 
 			this.debutEcoute();
 		}catch(IOException e){
-			//rien pour l'instant
+			System.err.println("Erreur dans le thread analyseur");
 		}
 	}
 
