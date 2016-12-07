@@ -26,10 +26,11 @@ public class Analyseur extends Thread {
 	//TODO a changer
 	//ne récupérer que le file et pas le nom du fichier (récupéré partout)
 	public void setFile(File f){
-		if(f == null)
-			this.bdd= new BaseDeDonnees("");
+		if(f == null) {
+			this.bdd = new BaseDeDonnees((File)null);
+		}
 		else
-			this.bdd= new BaseDeDonnees(f.getName());
+			this.bdd= new BaseDeDonnees(f);
 	}
 
 	@Override

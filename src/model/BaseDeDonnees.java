@@ -11,6 +11,7 @@ public class BaseDeDonnees{
     private File fichier;
 
 	/**
+	 * @deprecated
 	 * Se servir de ce constructeur si on veut continuer une capture antérieur
 	 * @param fileName le nom du fichier ou null ou vide
 	 */
@@ -29,6 +30,26 @@ public class BaseDeDonnees{
 		    fichier.createNewFile();
 	    }catch (IOException e){
 		    System.err.println("Probleme de création de fichier de base de données : "+fichier.getName());
+	    }
+    }
+
+    public BaseDeDonnees(File f){
+	    //On instancie un Fichier pour pouvoir écrire et lire dans ce dernier.
+	    if(f != null)
+		    fichier = f;
+	    else {
+		    Date d = new Date();
+		    DateFormat format = DateFormat.getDateTimeInstance(
+				    DateFormat.MEDIUM,
+				    DateFormat.MEDIUM);
+		    String filename = "data/capture_"+format.format(d).replace(' ','_')+".csv";
+		    fichier = new File(filename);
+		    try{
+			    fichier.createNewFile();
+			    System.out.println("Fichier "+filename+" créé avec succès");
+		    }catch (IOException e){
+			    System.err.println("Probleme de création de fichier de base de données : "+fichier.getName());
+		    }
 	    }
     }
 
