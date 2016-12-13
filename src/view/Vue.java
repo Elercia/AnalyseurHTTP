@@ -126,8 +126,8 @@ public class Vue {
     start_pause = new JCoolButton("Start");
     start_pause.setPreferredSize(new Dimension(100, 25));
     onglet1_3.add(start_pause);
-		Control_start control_start = new Control_start(start_pause, this, anal);
-		start_pause.addActionListener(control_start);
+    Control_start control_start = new Control_start(start_pause, this, anal);
+    start_pause.addActionListener(control_start);
 
 
     JPanel onglet1_G = new JPanel();
@@ -184,6 +184,14 @@ public class Vue {
     JButton bcookie =new JButton("plus info");
     JButton bsite =new JButton("plus info");
     JButton bmethode =new JButton("plus info");
+
+    Control_graph control_graph = new Control_graph(bcap, bpagechar,bpoid, bcookie, bsite, bmethode, this);
+    bcap.addActionListener(control_graph);
+    bpagechar.addActionListener(control_graph);
+    bpoid.addActionListener(control_graph);
+    bcookie.addActionListener(control_graph);
+    bsite.addActionListener(control_graph);
+    bmethode.addActionListener(control_graph);
 
     onglet2_1.add(txtcap);
     onglet2_1.add(cap);

@@ -38,10 +38,10 @@ public class Fenetre {
             proxy.start();
         }
         serverSocket.close();*/
-	    BaseDeDonnees bd = new BaseDeDonnees(null);
+	   /* BaseDeDonnees bd = new BaseDeDonnees(null);
 	    bd.enregistrement("lol", "mdr1");
 	    bd.enregistrement("lol", "mdr2");
-	    bd.enregistrement("lol", "mdr3");
+	    bd.enregistrement("lol", "mdr3");*/
 
     }
 
