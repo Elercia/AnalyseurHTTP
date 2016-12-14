@@ -6,7 +6,8 @@ package view;
 
 // voir http://www.tutorialspoint.com/jfreechart/
 
-import javax.swing.JPanel;
+import javax.swing.*;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -15,7 +16,7 @@ import org.jfree.data.general.PieDataset;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
 
-public class Graph_bcap extends ApplicationFrame
+public class Graph_bcap extends JFrame
 {
     public Graph_bcap( String title )
     {

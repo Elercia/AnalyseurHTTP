@@ -30,6 +30,7 @@ public class Vue {
     Analyseur anal=new Analyseur();
 
     JFrame f = new JFrame("affichge");
+    f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     JPanel pannel = new JPanel();
 
     JTabbedPane onglets = new JTabbedPane(SwingConstants.TOP);
@@ -276,15 +277,6 @@ public class Vue {
     f.setExtendedState(Frame.MAXIMIZED_BOTH);
   }
 
-
-
-
-  public static void main(String[] args) {
-    setBestLookAndFeelAvailable();
-    Vue fenetre = new Vue();
-  }
-
-
   public void start(){
     this.start_pause.setText("Pause");
     this.stop.setVisible(true);
@@ -379,8 +371,6 @@ public class Vue {
   }
 
 
-
-
   public static void setBestLookAndFeelAvailable(){
     String system_lf = UIManager.getSystemLookAndFeelClassName().toLowerCase();
     if(system_lf.contains("metal")){
@@ -392,5 +382,10 @@ public class Vue {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
       }catch (Exception e) {}
     }
+  }
+
+  public static void main(String[] args) {
+    setBestLookAndFeelAvailable();
+    Vue fenetre = new Vue();
   }
 }

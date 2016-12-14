@@ -29,6 +29,7 @@ public class Control_graph implements ActionListener {
             demo.setSize( 560 , 367 );
             RefineryUtilities.centerFrameOnScreen( demo );
             demo.setVisible( true );
+            demo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         }
 
         if ((e.getSource()).equals(bpagechar)){
