@@ -25,7 +25,7 @@ public class Graph_bcap extends JFrame
     }
     private static PieDataset createDataset( )
     {
-        DefaultPieDataset dataset = new DefaultPieDataset( );
+        git  dataset = new DefaultPieDataset( );
         dataset.setValue( "IPhone 5s" , new Double( 20 ) );
         dataset.setValue( "SamSung Grand" , new Double( 20 ) );
         dataset.setValue( "MotoG" , new Double( 40 ) );
