@@ -16,9 +16,9 @@ import org.jfree.data.general.PieDataset;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
 
-public class Graph_bcap extends JFrame
+public class Graph_bmethode extends JFrame
 {
-    public Graph_bcap( String title )
+    public Graph_bmethode( String title )
     {
         super( title );
         setContentPane(createDemoPanel( ));
@@ -26,16 +26,23 @@ public class Graph_bcap extends JFrame
     private static PieDataset createDataset( )
     {
         DefaultPieDataset dataset = new DefaultPieDataset( );
-        dataset.setValue( "IPhone 5s" , new Double( 20 ) );
-        dataset.setValue( "SamSung Grand" , new Double( 20 ) );
-        dataset.setValue( "MotoG" , new Double( 40 ) );
-        dataset.setValue( "Nokia Lumia" , new Double( 10 ) );
+        dataset.setValue( "GET" , new Double( 11 ) );
+        dataset.setValue( "POST" , new Double( 11 ) );
+        dataset.setValue( "HEAD" , new Double( 11 ) );
+        dataset.setValue( "OPTIONS" , new Double( 11 ) );
+        dataset.setValue( "CONNECT" , new Double( 11 ) );
+        dataset.setValue( "TRACE" , new Double( 11 ) );
+        if(true==false) {
+            dataset.setValue("PUT", new Double(0));
+        }
+        dataset.setValue( "PATCH" , new Double( 22 ) );
+        dataset.setValue( "DELETE" , new Double( 100 ) );
         return dataset;
     }
     private static JFreeChart createChart( PieDataset dataset )
     {
         JFreeChart chart = ChartFactory.createPieChart(
-                "Mobile Sales",  // chart title
+                "methode",  // chart title
                 dataset,        // data
                 true,           // include legend
                 true,

@@ -68,7 +68,11 @@ public class Control_graph implements ActionListener {
         }
 
         if ((e.getSource()).equals(bmethode)){
-
+            Graph_bmethode methode = new Graph_bmethode( "methode" );
+            methode.setSize( 560 , 367 );
+            RefineryUtilities.centerFrameOnScreen( methode );
+            methode.setVisible( true );
+            methode.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         }
     }
 }
