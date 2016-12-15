@@ -1,0 +1,3 @@
+Ceci est l'aide du programme (description, but, fonctionnement).
+ 
+Cela peut etre sur plusieurs ligne bien sur
