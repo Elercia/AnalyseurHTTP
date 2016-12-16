@@ -4,6 +4,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import model.Analyseur;
 import view.*;
 import java.awt.*;
 import java.io.*;
@@ -13,12 +14,14 @@ public class Control_ouvrir implements ActionListener {
 
     private JMenuItem ouvrir;
     private Vue v;
+    private Analyseur anal;
 	/*private CarnetAdresse c;*/
 
 
-    public Control_ouvrir(JMenuItem ouvrir, Vue vu) {
+    public Control_ouvrir(JMenuItem ouvrir, Vue vu, Analyseur a) {
         v=vu;
         this.ouvrir=ouvrir;
+        anal=a;
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -29,6 +32,7 @@ public class Control_ouvrir implements ActionListener {
             chooser.setFileFilter(filter);
             int returnVal = chooser.showOpenDialog(null);
             if(returnVal == JFileChooser.APPROVE_OPTION) {
+                anal.setFile(chooser.getSelectedFile());
                 System.out.println("You chose to open this file: " +
                         chooser.getSelectedFile().getName());
             }
