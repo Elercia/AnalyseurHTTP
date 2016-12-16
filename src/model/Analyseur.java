@@ -13,10 +13,19 @@ public class Analyseur extends Thread {
 	private ServerSocket serverSocket;
 	private boolean listening;
 
+	private boolean usingProxy;
+	private String proxyAdress;
+	private int proxyPort;
+
+
 	public Analyseur(){
 		this.bdd = null;
 		this.proxys = new ArrayList<>();
 		this.serverSocket = null;
+
+		this.usingProxy = false;
+		this.proxyAdress ="";
+		this.
 	}
 
 	public void setPort(int port)throws IOException{
@@ -31,7 +40,18 @@ public class Analyseur extends Thread {
 			this.bdd= new BaseDeDonnees(f);
 	}
 
+	public void setProxy(String adress, int port){
+		this.usingProxy = true;
+		this.proxyAdress = adress;
+		this.proxyPort = port;
+	}
+
 	@Override
+	/**
+	 * @see Analyseur::debutEcoute
+	 * lance le thread de l'analyseur
+ 	 * Cette methode lance la méthode débutecoute
+	 */
 	public void run() {
 		try {
 			if(this.bdd == null)
@@ -49,7 +69,7 @@ public class Analyseur extends Thread {
 	 * Method permettant de démarrer des proxys en fonction des demandes du navigateur
 	 * @throws IOException
 	 */
-	public void debutEcoute() throws IOException{
+	private void debutEcoute() throws IOException{
 		this.listening = true;
 		ProxyHTTP proxy = null;
 		while(this.listening) {
@@ -82,7 +102,7 @@ public class Analyseur extends Thread {
 		}
 	}
 
-	public boolean estLancer(){
+	public boolean estLance(){
 		return this.listening;
 	}
 }
