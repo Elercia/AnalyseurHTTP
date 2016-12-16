@@ -62,7 +62,7 @@ public class ProxyHTTP extends Thread {
                 incommingIS.close();
                 socket.close();
 
-                String toSave = h1 + h2;
+                String toSave = h1 +" "+ h2;
                 this.bdd.enregistrement(toSave);
 
             } else {

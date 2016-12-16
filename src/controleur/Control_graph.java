@@ -1,6 +1,5 @@
 package controleur;
 
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import org.jfree.ui.RefineryUtilities;
@@ -33,23 +32,47 @@ public class Control_graph implements ActionListener {
         }
 
         if ((e.getSource()).equals(bpagechar)){
-
+            Graph_bpagechar chart = new Graph_bpagechar("Car Usage Statistics", "Which car do you like?");
+            chart.pack( );
+            RefineryUtilities.centerFrameOnScreen( chart );
+            chart.setVisible( true );
+            chart.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         }
 
         if ((e.getSource()).equals(bpoid)){
+            Graph_bpoid chart = new Graph_bpoid(
+                    "School Vs Years" ,
+                    "Numer of Schools vs years");
 
+            chart.pack( );
+            RefineryUtilities.centerFrameOnScreen( chart );
+            chart.setVisible( true );
+            chart.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         }
 
         if ((e.getSource()).equals(bcookie)){
-
+            Graph_bcookie chart = new Graph_bcookie("Browser Usage Statistics", "Which Browser are you using?");
+            chart.pack( );
+            RefineryUtilities.centerFrameOnScreen( chart );
+            chart.setVisible( true );
+            chart.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         }
 
         if ((e.getSource()).equals(bsite)){
+            Graph_bsite bubblechart = new Graph_bsite( "Bubble Chart_frame" );
 
+            bubblechart.pack( );
+            RefineryUtilities.centerFrameOnScreen( bubblechart );
+            bubblechart.setVisible( true );
+            bubblechart.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         }
 
         if ((e.getSource()).equals(bmethode)){
-
+            Graph_bmethode methode = new Graph_bmethode( "methode" );
+            methode.setSize( 560 , 367 );
+            RefineryUtilities.centerFrameOnScreen( methode );
+            methode.setVisible( true );
+            methode.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         }
     }
 }
