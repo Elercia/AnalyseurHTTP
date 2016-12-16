@@ -35,6 +35,12 @@ public class ProxyHTTP extends Thread {
             int len = incommingIS.read(b);
 
             if (len > 0) {//si ya de la data
+                //TODO
+                //recupérer host et changer le socket
+                //si l'utilisateur ustilise un proxy l'utiliser
+                //sinon on cherche a connaitre le host avec lequel dialoguer et donc l'utiliser
+                //echo $HTTP_PROXY
+
                 Socket socket = new Socket("proxyetu.iut-nantes.univ-nantes.prive", 3128);
                 OutputStream outgoingOS = socket.getOutputStream();
 
@@ -44,6 +50,10 @@ public class ProxyHTTP extends Thread {
                 String h1 = new String(b, 0, len);
                 System.out.write(b, 0, len);
                 System.out.println("serveur -> client");
+
+
+
+
                 OutputStream incommingOS = clientSocket.getOutputStream();
                 InputStream outgoingIS = socket.getInputStream();
 

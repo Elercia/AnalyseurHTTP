@@ -25,7 +25,6 @@ public class Analyseur extends Thread {
 
 		this.usingProxy = false;
 		this.proxyAdress ="";
-		this.
 	}
 
 	public void setPort(int port)throws IOException{
