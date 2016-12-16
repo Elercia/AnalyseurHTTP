@@ -250,7 +250,7 @@ public class Vue {
 
     ouvrir = new JMenuItem("Ouvrir");
     submenu.add(ouvrir);
-    Control_ouvrir control_ouvrir = new Control_ouvrir(ouvrir, this);
+    Control_ouvrir control_ouvrir = new Control_ouvrir(ouvrir, this, anal);
     ouvrir.addActionListener(control_ouvrir);
 
     menuItem = new JMenuItem("Enregistrer");
@@ -364,10 +364,6 @@ public class Vue {
       return proxy_oui.getText();
     }
     return proxy_non.getText();
-  }
-
-  public void setFile(File f){
-    anal.setFile(f);
   }
 
 

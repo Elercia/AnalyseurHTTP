@@ -52,27 +52,43 @@ public class Control_start implements ActionListener {
 							}
 							else{
 								System.out.println("man+prox");
-								v.start();
+								/*try {
+									anal.setPort(v.getPortProxy());
+								} catch (IOException e1) {
+									e1.printStackTrace();
+									System.err.println("port indisponible");
+								}
+
+								anal.start();*/
 							}
 						}
 					}
 					else{
 						if(v.getQuestion1()=="manuel" && v.getQuestion2()=="non"){
-							//pas de proxy
 							System.out.println("man+0prox");
-							v.start();
+							/*try {
+								anal.setPort(v.getPortProxy());
+							} catch (IOException e1) {
+								e1.printStackTrace();
+								System.err.println("port indisponible");
+							}
+
+							anal.start();*/
 						}
 						else{
 							//automatique
 							System.out.println("auto");
-							v.start();
-							/*try {
-								anal =new Analyseur(v.getPortLog(), "");
-								anal.debutEcoute();
+							try {
+								anal.setPort(v.getPortLog());
+								System.out.println("port affecter : "+ v.getPortLog());
+							} catch (IOException e1) {
+								e1.printStackTrace();
+								System.err.println("port indisponible");
 							}
-							catch(IOException exe){
-								System.out.println(exe.getMessage());
-							}*/
+
+							anal.start();
+							System.out.println("nique ta mere");
+							v.start();
 						}
 					}
 				}

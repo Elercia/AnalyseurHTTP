@@ -23,11 +23,11 @@ public class Control_stop implements ActionListener {
 		if ((e.getSource()).equals(stop)){
 
 			v.stop();
-			/*try {
+			try {
 				anal.finEcoute();
 			} catch (IOException e1) {
 				e1.printStackTrace();
-			}*/
+			}
 		}
 	}
 }
