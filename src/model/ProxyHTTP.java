@@ -3,6 +3,7 @@ package model;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.Socket;
 
 /**
@@ -40,8 +41,18 @@ public class ProxyHTTP extends Thread {
                 //si l'utilisateur ustilise un proxy l'utiliser
                 //sinon on cherche a connaitre le host avec lequel dialoguer et donc l'utiliser
                 //echo $HTTP_PROXY
+                //http://freeproxylists.net/fr/
 
-                Socket socket = new Socket("proxyetu.iut-nantes.univ-nantes.prive", 3128);
+                byte[] ipAddr = new byte[]{91,121,42,68};
+                InetAddress addr = InetAddress.getByAddress(ipAddr);
+
+                Socket socket = new Socket(addr, 80);
+
+
+                //http://www.mon-ip.com/
+                //Socket socket = new Socket("2pl44-1-78-219-187-126.fbx.proxad.net", 20618);
+                //Socket socket = new Socket("8proxy.space", 80);
+                //Socket socket = new Socket("proxyetu.iut-nantes.univ-nantes.prive", 3128);
                 OutputStream outgoingOS = socket.getOutputStream();
 
                 //on écrit la demande au serveur
