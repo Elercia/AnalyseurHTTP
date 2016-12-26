@@ -42,13 +42,13 @@ public class BaseDeDonnees{
 			DateFormat format = DateFormat.getDateTimeInstance(
 					DateFormat.MEDIUM,
 					DateFormat.MEDIUM);
-			String filename = "data/capture_"+format.format(d).replace(' ','_')+".csv";
+			String filename = "data/capture_"+format.format(d).replace(' ','_').replace(".","").replace(":","_")+".csv";
 			fichier = new File(filename);
 			try{
 				fichier.createNewFile();
 				System.out.println("Fichier "+filename+" créé avec succès");
 			}catch (IOException e){
-				System.err.println("Probleme de création de fichier de base de données : "+fichier.getName());
+				System.err.println("Probleme de création de fichier de base de données : "+fichier.getName()+" erreur : "+e.getMessage());
 			}
 		}
 	}
