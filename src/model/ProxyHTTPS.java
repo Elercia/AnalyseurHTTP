@@ -1,6 +1,7 @@
 package model;
 
 import javax.net.SocketFactory;
+import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,10 +10,11 @@ import java.net.InetAddress;
 import java.net.Socket;
 
 /**
- * Created by E155399M on 21/11/16.
+ * Created by Vincent on 28/12/2016.
  */
-public class ProxyHTTP extends Thread {
-    private Socket clientSocket = null;
+
+public class ProxyHTTPS extends Thread {
+    private SSLSocket clientSocket = null;
     private int id;
     private BaseDeDonnees bdd;
 
@@ -20,7 +22,7 @@ public class ProxyHTTP extends Thread {
     private static final int BUFFER_SIZE = 327680;
     public static int PROXY_NUMBERS = 0;
 
-    public ProxyHTTP(Socket socket, int id, BaseDeDonnees bdd) {
+    public ProxyHTTPS(SSLSocket socket, int id, BaseDeDonnees bdd) {
         this.clientSocket = socket;
         this.id = id;
         this.bdd = bdd;
@@ -38,27 +40,27 @@ public class ProxyHTTP extends Thread {
             int len = incommingIS.read(b);
 
             if (len > 0) {//si ya de la data
-
+                System.out.println("HTTPS recus");
                 //représente le header de demande
                 String h1 = new String(b, 0, len);
 
                 String host = "";
                 host = this.getHost(h1);
                 int port;
-                        if(host != null && !host.isEmpty()){
-                            if(host.contains(":")){
-                                try {
-                                    host = host.split(":")[0];
-                                    port = Integer.parseInt(host.split(":")[1]);
+                if(host != null && !host.isEmpty()){
+                    if(host.contains(":")){
+                        try {
+                            host = host.split(":")[0];
+                            port = Integer.parseInt(host.split(":")[1]);
 
-                                }catch(IndexOutOfBoundsException e) {
-                                    throw new Exception("Host impossible a determiner");
+                        }catch(IndexOutOfBoundsException e) {
+                            throw new Exception("Host impossible a determiner");
 
-                                }catch(NumberFormatException e){
-                                    port = 80;
-                                }
-                            }else{
-                                port = 80;
+                        }catch(NumberFormatException e){
+                            port = 443;
+                        }
+                    }else{
+                        port = 443;
                     }
                 }else
                     throw new Exception("Host impossible a determiner");
@@ -78,11 +80,11 @@ public class ProxyHTTP extends Thread {
 
                 Socket socket = null;
 
-                //HTTP
-                SocketFactory sf = SocketFactory.getDefault();
+
+                //HTTPS
+                SSLSocketFactory sf = (SSLSocketFactory) SSLSocketFactory.getDefault();
                 InetAddress inet = InetAddress.getByName(host);
                 socket = sf.createSocket(inet, port);
-
 
                 OutputStream outgoingOS = socket.getOutputStream();
 

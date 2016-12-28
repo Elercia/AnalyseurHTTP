@@ -1,5 +1,8 @@
 package model;
 
+import javax.net.ssl.SSLServerSocket;
+import javax.net.ssl.SSLServerSocketFactory;
+import javax.net.ssl.SSLSocket;
 import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -8,9 +11,13 @@ import java.util.Iterator;
 
 public class Analyseur extends Thread {
 
-	private ArrayList<ProxyHTTP> proxys;
+	private ArrayList<ProxyHTTP> proxysHTTP;
+	private ArrayList<ProxyHTTPS> proxysHTTPS;
 	private BaseDeDonnees bdd;
+
 	private ServerSocket serverSocket;
+	private SSLServerSocket serverSSLSocket;
+
 	private boolean listening;
 
 	private boolean usingProxy;
@@ -20,17 +27,26 @@ public class Analyseur extends Thread {
 
 	public Analyseur(){
 		this.bdd = null;
-		this.proxys = new ArrayList<>();
+		this.proxysHTTP = new ArrayList<>();
+		this.proxysHTTPS = new ArrayList<>();
+
+
 		this.serverSocket = null;
+		this.serverSSLSocket = null;
+
 
 		this.usingProxy = false;
 		this.proxyAdress ="";
-
 		this.proxyPort=0;
 	}
 
 	public void setPort(int port)throws IOException{
 		this.serverSocket = new ServerSocket(port);
+
+		SSLServerSocketFactory sf = (SSLServerSocketFactory)SSLServerSocketFactory.getDefault();
+		this.serverSSLSocket = (SSLServerSocket)sf.createServerSocket(port+1);
+
+		System.out.println("Proxy HTTP lancé sur le port "+port+" et proxy HTTPS lancé sur le port" + (port+1));
 	}
 
 	public void setFile(File f){
@@ -67,17 +83,25 @@ public class Analyseur extends Thread {
 	}
 
 	/**
-	 * Method permettant de démarrer des proxys en fonction des demandes du navigateur
+	 * Method permettant de démarrer des proxysHTTP en fonction des demandes du navigateur
 	 * @throws IOException
 	 */
 	private void debutEcoute() throws IOException{
 		this.listening = true;
-		ProxyHTTP proxy = null;
+		ProxyHTTP proxyHTTP = null;
+		ProxyHTTPS proxyHTTPS = null;
 		while(this.listening) {
-			proxy = new ProxyHTTP(serverSocket.accept(), ProxyHTTP.PROXY_NUMBERS++, bdd);
-			proxy.setPriority(Thread.MAX_PRIORITY);
-			this.proxys.add(proxy);
-			proxy.start();
+			proxyHTTP = new ProxyHTTP(serverSocket.accept(), ProxyHTTP.PROXY_NUMBERS++, bdd);
+			proxyHTTPS = new ProxyHTTPS((SSLSocket)this.serverSSLSocket.accept(), ProxyHTTPS.PROXY_NUMBERS++, bdd);
+
+			proxyHTTP.setPriority(Thread.MAX_PRIORITY);
+			proxyHTTPS.setPriority(Thread.MAX_PRIORITY);
+
+			this.proxysHTTP.add(proxyHTTP);
+			this.proxysHTTPS.add(proxyHTTPS);
+
+			proxyHTTP.start();
+			proxyHTTPS.start();
 		}
 	}
 
@@ -89,18 +113,34 @@ public class Analyseur extends Thread {
 	 */
 	public void finEcoute() throws IOException {
 		this.listening = false;
-		this.serverSocket.close();
-		Iterator<ProxyHTTP> it = this.proxys.iterator();
+
+		Iterator<ProxyHTTP> it1 = this.proxysHTTP.iterator();
+
 		ProxyHTTP p;
-		while(it.hasNext())
+		while(it1.hasNext())
 		{
-			p = it.next();
+			p = it1.next();
 			try {
 				p.join();
 			}catch (InterruptedException e){
 				//rien de plus
 			}
 		}
+
+		Iterator<ProxyHTTPS> it2 = this.proxysHTTPS.iterator();
+		ProxyHTTPS pp;
+		while(it2.hasNext())
+		{
+			pp = it2.next();
+			try {
+				pp.join();
+			}catch (InterruptedException e){
+				//rien de plus
+			}
+		}
+
+		this.serverSocket.close();
+		this.serverSSLSocket.close();
 	}
 
 	public boolean estLance(){
