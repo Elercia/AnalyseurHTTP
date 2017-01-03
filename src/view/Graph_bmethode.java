@@ -32,11 +32,11 @@ public class Graph_bmethode extends JFrame
         dataset.setValue( "OPTIONS" , new Double( 11 ) );
         dataset.setValue( "CONNECT" , new Double( 11 ) );
         dataset.setValue( "TRACE" , new Double( 11 ) );
-        if(true==false) {
-            dataset.setValue("PUT", new Double(0));
-        }
-        dataset.setValue( "PATCH" , new Double( 22 ) );
-        dataset.setValue( "DELETE" , new Double( 100 ) );
+        //if(true==false) {
+            dataset.setValue("PUT", new Double(11));
+        //}
+        dataset.setValue( "PATCH" , new Double( 11 ) );
+        dataset.setValue( "DELETE" , new Double( 12 ) );
         return dataset;
     }
     private static JFreeChart createChart( PieDataset dataset )

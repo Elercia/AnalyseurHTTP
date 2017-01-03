@@ -352,6 +352,10 @@ public class Vue {
     return (int)port.getValue();
   }
 
+  public String getProxy(){
+    return proxy.getText();
+  }
+
   public String getQuestion1(){
     if(param_auto.isSelected()){
       return param_auto.getText();

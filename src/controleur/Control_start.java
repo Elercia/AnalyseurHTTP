@@ -52,28 +52,28 @@ public class Control_start implements ActionListener {
 							}
 							else{
 								System.out.println("man+prox");
-								/*try {
-									anal.setPort(v.getPortProxy());
+								anal.setProxy(v.getProxy(), v.getPortProxy());
+								System.out.println(v.getProxy()+" "+ v.getPortProxy());
+
+								try {
+									anal.setPort(v.getPortLog());
+									System.out.println("port affecter : "+ v.getPortLog());
 								} catch (IOException e1) {
 									e1.printStackTrace();
 									System.err.println("port indisponible");
 								}
 
-								anal.start();*/
+								anal.start();
+								//System.out.println("nique ta mere");
+								v.start();
+
 							}
 						}
 					}
 					else{
 						if(v.getQuestion1()=="manuel" && v.getQuestion2()=="non"){
 							System.out.println("man+0prox");
-							/*try {
-								anal.setPort(v.getPortProxy());
-							} catch (IOException e1) {
-								e1.printStackTrace();
-								System.err.println("port indisponible");
-							}
 
-							anal.start();*/
 						}
 						else{
 							//automatique
@@ -87,7 +87,7 @@ public class Control_start implements ActionListener {
 							}
 
 							anal.start();
-							System.out.println("nique ta mere");
+							//System.out.println("nique ta mere");
 							v.start();
 						}
 					}
