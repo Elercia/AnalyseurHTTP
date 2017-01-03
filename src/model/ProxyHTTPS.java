@@ -18,6 +18,10 @@ public class ProxyHTTPS extends Thread {
     private int id;
     private BaseDeDonnees bdd;
 
+    private boolean isUsingProxy;
+    private String proxyAdresse;
+    private int proxyPort;
+
 
     private static final int BUFFER_SIZE = 327680;
     public static int PROXY_NUMBERS = 0;
@@ -26,6 +30,7 @@ public class ProxyHTTPS extends Thread {
         this.clientSocket = socket;
         this.id = id;
         this.bdd = bdd;
+        this.isUsingProxy = false;
         System.out.println("------DEBUT thread id = "+id+"-------");
     }
 
@@ -50,8 +55,9 @@ public class ProxyHTTPS extends Thread {
                 if(host != null && !host.isEmpty()){
                     if(host.contains(":")){
                         try {
-                            host = host.split(":")[0];
-                            port = Integer.parseInt(host.split(":")[1]);
+                            String tmp = host;
+                            host = tmp.split(":")[0];
+                            port = Integer.parseInt(tmp.split(":")[1]);
 
                         }catch(IndexOutOfBoundsException e) {
                             throw new Exception("Host impossible a determiner");
@@ -137,16 +143,26 @@ public class ProxyHTTPS extends Thread {
         }
     }
 
-    private String getHost(String header) {
-        header = header.toLowerCase();
-        if(header.contains("host: ")){
-            //on recupère l'host
-            //c'est la sous chaine a partir de l'index de "Host: " jusqu'aux premier "\n" (en partant du meme index)
-            String host = (header.substring(header.indexOf("host: ")+("host: ").length(), header.indexOf("\n", header.indexOf("host: ")))).trim();
-            System.out.println("host reconnu : "+host);
-            return host;
-        }
+    public void setProxy(String a, int p){
+        this.isUsingProxy = true;
+        this.proxyAdresse = a;
+        this.proxyPort = p;
+    }
 
+    private String getHost(String header) {
+
+        if(isUsingProxy){
+            return this.proxyAdresse+":"+this.proxyPort;
+        }else {
+            header = header.toLowerCase();
+            if (header.contains("host: ")) {
+                //on recupère l'host
+                //c'est la sous chaine a partir de l'index de "Host: " jusqu'aux premier "\n" (en partant du meme index)
+                String host = (header.substring(header.indexOf("host: ") + ("host: ").length(), header.indexOf("\n", header.indexOf("host: ")))).trim();
+                System.out.println("host reconnu : " + host);
+                return host;
+            }
+        }
         //on ne peut pas determiner l'host
         return "";
     }

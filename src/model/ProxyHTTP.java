@@ -20,10 +20,18 @@ public class ProxyHTTP extends Thread {
     private static final int BUFFER_SIZE = 327680;
     public static int PROXY_NUMBERS = 0;
 
+    private boolean isUsingProxy;
+    private String proxyAdresse;
+    private int proxyPort;
+
     public ProxyHTTP(Socket socket, int id, BaseDeDonnees bdd) {
         this.clientSocket = socket;
         this.id = id;
         this.bdd = bdd;
+
+        this.isUsingProxy = true;
+        this.proxyAdresse = "proxyetu.iut-nantes.univ-nantes.prive";
+        this.proxyPort = 3128;
         System.out.println("------DEBUT thread id = "+id+"-------");
     }
 
@@ -45,20 +53,21 @@ public class ProxyHTTP extends Thread {
                 String host = "";
                 host = this.getHost(h1);
                 int port;
-                        if(host != null && !host.isEmpty()){
-                            if(host.contains(":")){
-                                try {
-                                    host = host.split(":")[0];
-                                    port = Integer.parseInt(host.split(":")[1]);
+                if(host != null && !host.isEmpty()){
+                    if(host.contains(":")){
+                        try {
+                            String tmp = host;
+                            host = tmp.split(":")[0];
+                            port = Integer.parseInt(tmp.split(":")[1]);
 
-                                }catch(IndexOutOfBoundsException e) {
-                                    throw new Exception("Host impossible a determiner");
+                        }catch(IndexOutOfBoundsException e) {
+                            throw new Exception("Host impossible a determiner");
 
-                                }catch(NumberFormatException e){
-                                    port = 80;
-                                }
-                            }else{
-                                port = 80;
+                        }catch(NumberFormatException e){
+                            port = 80;
+                        }
+                    }else{
+                        port = 80;
                     }
                 }else
                     throw new Exception("Host impossible a determiner");
@@ -135,17 +144,29 @@ public class ProxyHTTP extends Thread {
         }
     }
 
-    private String getHost(String header) {
-        header = header.toLowerCase();
-        if(header.contains("host: ")){
-            //on recupère l'host
-            //c'est la sous chaine a partir de l'index de "Host: " jusqu'aux premier "\n" (en partant du meme index)
-            String host = (header.substring(header.indexOf("host: ")+("host: ").length(), header.indexOf("\n", header.indexOf("host: ")))).trim();
-            System.out.println("host reconnu : "+host);
-            return host;
-        }
+    public void setProxy(String a, int p){
+        this.isUsingProxy = true;
+        this.proxyAdresse = a;
+        this.proxyPort = p;
+    }
 
-        //on ne peut pas determiner l'host
-        return "";
+    private String getHost(String header) {
+
+        if(isUsingProxy){
+            String s = this.proxyAdresse+":"+this.proxyPort;
+            return s;
+        }else {
+            header = header.toLowerCase();
+            if (header.contains("host: ")) {
+                //on recupère l'host
+                //c'est la sous chaine a partir de l'index de "Host: " jusqu'aux premier "\n" (en partant du meme index)
+                String host = (header.substring(header.indexOf("host: ") + ("host: ").length(), header.indexOf("\n", header.indexOf("host: ")))).trim();
+                System.out.println("host reconnu : " + host);
+                return host;
+            }
+
+            //on ne peut pas determiner l'host
+            return "";
+        }
     }
 }

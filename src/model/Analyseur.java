@@ -94,6 +94,12 @@ public class Analyseur extends Thread {
 			proxyHTTP = new ProxyHTTP(serverSocket.accept(), ProxyHTTP.PROXY_NUMBERS++, bdd);
 			proxyHTTPS = new ProxyHTTPS((SSLSocket)this.serverSSLSocket.accept(), ProxyHTTPS.PROXY_NUMBERS++, bdd);
 
+			if(usingProxy)
+			{
+				proxyHTTP.setProxy(this.proxyAdress, this.proxyPort);
+				proxyHTTPS.setProxy(this.proxyAdress, this.proxyPort);
+			}
+
 			proxyHTTP.setPriority(Thread.MAX_PRIORITY);
 			proxyHTTPS.setPriority(Thread.MAX_PRIORITY);
 
