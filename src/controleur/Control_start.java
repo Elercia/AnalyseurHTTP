@@ -53,6 +53,7 @@ public class Control_start implements ActionListener {
 							else{
 								System.out.println("man+prox");
 								anal.setProxy(v.getProxy(), v.getPortProxy());
+								System.out.println(v.getProxy()+" "+ v.getPortProxy());
 
 								try {
 									anal.setPort(v.getPortLog());
@@ -61,6 +62,11 @@ public class Control_start implements ActionListener {
 									e1.printStackTrace();
 									System.err.println("port indisponible");
 								}
+
+								anal.start();
+								//System.out.println("nique ta mere");
+								v.start();
+
 							}
 						}
 					}
@@ -81,7 +87,7 @@ public class Control_start implements ActionListener {
 							}
 
 							anal.start();
-							System.out.println("nique ta mere");
+							//System.out.println("nique ta mere");
 							v.start();
 						}
 					}
