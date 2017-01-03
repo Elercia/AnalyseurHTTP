@@ -272,7 +272,7 @@ public class Vue {
     pannel.add(onglets);
     f.getContentPane().add(pannel);
     f.setVisible(true);
-		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		//f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		f.pack();
     f.setExtendedState(Frame.MAXIMIZED_BOTH);
   }
