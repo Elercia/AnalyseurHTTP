@@ -56,8 +56,8 @@ public class ProxyHTTPS extends Thread {
                     if(host.contains(":")){
                         try {
                             String tmp = host;
-                            host = tmp.split(":")[0];
-                            port = Integer.parseInt(tmp.split(":")[1]);
+                            host = tmp.split(":", tmp.lastIndexOf(":")-1)[0];
+                            port = Integer.parseInt(tmp.split(":", tmp.lastIndexOf(":")-1)[1]);
 
                         }catch(IndexOutOfBoundsException e) {
                             throw new Exception("Host impossible a determiner");

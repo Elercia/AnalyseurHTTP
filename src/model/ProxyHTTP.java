@@ -29,9 +29,6 @@ public class ProxyHTTP extends Thread {
         this.id = id;
         this.bdd = bdd;
 
-        this.isUsingProxy = true;
-        this.proxyAdresse = "proxyetu.iut-nantes.univ-nantes.prive";
-        this.proxyPort = 3128;
         System.out.println("------DEBUT thread id = "+id+"-------");
     }
 
@@ -57,8 +54,8 @@ public class ProxyHTTP extends Thread {
                     if(host.contains(":")){
                         try {
                             String tmp = host;
-                            host = tmp.split(":")[0];
-                            port = Integer.parseInt(tmp.split(":")[1]);
+                            host = tmp.split(":", tmp.lastIndexOf(":")-1)[0];
+                            port = Integer.parseInt(tmp.split(":", tmp.lastIndexOf(":")-1)[1]);
 
                         }catch(IndexOutOfBoundsException e) {
                             throw new Exception("Host impossible a determiner");
