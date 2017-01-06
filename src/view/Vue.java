@@ -9,6 +9,8 @@ import java.io.File;
 import controleur.*;
 import model.Analyseur;
 //port 1 à 65535
+//http://proxyetu.iut-nantes.univ-nantes.prive:3128
+
 
 
 public class Vue {

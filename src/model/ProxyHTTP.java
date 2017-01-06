@@ -49,7 +49,7 @@ public class ProxyHTTP extends Thread {
 
                 String host = "";
                 host = this.getHost(h1);
-                int port;
+                int port = 80;
                 if(host != null && !host.isEmpty()){
                     if(host.contains(":")){
                         try {
@@ -62,14 +62,15 @@ public class ProxyHTTP extends Thread {
 
                         }catch(NumberFormatException e){
                             port = 80;
+                        }catch(Exception e){
+                            System.err.println("host introuvable");
                         }
                     }else{
                         port = 80;
                     }
                 }else
                     throw new Exception("Host impossible a determiner");
-                System.out.println("création d'un socket avec l'host :"+host+" "+port);
-
+                //System.out.println("création d'un socket avec l'host -> "+host+" "+port);
 
                 //TODO
                 //recupérer host et changer le socket
@@ -143,6 +144,13 @@ public class ProxyHTTP extends Thread {
 
     public void setProxy(String a, int p){
         this.isUsingProxy = true;
+        a = a.trim();
+        //on retire le http://
+        if(a.contains("http://"))
+            a = a.substring(7);
+        if(a.contains("https://"))
+            a = a.substring(8);
+
         this.proxyAdresse = a;
         this.proxyPort = p;
     }
@@ -151,6 +159,7 @@ public class ProxyHTTP extends Thread {
 
         if(isUsingProxy){
             String s = this.proxyAdresse+":"+this.proxyPort;
+            System.out.println("L'host Utilisé est un proxy ("+s+")");
             return s;
         }else {
             header = header.toLowerCase();
