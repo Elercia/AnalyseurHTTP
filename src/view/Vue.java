@@ -44,6 +44,7 @@ public class Vue {
     onglet1_1.add(txtportlog);
 
     portlog = new JSpinner();
+    portlog.setValue(9999);
     onglet1_1.add(portlog);
 
     JLabel bricolage2 = new JLabel("");
@@ -310,8 +311,10 @@ public class Vue {
   public void question2_oui(){
     txtproxy.setVisible(true);
     proxy.setVisible(true);
+    proxy.setText("http://proxyetu.iut-nantes.univ-nantes.prive");
     txtport.setVisible(true);
     port.setVisible(true);
+    port.setValue(3128);
   }
 
   public void question2_non(){
