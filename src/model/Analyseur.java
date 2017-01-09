@@ -45,8 +45,9 @@ public class Analyseur extends Thread {
 
 		SSLServerSocketFactory sf = (SSLServerSocketFactory)SSLServerSocketFactory.getDefault();
 		this.serverSSLSocket = (SSLServerSocket)sf.createServerSocket(port+1);
+		this.serverSSLSocket.setEnableSessionCreation(true);
 
-		System.out.println("Proxy HTTP lancé sur le port "+port+" et proxy HTTPS lancé sur le port" + (port+1));
+		System.out.println("Proxy HTTP lancé sur le port "+port+" et proxy HTTPS lancé sur le port " + (port+1));
 	}
 
 	public void setFile(File f){
@@ -91,11 +92,10 @@ public class Analyseur extends Thread {
 		ProxyHTTP proxyHTTP = null;
 		ProxyHTTPS proxyHTTPS = null;
 		while(this.listening) {
-			proxyHTTP = new ProxyHTTP(serverSocket.accept(), ProxyHTTP.PROXY_NUMBERS++, bdd);
+			proxyHTTP = new ProxyHTTP(this.serverSocket.accept(), ProxyHTTP.PROXY_NUMBERS++, bdd);
 			proxyHTTPS = new ProxyHTTPS((SSLSocket)this.serverSSLSocket.accept(), ProxyHTTPS.PROXY_NUMBERS++, bdd);
 
-			if(usingProxy)
-			{
+			if(usingProxy){
 				proxyHTTP.setProxy(this.proxyAdress, this.proxyPort);
 				proxyHTTPS.setProxy(this.proxyAdress, this.proxyPort);
 			}

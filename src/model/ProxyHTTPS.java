@@ -42,6 +42,7 @@ public class ProxyHTTPS extends Thread {
             byte[] b = new byte[BUFFER_SIZE];
             byte[] b2 = new byte[BUFFER_SIZE];
             //on recupère la data du navigateur
+            this.clientSocket.startHandshake();
             int len = incommingIS.read(b);
 
             if (len > 0) {//si ya de la data

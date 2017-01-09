@@ -95,9 +95,9 @@ public class ProxyHTTP extends Thread {
 
                 //on écrit la demande au serveur
                 outgoingOS.write(b, 0, len);
-                System.out.println("client -> serveur");
-                System.out.write(b, 0, len);
-                System.out.println("serveur -> client");
+//                System.out.println("client -> serveur");
+//                System.out.write(b, 0, len);
+//                System.out.println("serveur -> client");
 
 
 
@@ -109,9 +109,11 @@ public class ProxyHTTP extends Thread {
                 //On lit la réponse du serveur et on l'ecrit au client
                 for (int length; (length = outgoingIS.read(b2)) != -1; ) {
                     incommingOS.write(b2, 0, length);
-                    System.out.write(b, 0, length);
-                    h2 = new String(b, 0, len);
+//                    System.out.write(b2, 0, length);
+                    h2 = new String(b2, 0, length);
+
                 }
+                h2 = h2.split("/\n\n/g")[0];
 
                 //faire enregistrement ici plz
                 incommingOS.close();
@@ -120,7 +122,7 @@ public class ProxyHTTP extends Thread {
                 incommingIS.close();
                 socket.close();
 
-                String toSave = h1 +" "+ h2;
+                String toSave = "Requete : \n"+h1 +"\n Réponse :\n"+ h2;
                 this.bdd.enregistrement(toSave);
 
             } else {
@@ -131,8 +133,7 @@ public class ProxyHTTP extends Thread {
         } catch (Exception e) {
             System.err.println("Erreur inconnue : "+e.getMessage());
             e.printStackTrace();
-        }finally
-        {
+        }finally{
             try {
                 clientSocket.close();
                 System.out.println("------FIN thread id = "+id+"---------");
