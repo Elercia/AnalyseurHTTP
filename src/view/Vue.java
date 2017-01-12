@@ -283,6 +283,9 @@ public class Vue {
   public void start(){
     this.start_pause.setText("Pause");
     this.stop.setVisible(true);
+    this.portlog.setEnabled(false);
+    this.port.setEnabled(false);
+    this.proxy.setEnabled(false);
   }
 
   public void pause(){
@@ -292,6 +295,9 @@ public class Vue {
   public void stop(){
     this.start_pause.setText("Start");
     this.stop.setVisible(false);
+    this.portlog.setEnabled(true);
+    this.port.setEnabled(true);
+    this.proxy.setEnabled(true);
   }
 
   public void question1_oui(){
