@@ -13,14 +13,14 @@ public class Control_start implements ActionListener {
 	//private JButton start;
 	private JCoolButton start;
 	private Vue v;
-	private Analyseur anal;
+	private Analyseur analyseur;
 	/*private CarnetAdresse c;*/
 
 
 	public Control_start(JCoolButton st, Vue vu, Analyseur a) {
 		v=vu;
     	start=st;
-		anal=a;
+		analyseur=a;
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -52,18 +52,18 @@ public class Control_start implements ActionListener {
 							}
 							else{
 								System.out.println("man+prox");
-								anal.setProxy(v.getProxy(), v.getPortProxy());
+								analyseur.setProxy(v.getProxy(), v.getPortProxy());
 								System.out.println(v.getProxy()+" "+ v.getPortProxy());
 
 								try {
-									anal.setPort(v.getPortLog());
+									analyseur.setPort(v.getPortLog());
 									System.out.println("port affecter : "+ v.getPortLog());
 								} catch (IOException e1) {
 									e1.printStackTrace();
 									System.err.println("port indisponible");
 								}
 
-								anal.start();
+								analyseur.start();
 								//System.out.println("nique ta mere");
 								v.start();
 
@@ -79,14 +79,14 @@ public class Control_start implements ActionListener {
 							//automatique
 							System.out.println("auto");
 							try {
-								anal.setPort(v.getPortLog());
+								analyseur.setPort(v.getPortLog());
 								System.out.println("port affecter : "+ v.getPortLog());
 							} catch (IOException e1) {
 								e1.printStackTrace();
 								System.err.println("port indisponible");
 							}
 
-							anal.start();
+							analyseur.start();
 							//System.out.println("nique ta mere");
 							v.start();
 						}

@@ -16,15 +16,13 @@ import org.jfree.data.general.PieDataset;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
 
-public class Graph_bmethode extends JFrame
-{
-    public Graph_bmethode( String title )
-    {
+public class Graph_bmethode extends JFrame {
+    public Graph_bmethode( String title ) {
         super( title );
         setContentPane(createDemoPanel( ));
     }
-    private static PieDataset createDataset( )
-    {
+
+    private static PieDataset createDataset( ) {
         DefaultPieDataset dataset = new DefaultPieDataset( );
         dataset.setValue( "GET" , new Double( 11 ) );
         dataset.setValue( "POST" , new Double( 11 ) );
@@ -32,15 +30,13 @@ public class Graph_bmethode extends JFrame
         dataset.setValue( "OPTIONS" , new Double( 11 ) );
         dataset.setValue( "CONNECT" , new Double( 11 ) );
         dataset.setValue( "TRACE" , new Double( 11 ) );
-        //if(true==false) {
-            dataset.setValue("PUT", new Double(11));
-        //}
+        dataset.setValue("PUT", new Double(11));
         dataset.setValue( "PATCH" , new Double( 11 ) );
         dataset.setValue( "DELETE" , new Double( 12 ) );
         return dataset;
     }
-    private static JFreeChart createChart( PieDataset dataset )
-    {
+
+    private static JFreeChart createChart( PieDataset dataset ) {
         JFreeChart chart = ChartFactory.createPieChart(
                 "methode",  // chart title
                 dataset,        // data
@@ -50,8 +46,8 @@ public class Graph_bmethode extends JFrame
 
         return chart;
     }
-    public static JPanel createDemoPanel( )
-    {
+
+    public static JPanel createDemoPanel( ) {
         JFreeChart chart = createChart(createDataset( ) );
         return new ChartPanel( chart );
     }

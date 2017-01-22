@@ -26,10 +26,10 @@ public class Vue {
   private ButtonGroup bg, bg2;
 
   //modele
-  private Analyseur anal;
+  private Analyseur analyseur;
 
   public Vue(){
-    Analyseur anal=new Analyseur();
+    Analyseur analyseur=new Analyseur();
 
     JFrame f = new JFrame("affichge");
     f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -122,7 +122,7 @@ public class Vue {
     stop.setPreferredSize(new Dimension(100, 25));
     stop.setVisible(false);
     onglet1_3.add(stop);
-    Control_stop control_stop = new Control_stop(stop, this, anal);
+    Control_stop control_stop = new Control_stop(stop, this, analyseur);
     stop.addActionListener(control_stop);
 
 
@@ -130,7 +130,8 @@ public class Vue {
     start_pause = new JCoolButton("Start");
     start_pause.setPreferredSize(new Dimension(100, 25));
     onglet1_3.add(start_pause);
-    Control_start control_start = new Control_start(start_pause, this, anal);
+    Control_start control_start = new Control_start(start_pause, this, analyseur
+    );
     start_pause.addActionListener(control_start);
 
 
@@ -253,7 +254,7 @@ public class Vue {
 
     ouvrir = new JMenuItem("Ouvrir");
     submenu.add(ouvrir);
-    Control_ouvrir control_ouvrir = new Control_ouvrir(ouvrir, this, anal);
+    Control_ouvrir control_ouvrir = new Control_ouvrir(ouvrir, this, analyseur);
     ouvrir.addActionListener(control_ouvrir);
 
     menuItem = new JMenuItem("Enregistrer");

@@ -11,12 +11,12 @@ public class Control_stop implements ActionListener {
 	//private JButton stop;
 	private JCoolButton stop;
 	private Vue v;
-	private Analyseur anal;
+	private Analyseur analyseur;
 
 	public Control_stop(JCoolButton sp, Vue vu, Analyseur a) {
 		v=vu;
     	stop=sp;
-		anal=a;
+		analyseur=a;
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -24,7 +24,7 @@ public class Control_stop implements ActionListener {
 
 			v.stop();
 			try {
-				anal.finEcoute();
+				analyseur.finEcoute();
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
