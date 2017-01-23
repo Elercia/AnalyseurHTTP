@@ -42,10 +42,11 @@ public class ProxyHTTPS extends Thread {
             byte[] b = new byte[BUFFER_SIZE];
             byte[] b2 = new byte[BUFFER_SIZE];
             //on recupère la data du navigateur
-            this.clientSocket.startHandshake();
+
             int len = incommingIS.read(b);
 
             if (len > 0) {//si ya de la data
+                this.clientSocket.startHandshake();
                 System.out.println("HTTPS recus");
                 //représente le header de demande
                 String h1 = new String(b, 0, len);
@@ -121,6 +122,7 @@ public class ProxyHTTPS extends Thread {
                 outgoingOS.close();
                 incommingIS.close();
                 socket.close();
+                clientSocket.close();
 
                 String toSave = h1 +" "+ h2;
                 this.bdd.enregistrement(toSave);
@@ -135,12 +137,7 @@ public class ProxyHTTPS extends Thread {
             e.printStackTrace();
         }finally
         {
-            try {
-                clientSocket.close();
-                System.out.println("------FIN thread id = "+id+"---------");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            System.out.println("------FIN thread id = "+id+"---------");
         }
     }
 
