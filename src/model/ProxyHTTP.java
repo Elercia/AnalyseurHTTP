@@ -17,7 +17,7 @@ public class ProxyHTTP extends Thread {
     private BaseDeDonnees bdd;
 
 
-    private static final int BUFFER_SIZE = 327680;
+    private static final int BUFFER_SIZE = 10000;
     public static int PROXY_NUMBERS = 0;
 
     private boolean isUsingProxy;
@@ -34,7 +34,6 @@ public class ProxyHTTP extends Thread {
 
     public void run() {
         try {
-
             // Read request
             InputStream incommingIS = clientSocket.getInputStream();
             byte[] b = new byte[BUFFER_SIZE];
@@ -46,7 +45,6 @@ public class ProxyHTTP extends Thread {
 
                 //représente le header de demande
                 String h1 = new String(b, 0, len);
-
                 String host = "";
                 host = this.getHost(h1);
                 int port = 80;
@@ -70,37 +68,17 @@ public class ProxyHTTP extends Thread {
                     }
                 }else
                     throw new Exception("Host impossible a determiner");
-                //System.out.println("création d'un socket avec l'host -> "+host+" "+port);
-
-                //TODO
-                //recupérer host et changer le socket
-                //si l'utilisateur ustilise un proxy l'utiliser
-                //sinon on cherche a connaitre le host avec lequel dialoguer et donc l'utiliser
-                //echo $HTTP_PROXY
-                //http://www.mon-ip.com/
-                //Socket socket = new Socket("2pl44-1-78-219-187-126.fbx.proxad.net", 20618);
-                //Socket socket = new Socket("8proxy.space", 80);
-                //Socket socket = new Socket("proxyetu.iut-nantes.univ-nantes.prive", 3128);
-                //http://freeproxylists.net/fr/
 
                 Socket socket = null;
-
                 //HTTP
                 SocketFactory sf = SocketFactory.getDefault();
                 InetAddress inet = InetAddress.getByName(host);
                 socket = sf.createSocket(inet, port);
 
-
                 OutputStream outgoingOS = socket.getOutputStream();
 
-                //on écrit la demande au serveur
+
                 outgoingOS.write(b, 0, len);
-//                System.out.println("client -> serveur");
-//                System.out.write(b, 0, len);
-//                System.out.println("serveur -> client");
-
-
-
 
                 OutputStream incommingOS = clientSocket.getOutputStream();
                 InputStream outgoingIS = socket.getInputStream();
@@ -109,11 +87,9 @@ public class ProxyHTTP extends Thread {
                 //On lit la réponse du serveur et on l'ecrit au client
                 for (int length; (length = outgoingIS.read(b2)) != -1; ) {
                     incommingOS.write(b2, 0, length);
-//                    System.out.write(b2, 0, length);
                     h2 = new String(b2, 0, length);
-
                 }
-                h2 = h2.split("/\n\n/g")[0];
+                h2 = h2.split("\r\n\r\n")[0];
 
                 //faire enregistrement ici plz
                 incommingOS.close();
@@ -121,8 +97,9 @@ public class ProxyHTTP extends Thread {
                 outgoingOS.close();
                 incommingIS.close();
                 socket.close();
+                clientSocket.close();
 
-                String toSave = "Requete : \n"+h1 +"\n Réponse :\n"+ h2;
+                String toSave = "Requete : \n"+h1+"\n\nRéponse :\n"+ h2+"\n\n";
                 this.bdd.enregistrement(toSave);
 
             } else {
@@ -134,12 +111,7 @@ public class ProxyHTTP extends Thread {
             System.err.println("Erreur inconnue : "+e.getMessage());
             e.printStackTrace();
         }finally{
-            try {
-                clientSocket.close();
-                System.out.println("------FIN thread id = "+id+"---------");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            System.out.println("------FIN thread id = "+id+"---------");
         }
     }
 

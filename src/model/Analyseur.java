@@ -6,6 +6,7 @@ import javax.net.ssl.SSLSocket;
 import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -33,7 +34,6 @@ public class Analyseur extends Thread {
 
 		this.serverSocket = null;
 		this.serverSSLSocket = null;
-
 
 		this.usingProxy = false;
 		this.proxyAdress ="";
@@ -74,12 +74,13 @@ public class Analyseur extends Thread {
 		try {
 			if(this.bdd == null)
 				this.setFile(null);
-			if(this.serverSocket == null)
+			if(this.serverSocket == null || this.serverSSLSocket == null)
 				this.setPort(9999);
 
+			this.serverSocket.setSoTimeout(5000);
 			this.debutEcoute();
 		}catch(IOException e){
-			System.err.println("Erreur dans le thread analyseur");
+			System.err.println("Erreur dans le thread analyseur ("+e.getMessage()+")");
 		}
 	}
 
@@ -90,24 +91,28 @@ public class Analyseur extends Thread {
 	private void debutEcoute() throws IOException{
 		this.listening = true;
 		ProxyHTTP proxyHTTP = null;
-		ProxyHTTPS proxyHTTPS = null;
+//		ProxyHTTPS proxyHTTPS = null;
 		while(this.listening) {
-			proxyHTTP = new ProxyHTTP(this.serverSocket.accept(), ProxyHTTP.PROXY_NUMBERS++, bdd);
-			proxyHTTPS = new ProxyHTTPS((SSLSocket)this.serverSSLSocket.accept(), ProxyHTTPS.PROXY_NUMBERS++, bdd);
+			try {
+				proxyHTTP = new ProxyHTTP(this.serverSocket.accept(), ProxyHTTP.PROXY_NUMBERS++, bdd);
+//			proxyHTTPS = new ProxyHTTPS((SSLSocket)this.serverSSLSocket.accept(), ProxyHTTPS.PROXY_NUMBERS++, bdd);
 
-			if(usingProxy){
-				proxyHTTP.setProxy(this.proxyAdress, this.proxyPort);
-				proxyHTTPS.setProxy(this.proxyAdress, this.proxyPort);
+				if (usingProxy) {
+					proxyHTTP.setProxy(this.proxyAdress, this.proxyPort);
+//				proxyHTTPS.setProxy(this.proxyAdress, this.proxyPort);
+				}
+
+				proxyHTTP.setPriority(Thread.MAX_PRIORITY);
+//			proxyHTTPS.setPriority(Thread.MAX_PRIORITY);
+
+				this.proxysHTTP.add(proxyHTTP);
+//			this.proxysHTTPS.add(proxyHTTPS);
+
+				proxyHTTP.start();
+				//proxyHTTPS.start();
+			}catch(SocketTimeoutException sto){
+				//nothing
 			}
-
-			proxyHTTP.setPriority(Thread.MAX_PRIORITY);
-			proxyHTTPS.setPriority(Thread.MAX_PRIORITY);
-
-			this.proxysHTTP.add(proxyHTTP);
-			this.proxysHTTPS.add(proxyHTTPS);
-
-			proxyHTTP.start();
-			//proxyHTTPS.start();
 		}
 	}
 
@@ -127,7 +132,8 @@ public class Analyseur extends Thread {
 		{
 			p = it1.next();
 			try {
-				p.join();
+				if(p != null)
+					p.join();
 			}catch (InterruptedException e){
 				//rien de plus
 			}
@@ -144,6 +150,9 @@ public class Analyseur extends Thread {
 				//rien de plus
 			}
 		}
+		ProxyHTTP.PROXY_NUMBERS=0;
+		ProxyHTTPS.PROXY_NUMBERS=0;
+
 
 		this.serverSocket.close();
 		this.serverSSLSocket.close();
