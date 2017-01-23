@@ -9,14 +9,14 @@ import java.io.*;
 import java.nio.file.*;
 //import ihm.modele.*;
 
-public class Control_aide implements ActionListener {
+public class CtrlHelp implements ActionListener {
 
 	private JMenuItem aide;
 	private Vue v;
 	/*private CarnetAdresse c;*/
 
 
-	public Control_aide(JMenuItem aide, Vue vu) {
+	public CtrlHelp(JMenuItem aide, Vue vu) {
 		v=vu;
     this.aide=aide;
 	}

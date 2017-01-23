@@ -11,13 +11,13 @@ import view.*;
 public class Control_start implements ActionListener {
 
 	//private JButton start;
-	private JCoolButton start;
+	private JBoutonMod start;
 	private Vue v;
 	private Analyseur analyseur;
 	/*private CarnetAdresse c;*/
 
 
-	public Control_start(JCoolButton st, Vue vu, Analyseur a) {
+	public Control_start(JBoutonMod st, Vue vu, Analyseur a) {
 		v=vu;
     	start=st;
 		analyseur=a;

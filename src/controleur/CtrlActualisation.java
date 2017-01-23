@@ -5,14 +5,14 @@ import javax.swing.*;
 import view.*;
 //import ihm.modele.*;
 
-public class Control_actu implements ActionListener {
+public class CtrlActualisation implements ActionListener {
 
 	private JButton actu;
 	private Vue v;
 	/*private CarnetAdresse c;*/
 
 
-	public Control_actu(JButton actu, Vue vu) {
+	public CtrlActualisation(JButton actu, Vue vu) {
 		v=vu;
     this.actu=actu;
 	}

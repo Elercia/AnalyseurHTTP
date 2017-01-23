@@ -57,7 +57,7 @@ public class Vue {
     bgProxy.add(param_man);
     onglet1_1.add(param_auto);
     onglet1_1.add(param_man);
-    Control_config control_conf = new Control_config(param_auto, param_man, this);
+    CtrlConfiguration control_conf = new CtrlConfiguration(param_auto, param_man, this);
     param_auto.addActionListener(control_conf);
     param_man.addActionListener(control_conf);
 
@@ -82,7 +82,7 @@ public class Vue {
     onglet1_2.add(proxy_oui);
     onglet1_2.add(proxy_non);
 
-    Control_proxy control_prox = new Control_proxy(proxy_oui, proxy_non, this);
+    CtrlProxy control_prox = new CtrlProxy(proxy_oui, proxy_non, this);
     proxy_oui.addActionListener(control_prox);
     proxy_non.addActionListener(control_prox);
 
@@ -171,13 +171,13 @@ public class Vue {
     JButton bsite =new JButton("plus info");
     JButton bmethode =new JButton("plus info");
 
-    Control_graph control_graph = new Control_graph(bcap, bpagechar,bpoid, bcookie, bsite, bmethode, this);
-    bcap.addActionListener(control_graph);
-    bpagechar.addActionListener(control_graph);
-    bpoid.addActionListener(control_graph);
-    bcookie.addActionListener(control_graph);
-    bsite.addActionListener(control_graph);
-    bmethode.addActionListener(control_graph);
+    CtrlChart ctrlChart = new CtrlChart(bcap, bpagechar,bpoid, bcookie, bsite, bmethode, this);
+    bcap.addActionListener(ctrlChart);
+    bpagechar.addActionListener(ctrlChart);
+    bpoid.addActionListener(ctrlChart);
+    bcookie.addActionListener(ctrlChart);
+    bsite.addActionListener(ctrlChart);
+    bmethode.addActionListener(ctrlChart);
 
     onglet2_1.add(txtcap);
     onglet2_1.add(tmpCapture);
@@ -201,8 +201,8 @@ public class Vue {
     JPanel onglet2_2 = new JPanel();
     JButton actu = new JButton("actualisé");
     onglet2_2.add(actu);
-    Control_actu control_actu = new Control_actu(actu, this);
-    actu.addActionListener(control_actu);
+    CtrlActualisation ctrlActualisation = new CtrlActualisation(actu, this);
+    actu.addActionListener(ctrlActualisation);
 
 
 
@@ -235,8 +235,8 @@ public class Vue {
 
     ouvrir = new JMenuItem("Ouvrir");
     submenu.add(ouvrir);
-    Control_ouvrir control_ouvrir = new Control_ouvrir(ouvrir, this, analyseur);
-    ouvrir.addActionListener(control_ouvrir);
+    CtrlOpen ctrlOpen = new CtrlOpen(ouvrir, this, analyseur);
+    ouvrir.addActionListener(ctrlOpen);
 
     menuItem = new JMenuItem("Enregistrer");
     submenu.add(menuItem);
@@ -245,8 +245,8 @@ public class Vue {
     menuItem = new JMenuItem("help",KeyEvent.VK_T);
 
 
-    Control_aide control_aide = new Control_aide(menuItem, this);
-    menuItem.addActionListener(control_aide);
+    CtrlHelp ctrlHelp = new CtrlHelp(menuItem, this);
+    menuItem.addActionListener(ctrlHelp);
 
     menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
     menu.add(menuItem);

@@ -5,7 +5,7 @@ import javax.swing.*;
 import view.*;
 //import ihm.modele.*;
 
-public class Control_config implements ActionListener {
+public class CtrlConfiguration implements ActionListener {
 
 	private JRadioButton auto;
   private JRadioButton man;
@@ -13,7 +13,7 @@ public class Control_config implements ActionListener {
 	/*private CarnetAdresse c;*/
 
 
-	public Control_config(JRadioButton auto, JRadioButton man, Vue vu) {
+	public CtrlConfiguration(JRadioButton auto, JRadioButton man, Vue vu) {
 		v=vu;
     this.auto=auto;
     this.man=man;
@@ -21,10 +21,10 @@ public class Control_config implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if ((e.getSource()).equals(auto)){
-      v.question1_non();
+      		v.question1_non();
 		}
-    else{
-      v.question1_oui();
-    }
+    	else{
+      		v.question1_oui();
+    	}
 	}
 }

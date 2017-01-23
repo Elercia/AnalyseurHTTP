@@ -2,18 +2,18 @@ package controleur;
 
 import java.awt.event.*;
 import java.io.IOException;
-import javax.swing.*;
+
 import model.Analyseur;
 import view.*;
 
 public class Control_stop implements ActionListener {
 
 	//private JButton stop;
-	private JCoolButton stop;
+	private JBoutonMod stop;
 	private Vue v;
 	private Analyseur analyseur;
 
-	public Control_stop(JCoolButton sp, Vue vu, Analyseur a) {
+	public Control_stop(JBoutonMod sp, Vue vu, Analyseur a) {
 		v=vu;
     	stop=sp;
 		analyseur=a;

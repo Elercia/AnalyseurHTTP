@@ -5,14 +5,14 @@ import javax.swing.*;
 import org.jfree.ui.RefineryUtilities;
 import view.*;
 
-public class Control_graph implements ActionListener {
+public class CtrlChart implements ActionListener {
 
     private JButton bcap, bpagechar, bpoid, bcookie, bsite, bmethode;
     private Vue v;
 	/*private CarnetAdresse c;*/
 
 
-    public Control_graph(JButton bcap, JButton bpagechar, JButton bpoid, JButton bcookie, JButton bsite, JButton bmethode, Vue vu) {
+    public CtrlChart(JButton bcap, JButton bpagechar, JButton bpoid, JButton bcookie, JButton bsite, JButton bmethode, Vue vu) {
         v=vu;
         this.bcap=bcap;
         this.bpagechar=bpagechar;

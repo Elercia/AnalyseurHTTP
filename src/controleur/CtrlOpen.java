@@ -10,7 +10,7 @@ import java.awt.*;
 import java.io.*;
 import java.nio.file.*;
 
-public class Control_ouvrir implements ActionListener {
+public class CtrlOpen implements ActionListener {
 
     private JMenuItem ouvrir;
     private Vue v;
@@ -18,7 +18,7 @@ public class Control_ouvrir implements ActionListener {
 	/*private CarnetAdresse c;*/
 
 
-    public Control_ouvrir(JMenuItem ouvrir, Vue vu, Analyseur a) {
+    public CtrlOpen(JMenuItem ouvrir, Vue vu, Analyseur a) {
         v=vu;
         this.ouvrir=ouvrir;
         analyseur=a;

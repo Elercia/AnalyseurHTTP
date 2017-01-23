@@ -5,7 +5,7 @@ import javax.swing.*;
 import view.*;
 //import ihm.modele.*;
 
-public class Control_proxy implements ActionListener {
+public class CtrlProxy implements ActionListener {
 
 	private JRadioButton oui;
   private JRadioButton non;
@@ -13,7 +13,7 @@ public class Control_proxy implements ActionListener {
 	/*private CarnetAdresse c;*/
 
 
-	public Control_proxy(JRadioButton oui, JRadioButton non, Vue vu) {
+	public CtrlProxy(JRadioButton oui, JRadioButton non, Vue vu) {
 		v=vu;
     this.oui=oui;
     this.non=non;
