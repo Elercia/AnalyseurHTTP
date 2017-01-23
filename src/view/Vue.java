@@ -24,6 +24,7 @@ public class Vue {
   private JSpinner port, portlog;
   private JLabel cap, pagechar,poid,cookie,site,methode; //affichage
   private ButtonGroup bg, bg2;
+  private JTabbedPane onglets;
 
   //modele
   private Analyseur analyseur;
@@ -31,11 +32,11 @@ public class Vue {
   public Vue(){
     Analyseur analyseur=new Analyseur();
 
-    JFrame f = new JFrame("affichge");
+    JFrame f = new JFrame("Projet Analyseur");
     f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     JPanel pannel = new JPanel();
 
-    JTabbedPane onglets = new JTabbedPane(SwingConstants.TOP);
+    this.onglets = new JTabbedPane(SwingConstants.TOP);
 
     JPanel onglet1_1 = new JPanel();
     onglet1_1.setLayout(new GridLayout(2, 3));//l,c
@@ -292,6 +293,7 @@ public class Vue {
     this.proxy_non.setEnabled(false);
     this.param_auto.setEnabled(false);
     this.param_man.setEnabled(false);
+    this.onglets.setEnabled(false);
   }
 
   public void pause(){
@@ -308,6 +310,7 @@ public class Vue {
     this.proxy_non.setEnabled(true);
     this.param_auto.setEnabled(true);
     this.param_man.setEnabled(true);
+    this.onglets.setEnabled(true);
   }
 
   public void question1_oui(){
