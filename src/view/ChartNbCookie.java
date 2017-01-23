@@ -14,9 +14,9 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import javax.swing.*;
 
-public class Graph_bcookie extends JFrame
+public class ChartNbCookie extends JFrame
 {
-    public Graph_bcookie( String applicationTitle, String chartTitle )
+    public ChartNbCookie(String applicationTitle, String chartTitle )
     {
         super(applicationTitle);
         JFreeChart xylineChart = ChartFactory.createXYLineChart(

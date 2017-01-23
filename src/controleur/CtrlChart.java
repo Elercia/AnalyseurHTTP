@@ -9,8 +9,6 @@ public class CtrlChart implements ActionListener {
 
     private JButton bcap, bpagechar, bpoid, bcookie, bsite, bmethode;
     private Vue v;
-	/*private CarnetAdresse c;*/
-
 
     public CtrlChart(JButton bcap, JButton bpagechar, JButton bpoid, JButton bcookie, JButton bsite, JButton bmethode, Vue vu) {
         v=vu;
@@ -24,7 +22,7 @@ public class CtrlChart implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if ((e.getSource()).equals(bcap)){
-            Graph_bcap demo = new Graph_bcap( "Mobile Sales" );
+            ChartTmpCapture demo = new ChartTmpCapture( "Mobile Sales" );
             demo.setSize( 560 , 367 );
             RefineryUtilities.centerFrameOnScreen( demo );
             demo.setVisible( true );
@@ -32,7 +30,7 @@ public class CtrlChart implements ActionListener {
         }
 
         if ((e.getSource()).equals(bpagechar)){
-            Graph_bpagechar chart = new Graph_bpagechar("Car Usage Statistics", "Which car do you like?");
+            ChartNbChargedPage chart = new ChartNbChargedPage("Car Usage Statistics", "Which car do you like?");
             chart.pack( );
             RefineryUtilities.centerFrameOnScreen( chart );
             chart.setVisible( true );
@@ -40,7 +38,7 @@ public class CtrlChart implements ActionListener {
         }
 
         if ((e.getSource()).equals(bpoid)){
-            Graph_bpoid chart = new Graph_bpoid(
+            ChartWeightPage chart = new ChartWeightPage(
                     "School Vs Years" ,
                     "Numer of Schools vs years");
 
@@ -51,7 +49,7 @@ public class CtrlChart implements ActionListener {
         }
 
         if ((e.getSource()).equals(bcookie)){
-            Graph_bcookie chart = new Graph_bcookie("Browser Usage Statistics", "Which Browser are you using?");
+            ChartNbCookie chart = new ChartNbCookie("Browser Usage Statistics", "Which Browser are you using?");
             chart.pack( );
             RefineryUtilities.centerFrameOnScreen( chart );
             chart.setVisible( true );
@@ -59,7 +57,7 @@ public class CtrlChart implements ActionListener {
         }
 
         if ((e.getSource()).equals(bsite)){
-            Graph_bsite bubblechart = new Graph_bsite( "Bubble Chart_frame" );
+            ChartViewSite bubblechart = new ChartViewSite( "Bubble Chart_frame" );
 
             bubblechart.pack( );
             RefineryUtilities.centerFrameOnScreen( bubblechart );
@@ -68,7 +66,7 @@ public class CtrlChart implements ActionListener {
         }
 
         if ((e.getSource()).equals(bmethode)){
-            Graph_bmethode methode = new Graph_bmethode( "methode" );
+            ChartMethode methode = new ChartMethode( "methode" );
             methode.setSize( 560 , 367 );
             RefineryUtilities.centerFrameOnScreen( methode );
             methode.setVisible( true );

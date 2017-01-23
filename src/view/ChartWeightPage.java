@@ -7,9 +7,9 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import javax.swing.*;
 
-public class Graph_bpoid extends JFrame
+public class ChartWeightPage extends JFrame
 {
-    public Graph_bpoid( String applicationTitle , String chartTitle )
+    public ChartWeightPage(String applicationTitle , String chartTitle )
     {
         super(applicationTitle);
         JFreeChart lineChart = ChartFactory.createLineChart(
@@ -43,7 +43,7 @@ public class Graph_bpoid extends JFrame
     }
     /*public static void main( String[ ] args )
     {
-        Graph_bpoid chart = new Graph_bpoid(
+        ChartWeightPage chart = new ChartWeightPage(
                 "School Vs Years" ,
                 "Numer of Schools vs years");
 

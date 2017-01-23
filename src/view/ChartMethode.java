@@ -16,26 +16,29 @@ import org.jfree.data.general.PieDataset;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
 
-public class Graph_bcap extends JFrame
-{
-    public Graph_bcap( String title )
-    {
+public class ChartMethode extends JFrame {
+    public ChartMethode(String title ) {
         super( title );
         setContentPane(createDemoPanel( ));
     }
-    private static PieDataset createDataset( )
-    {
+
+    private static PieDataset createDataset( ) {
         DefaultPieDataset dataset = new DefaultPieDataset( );
-        dataset.setValue( "IPhone 5s" , new Double( 20 ) );
-        dataset.setValue( "SamSung Grand" , new Double( 20 ) );
-        dataset.setValue( "MotoG" , new Double( 40 ) );
-        dataset.setValue( "Nokia Lumia" , new Double( 10 ) );
+        dataset.setValue( "GET" , new Double( 11 ) );
+        dataset.setValue( "POST" , new Double( 11 ) );
+        dataset.setValue( "HEAD" , new Double( 11 ) );
+        dataset.setValue( "OPTIONS" , new Double( 11 ) );
+        dataset.setValue( "CONNECT" , new Double( 11 ) );
+        dataset.setValue( "TRACE" , new Double( 11 ) );
+        dataset.setValue("PUT", new Double(11));
+        dataset.setValue( "PATCH" , new Double( 11 ) );
+        dataset.setValue( "DELETE" , new Double( 12 ) );
         return dataset;
     }
-    private static JFreeChart createChart( PieDataset dataset )
-    {
+
+    private static JFreeChart createChart( PieDataset dataset ) {
         JFreeChart chart = ChartFactory.createPieChart(
-                "Mobile Sales",  // chart title
+                "methode",  // chart title
                 dataset,        // data
                 true,           // include legend
                 true,
@@ -43,8 +46,8 @@ public class Graph_bcap extends JFrame
 
         return chart;
     }
-    public static JPanel createDemoPanel( )
-    {
+
+    public static JPanel createDemoPanel( ) {
         JFreeChart chart = createChart(createDataset( ) );
         return new ChartPanel( chart );
     }

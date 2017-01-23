@@ -12,9 +12,9 @@ import org.jfree.data.xy.DefaultXYZDataset;
 import org.jfree.data.xy.XYZDataset;
 import org.jfree.ui.RefineryUtilities;
 
-public class Graph_bsite extends JFrame
+public class ChartViewSite extends JFrame
 {
-    public Graph_bsite( String s )
+    public ChartViewSite(String s )
     {
         super( s );
         JPanel jpanel = createDemoPanel( );

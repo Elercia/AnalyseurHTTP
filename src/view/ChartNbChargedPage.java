@@ -10,9 +10,9 @@ import org.jfree.ui.RefineryUtilities;
 
 import javax.swing.*;
 
-public class Graph_bpagechar extends JFrame
+public class ChartNbChargedPage extends JFrame
 {
-    public Graph_bpagechar( String applicationTitle , String chartTitle )
+    public ChartNbChargedPage(String applicationTitle , String chartTitle )
     {
         super( applicationTitle );
         JFreeChart barChart = ChartFactory.createBarChart(
