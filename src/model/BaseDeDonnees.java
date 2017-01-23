@@ -1,40 +1,43 @@
 package model;
 
+import javafx.util.Pair;
+import jdk.nashorn.internal.ir.debug.JSONWriter;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import java.io.*;
 import java.text.DateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 
 public class BaseDeDonnees{
-
 	private File fichier;
+	private static String FileExtension = ".json";
 
 	/**
-	 * @deprecated
-	 * Se servir de ce constructeur si on veut continuer une capture antérieur
-	 * @param fileName le nom du fichier ou null ou vide
+	 * Variable contenant tous les headers recu par les thread proxy
 	 */
-	public BaseDeDonnees(String fileName){
-		//On instancie un Fichier pour pouvoir écrire et lire dans ce dernier.
-		if(fileName != null && !fileName.isEmpty())
-			fichier = new File("data/"+fileName);
-		else {
-			Date d = new Date();
-			DateFormat format = DateFormat.getDateTimeInstance(
-					DateFormat.MEDIUM,
-					DateFormat.MEDIUM);
-			fichier = new File("data/capture_"+format.format(d).replace(' ','_')+".csv");
-		}
-		try{
-			fichier.createNewFile();
-		}catch (IOException e){
-			System.err.println("Probleme de création de fichier de base de données : "+fichier.getName());
-		}
-	}
+	private ArrayList<Pair<String, String>> headersBuffer;
 
+	/** Variable utilsé pour stocker les données calculées
+	 * On associe un nom de variables à avoir vers des groupes de données
+	 *  par exemple pour le graphique de méthodes les plus utilisé on aura
+	 *   method -> (GET -> 10, POSt -> 10 ,...)
+	 *  pour le nombres de pages chargées on aura
+	 *   pageCharge -> (site1 -> 100, site2 -> 3)
+	 */
+	private HashMap<String, HashMap<String, String>> values;
+
+	/**
+	 * Crée une base de données à partir d'un fichier
+	 * Si le fichier est null alors un fichier sera cré dans le dossier "data/"
+	 * Il aura comme nom : "capture_datdujour.csv
+	 * @param f @Nullable Le fichier à considérer
+	 */
 	public BaseDeDonnees(File f){
-		//On instancie un Fichier pour pouvoir écrire et lire dans ce dernier.
+		this.values = new HashMap<>();
+		this.headersBuffer = new ArrayList<>();
 		if(f != null)
 			fichier = f;
 		else {
@@ -42,7 +45,7 @@ public class BaseDeDonnees{
 			DateFormat format = DateFormat.getDateTimeInstance(
 					DateFormat.MEDIUM,
 					DateFormat.MEDIUM);
-			String filename = "data/capture_"+format.format(d).replace(' ','_').replace(".","").replace(":","_")+".csv";
+			String filename = "data/capture_"+format.format(d).replace(' ','_').replace(".","").replace(":","_")+BaseDeDonnees.FileExtension;
 			fichier = new File(filename);
 			try{
 				fichier.createNewFile();
@@ -54,89 +57,11 @@ public class BaseDeDonnees{
 	}
 
 	/**
-	 * Enregistre les deux headers
-	 * On ne verfie pas non plus quel est le site qui a été visitées
-	 * !! il faut le rajouter en premier dans le csv sous la forme site;nomdusite;....values
-	 *
-	 *
-	 * @param values Correspond au headers qui ont étés recus ou envoyé du type :
-	 *
-	Age: 2237
-	Cache-Control: max-age=31536000, public
-	Connection: keep-alive
-	Date: Mon, 28 Nov 2016 15:10:11 GMT
-	Expires: Tue, 28 Nov 2017 14:32:54 GMT
-	Timing-Allow-Origin: https://github.com
-	Vary: Accept-Encoding
-	Via: 1.1 varnish
-	X-Cache: HIT
-	X-Cache-Hits: 895
-	X-Fastly-Request-ID: ae9566e14b90571caa3f543702c583af98b63246
-	X-Served-By: cache-ams4131-AMS
-	X-Timer: S1480345811.559115,VS0,VE0
-	 *
-	 *	 Nous devons récupérer le host (la page qui a été demandé) et
-	 *      y ajouter l'heure actuel pour l'ajouter
+	 * Methode ajoutant les header reçu dans le buffer de headers
+	 * Ce buffer sera écrit dans le fichier à la fin quand l'analyse sera finie
 	 */
-	public synchronized void enregistrement(String values){
-		//recup le contenu du fichier
-	    /*String filecontent="";
-
-	    try {
-		    Scanner sc = new Scanner(this.fichier);
-		    while (sc.hasNextLine())
-			    filecontent+=sc.nextLine();
-			sc.close();
-	    } catch (FileNotFoundException e) {
-		    System.err.println("Fichier de base de données non trouvé. Echec de la sauvegarde");
-		    return;
-	    }*/
-		String chaine=new String("");
-		InputStream ips= null;
-		try {
-			ips = new FileInputStream(this.fichier);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		InputStreamReader ipsr=new InputStreamReader(ips);
-		BufferedReader br=new BufferedReader(ipsr);
-		String ligne;
-		try {
-			while ((ligne=br.readLine())!=null){
-				//System.out.println(ligne);
-				chaine+=ligne+"\n";
-			}
-			chaine+=values;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		try {
-			br.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		//on parse ce que l'on nous a fournis pour l'enregistrer
-//	    String[] lines = values.split("\n");
-//
-//	    for (String line : lines){
-//	    	filecontent+="\n";
-//			String[] res = line.split(":", 1);
-//		    filecontent+=res[0]+";"+res[1]+";";
-//	    }
-		//filecontent+=values;
-
-		//on enregistre dans le fichier
-		try {
-			FileWriter fw = new FileWriter(this.fichier);
-			//fw.write(filecontent);
-			fw.write(chaine);
-			fw.close();
-		} catch (IOException e) {
-			System.err.println("Fichier de base de données non trouvé. Echec de la sauvegarde");
-			return;
-		}
+	public synchronized void enregistrement(String requete, String reponse){
+		this.headersBuffer.add(new Pair<>(requete, reponse));
 	}
 
 	/**
@@ -145,38 +70,165 @@ public class BaseDeDonnees{
 	 * le 1er string représente les noms des headers et le 2nd les valeurs
 	 * @return une hashmap qui fait correspondre : site vers données
 	 */
-	public HashMap<String, HashMap<String, String>> lecture(){
+	public synchronized HashMap<String, HashMap<String, String>> actuValues(){
+		//on doit lire le fichier
+		//pour tous les couples Requetes, Reponse
+		//on doit les synthetiser et remplire les différent nom que la vue vas utiliser
+		//@see declaration de la variable
 
-		//onlit le fichier on le split par "\n"
-		//pour toutes les lignes on les split par ";"
-		//  On a donc des couples de valeurs name -> values
-		//  Le premier coupl => les nom du site
-		//  tous les autres => les nom, valeurs des headers
-		HashMap<String, HashMap<String, String>> retour = new HashMap<>();
-		HashMap<String, String> values = new HashMap<>();
-		String sitename="";
+		HashMap<String, String> nbPagesCharged      = new HashMap<>(),
+								poidPagesCharged    = new HashMap<>(),
+								nbCookiesCreated    = new HashMap<>(),
+								usedWebSite         = new HashMap<>(),
+								methodeUsed         = new HashMap<>();
+
+		return this.values;
+	}
+
+	private String readAllContent()throws FileNotFoundException{
+		StringBuilder content = new StringBuilder();
+		Scanner sc = new Scanner(this.fichier);
+
+		while(sc.hasNextLine()){
+			content.append(sc.nextLine()).append("\n");
+		}
+
+		return content.toString();
+	}
+
+	public void saveData(){
+		JSONParser parser = new JSONParser();
+		//Toutes les hashMap pour les différent graphiques
+
+
 		try {
+			//append all to the existing file (if there is something in
 
-			Scanner sc=new Scanner(this.fichier);
-			while(sc.hasNextLine()){//pour toute les lignes
-				String[] couples = sc.nextLine().split(";");//on récupére les couples
-				if(!couples[0].equals("site"))//si le premier couple ne donne pas le nom du site
-					return null;
-				//on vérifie que la taille soit pair (un nom vers une values et pas de valeurs seuls)
-				if(couples.length%2 != 0)
-					return null;
+			String content = this.readAllContent();
+			//si le fichier est vide en cré un Json vide sinon on utilise le contenu du fichier
+			Object obj = parser.parse(content.isEmpty()?"{}":content);
+			JSONObject jsonObjFileContent = (JSONObject) obj;
 
+			JSONObject siteJsonObject = new JSONObject();
 
-				sitename = couples[1];
-				for(int i=2; i < couples.length; i+=2){
-					values.put(couples[i], couples[i+1]);
+			for(Pair<String, String> p_header : this.headersBuffer){
+				String requete = p_header.getKey();
+				String response = p_header.getValue();
+
+				String site = this.getWebSite(requete);
+
+				//on verifie si le site à déjà été chargé
+				if(jsonObjFileContent.containsKey(site)){
+					//on recup les valeurs déja existantes
+
+					//on met à ajour le nombre de consutlations
+					siteJsonObject = (JSONObject)jsonObjFileContent.get(site);
+					siteJsonObject.put("consultations", (Integer)siteJsonObject.get("consultations")+1);
+
+					//on met a jour le nombre de methodes utilisées
+					JSONObject jsonObjectMethod = (JSONObject)siteJsonObject.get("methodes");
+					String methode = this.getMethod(requete);
+					if(jsonObjectMethod.containsKey(methode))
+						jsonObjectMethod.put(methode, (Integer)siteJsonObject.get(methode)+1);
+					else
+						jsonObjectMethod.put(methode, 1);
+					siteJsonObject.put("methodes", jsonObjectMethod);
+
+					//on mets a jour les cookies si il exites
+					//sinon on cré un objet cookie pour les ajouter au json
+
+					HashMap<String, String> map = this.getCookie(response);
+					if(!map.isEmpty()){//il n'y a pas de cookie a faire on garde donc les meme valeurs que avant
+						JSONObject jsonObjCookies;
+						if(siteJsonObject.containsKey("cookies"))
+							 jsonObjCookies = (JSONObject)siteJsonObject.get("cookies");
+						else
+							jsonObjCookies = new JSONObject();
+						//on rempli les cookies
+						for(Map.Entry<String, String> en : map.entrySet())
+							jsonObjCookies.put(en.getKey(), en.getValue());
+						siteJsonObject.put("cookies", jsonObjCookies);
+					}
+
+					//on mets a jour le poids total des pages chargées
+					siteJsonObject.put("poidTotal", (Integer)siteJsonObject.get("poidTotal")+this.getLength(response));
+
+				}else{
+					//si la page n'à pas enore été chargée alors on initialise des valeurs par defauts
+					// vallant celles du premeiere header
+
+					//le nombre de consultations
+					siteJsonObject.put("consultations", 1);
+
+					//la methode utilisée
+					JSONObject jsonObjectMethode = new JSONObject();
+					jsonObjectMethode.put(this.getMethod(requete), 1);
+					siteJsonObject.put("methodes", jsonObjectMethode);
+
+					//si des cookies ont été utilisés
+					if(this.getCookie(response) != null){
+						JSONObject cookieJsonObject = new JSONObject();
+						for(Map.Entry<String, String> en : this.getCookie(response).entrySet())
+							cookieJsonObject.put(en.getKey(), en.getValue());
+						siteJsonObject.put("cookies", cookieJsonObject);
+					}
+
+					//on ajoute le poid
+					siteJsonObject.put("poidTotal", this.getLength(response));
 				}
-				retour.put(sitename, values);
-				values = new HashMap<>();
+
+				//finalement on ajoute les valeurs dans un json pour le site
+				jsonObjFileContent.put(site, siteJsonObject);
+				System.out.println("Json modifié pour "+site+" en "+siteJsonObject.toJSONString());
 			}
-		} catch (FileNotFoundException e) {
+			System.out.println("Final json : "+jsonObjFileContent.toJSONString());
+			jsonObjFileContent.writeJSONString(new BufferedWriter(new FileWriter(this.fichier)));
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		return retour;
+	}
+
+	private String getWebSite(String header){
+		header = header.toLowerCase();
+		if (header.contains("host: ")) {
+			//on recupère l'host
+			//c'est la sous chaine a partir de l'index de "Host: " jusqu'aux premier "\n" (en partant du meme index)
+			String host = (header.substring(header.indexOf("host: ") + ("host: ").length(), header.indexOf("\n", header.indexOf("host: ")))).trim();
+			if(host.contains(":"))
+				host = host.split(":")[0];
+			return host;
+		}
+		return "undefined";
+	}
+
+	private String getMethod(String header){
+		String methode = header.split(" ", 1)[0];
+
+		return methode.isEmpty()?"undefined":methode;
+	}
+
+	private int getLength(String header){
+		header = header.toLowerCase();
+		if (header.contains("Content-Length: ")) {
+			//on recupère l'host
+			//c'est la sous chaine a partir de l'index de "Host: " jusqu'aux premier "\n" (en partant du meme index)
+			String length = (header.substring(header.indexOf("Content-Length: ") + ("Content-Length: ").length(), header.indexOf("\n", header.indexOf("Content-Length: ")))).trim();
+
+			return Integer.parseInt(length);
+		}
+		return 0;
+	}
+
+	/**
+	 * Methode retournant tous les cookies set par le serveur
+	 * @param header le header de reponse du serveur
+	 * @return une hashMap assossiant nom -> valeur
+	 */
+	private HashMap<String, String> getCookie(String header){
+		//TODO : à implementer
+		return new HashMap<>();
 	}
 }

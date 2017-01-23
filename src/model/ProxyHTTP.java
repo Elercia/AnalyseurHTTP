@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by E155399M on 21/11/16.
@@ -74,9 +75,8 @@ public class ProxyHTTP extends Thread {
                 SocketFactory sf = SocketFactory.getDefault();
                 InetAddress inet = InetAddress.getByName(host);
                 socket = sf.createSocket(inet, port);
-
+                //socket.setSoTimeout(5000);
                 OutputStream outgoingOS = socket.getOutputStream();
-
 
                 outgoingOS.write(b, 0, len);
 
@@ -99,15 +99,16 @@ public class ProxyHTTP extends Thread {
                 socket.close();
                 clientSocket.close();
 
-                String toSave = "Requete : \n"+h1+"\n\nRéponse :\n"+ h2+"\n\n";
-                this.bdd.enregistrement(toSave);
+                this.bdd.enregistrement(h1, h2);
 
             } else {
                 incommingIS.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (Exception e) {
+        } catch(TimeoutException toe){
+            //nothing
+        } catch(Exception e) {
             System.err.println("Erreur inconnue : "+e.getMessage());
             e.printStackTrace();
         }finally{

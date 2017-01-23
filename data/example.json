@@ -1,0 +1,23 @@
+{
+	"nom du site":{
+		"consultations": 23,
+		"methodes": {
+			"get": 2
+		},
+		"cookies":{
+			"nomcookie1":"value1",
+			"nomcookie2":"value2"
+
+		},
+		"poidsTotal":255
+	},
+	"nom du site 2":{
+		"consultations": 43,
+		"methodes": {
+			"get": 2
+		},
+		"cookies":{
+			"nomcookie1":"value1"
+		},
+		"poidsTotal":255
+}

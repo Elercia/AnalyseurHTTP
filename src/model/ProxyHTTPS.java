@@ -125,7 +125,7 @@ public class ProxyHTTPS extends Thread {
                 clientSocket.close();
 
                 String toSave = h1 +" "+ h2;
-                this.bdd.enregistrement(toSave);
+                this.bdd.enregistrement(h1, h2);
 
             } else {
                 incommingIS.close();

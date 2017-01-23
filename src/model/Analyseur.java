@@ -152,6 +152,12 @@ public class Analyseur extends Thread {
 
 		this.serverSocket.close();
 		this.serverSSLSocket.close();
+
+		this.saveData();
+	}
+
+	private void saveData(){
+		this.bdd.saveData();
 	}
 
 	public boolean estLance(){
