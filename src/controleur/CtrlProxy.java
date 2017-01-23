@@ -21,10 +21,10 @@ public class CtrlProxy implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if ((e.getSource()).equals(oui)){
-      v.question2_oui();
+      v.configProxyOui();
 		}
     else{
-      v.question2_non();
+      v.configProxyNon();
     }
 	}
 }

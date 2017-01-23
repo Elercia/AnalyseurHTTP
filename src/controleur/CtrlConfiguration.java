@@ -8,7 +8,7 @@ import view.*;
 public class CtrlConfiguration implements ActionListener {
 
 	private JRadioButton auto;
-  private JRadioButton man;
+  	private JRadioButton man;
 	private Vue v;
 	/*private CarnetAdresse c;*/
 
@@ -21,10 +21,10 @@ public class CtrlConfiguration implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if ((e.getSource()).equals(auto)){
-      		v.question1_non();
+      		v.ConfigAuto();
 		}
     	else{
-      		v.question1_oui();
+      		v.ConfigMan();
     	}
 	}
 }

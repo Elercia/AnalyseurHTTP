@@ -151,25 +151,25 @@ public class Vue {
     JLabel txtmethode = new JLabel("methode la plus utilisé");
     txtmethode.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-    tmpCapture = new JLabel("<valeur>");
+    tmpCapture = new JLabel("<value>");
     tmpCapture.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    nbChargedPages = new JLabel("<valeur>");
+    nbChargedPages = new JLabel("<value>");
     nbChargedPages.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    weigtChargedPages = new JLabel("<valeur>");
+    weigtChargedPages = new JLabel("<value>");
     weigtChargedPages.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    nbCookie = new JLabel("<valeur>");
+    nbCookie = new JLabel("<value>");
     nbCookie.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    mostViewedSite = new JLabel("<valeur>");
+    mostViewedSite = new JLabel("<value>");
     mostViewedSite.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    methode = new JLabel("<valeur>");
+    methode = new JLabel("<value>");
     methode.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-    JButton bcap =new JButton("plus info");
-    JButton bpagechar =new JButton("plus info");
-    JButton bpoid =new JButton("plus info");
-    JButton bcookie =new JButton("plus info");
-    JButton bsite =new JButton("plus info");
-    JButton bmethode =new JButton("plus info");
+    JButton bcap =new JButton("more info");
+    JButton bpagechar =new JButton("more info");
+    JButton bpoid =new JButton("more info");
+    JButton bcookie =new JButton("more info");
+    JButton bsite =new JButton("more info");
+    JButton bmethode =new JButton("more info");
 
     CtrlChart ctrlChart = new CtrlChart(bcap, bpagechar,bpoid, bcookie, bsite, bmethode, this);
     bcap.addActionListener(ctrlChart);
@@ -199,7 +199,7 @@ public class Vue {
     onglet2_1.add(bmethode);
 
     JPanel onglet2_2 = new JPanel();
-    JButton actu = new JButton("actualisé");
+    JButton actu = new JButton("refresh");
     onglet2_2.add(actu);
     CtrlActualisation ctrlActualisation = new CtrlActualisation(actu, this);
     actu.addActionListener(ctrlActualisation);
@@ -229,16 +229,16 @@ public class Vue {
 
 
     //a group of JMenuItems
-    submenu = new JMenu("Fichier     ");
+    submenu = new JMenu("File     ");
     submenu.setMnemonic(KeyEvent.VK_S);
 
 
-    ouvrir = new JMenuItem("Ouvrir");
+    ouvrir = new JMenuItem("Open");
     submenu.add(ouvrir);
     CtrlOpen ctrlOpen = new CtrlOpen(ouvrir, this, analyseur);
     ouvrir.addActionListener(ctrlOpen);
 
-    menuItem = new JMenuItem("Enregistrer");
+    menuItem = new JMenuItem("Save");
     submenu.add(menuItem);
     menu.add(submenu);
 
@@ -293,21 +293,21 @@ public class Vue {
     this.onglets.setEnabled(true);
   }
 
-  public void question1_oui(){
+  public void ConfigMan(){
     txtprox.setVisible(true);
     proxy_oui.setVisible(true);
     proxy_non.setVisible(true);
   }
 
-  public void question1_non(){
+  public void ConfigAuto(){
     txtprox.setVisible(false);
     proxy_oui.setVisible(false);
     proxy_non.setVisible(false);
     proxy_non.setSelected(true);
-    this.question2_non();
+    this.configProxyNon();
   }
 
-  public void question2_oui(){
+  public void configProxyOui(){
     txtproxy.setVisible(true);
     adressProxySysteme.setVisible(true);
     adressProxySysteme.setText("http://proxyetu.iut-nantes.univ-nantes.prive");
@@ -316,7 +316,7 @@ public class Vue {
     proxyPort.setValue(3128);
   }
 
-  public void question2_non(){
+  public void configProxyNon(){
     txtproxy.setVisible(false);
     adressProxySysteme.setVisible(false);
     txtport.setVisible(false);
