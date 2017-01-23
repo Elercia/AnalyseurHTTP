@@ -4,26 +4,20 @@ import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-
 import controleur.*;
 import model.Analyseur;
-//port 1 à 65535
+//proxyPort 1 à 65535
 //http://proxyetu.iut-nantes.univ-nantes.prive:3128
 
 
-
 public class Vue {
-  /*variable*/
-  //private JButton start_pause, stop;
-  //private JRoundButton start_pause;
-  private JCoolButton stop, start_pause;
+  private JBoutonMod stop, start_pause;
   private JLabel txtprox, txtproxy, txtport;
   private JRadioButton proxy_oui, proxy_non, param_auto, param_man;
-  private JTextField proxy;
-  private JSpinner port, portlog;
-  private JLabel cap, pagechar,poid,cookie,site,methode; //affichage
-  private ButtonGroup bg, bg2;
+  private JTextField adressProxySysteme;
+  private JSpinner proxyPort, proxyPortLogiciel;
+  private JLabel tmpCapture, nbChargedPages, weigtChargedPages, nbCookie, mostViewedSite, methode; //affichage
+  private ButtonGroup bgAutoMan, bgProxy;
   private JTabbedPane onglets;
 
   //modele
@@ -41,12 +35,12 @@ public class Vue {
     JPanel onglet1_1 = new JPanel();
     onglet1_1.setLayout(new GridLayout(2, 3));//l,c
 
-    JLabel txtportlog = new JLabel("port logiciel ecouter : ");
+    JLabel txtportlog = new JLabel("Port logiciel écouter : ");
     onglet1_1.add(txtportlog);
 
-    portlog = new JSpinner();
-    portlog.setValue(9999);
-    onglet1_1.add(portlog);
+    proxyPortLogiciel = new JSpinner();
+    proxyPortLogiciel.setValue(9999);
+    onglet1_1.add(proxyPortLogiciel);
 
     JLabel bricolage2 = new JLabel("");
     onglet1_1.add(bricolage2);
@@ -54,13 +48,13 @@ public class Vue {
     JLabel txtparam =new JLabel("configuration :");
     onglet1_1.add(txtparam);
 
-    bg2 = new ButtonGroup();
+    bgProxy = new ButtonGroup();
     param_auto = new JRadioButton("automatique");
     param_auto.setSelected(true);
     param_man = new JRadioButton("manuel");
-    // ajout des boutons radio dans le groupe bg
-    bg2.add(param_auto);
-    bg2.add(param_man);
+    // ajout des boutons radio dans le groupe bgAutoMan
+    bgProxy.add(param_auto);
+    bgProxy.add(param_man);
     onglet1_1.add(param_auto);
     onglet1_1.add(param_man);
     Control_config control_conf = new Control_config(param_auto, param_man, this);
@@ -72,19 +66,19 @@ public class Vue {
     JPanel onglet1_2 = new JPanel();
     onglet1_2.setLayout(new GridLayout(3, 3));
 
-    txtprox =new JLabel("utiliser un proxy ?");
+    txtprox =new JLabel("Utiliser un proxy ?");
     txtprox.setVisible(false);
     onglet1_2.add(txtprox);
 
-    bg = new ButtonGroup();
+    bgAutoMan = new ButtonGroup();
     proxy_oui = new JRadioButton("oui");
     proxy_non = new JRadioButton("non");
     proxy_non.setSelected(true);
     proxy_non.setVisible(false);
     proxy_oui.setVisible(false);
-    // ajout des boutons radio dans le groupe bg
-    bg.add(proxy_oui);
-    bg.add(proxy_non);
+    // ajout des boutons radio dans le groupe bgAutoMan
+    bgAutoMan.add(proxy_oui);
+    bgAutoMan.add(proxy_non);
     onglet1_2.add(proxy_oui);
     onglet1_2.add(proxy_non);
 
@@ -92,24 +86,24 @@ public class Vue {
     proxy_oui.addActionListener(control_prox);
     proxy_non.addActionListener(control_prox);
 
-    txtproxy = new JLabel("addresse proxy : ");
+    txtproxy = new JLabel("Adresse proxy : ");
     txtproxy.setVisible(false);
     onglet1_2.add(txtproxy);
 
-    proxy = new JTextField("");
-    proxy.setVisible(false);
-    onglet1_2.add(proxy);
+    adressProxySysteme = new JTextField("");
+    adressProxySysteme.setVisible(false);
+    onglet1_2.add(adressProxySysteme);
 
     JLabel bricolage = new JLabel("");
     onglet1_2.add(bricolage);
 
-    txtport = new JLabel("port : ");
+    txtport = new JLabel("Proxy port : ");
     txtport.setVisible(false);
     onglet1_2.add(txtport);
 
-    port = new JSpinner();
-    port.setVisible(false);
-    onglet1_2.add(port);
+    proxyPort = new JSpinner();
+    proxyPort.setVisible(false);
+    onglet1_2.add(proxyPort);
 
 
     JPanel onglet1_3 = new JPanel();
@@ -117,18 +111,14 @@ public class Vue {
     layout1_3.setHgap(50);
     onglet1_3.setLayout(layout1_3);
 
-    //stop = new JButton("Stop");
-
-    stop = new JCoolButton("Stop");
+    stop = new JBoutonMod("Stop");
     stop.setPreferredSize(new Dimension(100, 25));
     stop.setVisible(false);
     onglet1_3.add(stop);
     Control_stop control_stop = new Control_stop(stop, this, analyseur);
     stop.addActionListener(control_stop);
 
-
-    //start_pause = new JButton("Start");
-    start_pause = new JCoolButton("Start");
+    start_pause = new JBoutonMod("Start");
     start_pause.setPreferredSize(new Dimension(100, 25));
     onglet1_3.add(start_pause);
     Control_start control_start = new Control_start(start_pause, this, analyseur
@@ -145,18 +135,8 @@ public class Vue {
 
     onglets.addTab("Proxy", onglet1_G);
 
-    //JPanel onglet2_G = new JPanel();
-    //onglet2_G.setLayout(new GridLayout(6,3));
-
     JPanel onglet2_1 = new JPanel(new GridLayout(6,3, -1, -1));//l,c
     onglet2_1.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
-
-    /*for (int i =0; i<(6*3); i++){
-      final JLabel label = new JLabel("Label");
-      label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-      onglet2_G.add(label);
-    }*/
-
 
     JLabel txtcap = new JLabel("temps capture");
     txtcap.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -171,16 +151,16 @@ public class Vue {
     JLabel txtmethode = new JLabel("methode la plus utilisé");
     txtmethode.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-    cap = new JLabel("<valeur>");
-    cap.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    pagechar = new JLabel("<valeur>");
-    pagechar.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    poid = new JLabel("<valeur>");
-    poid.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    cookie = new JLabel("<valeur>");
-    cookie.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    site = new JLabel("<valeur>");
-    site.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    tmpCapture = new JLabel("<valeur>");
+    tmpCapture.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    nbChargedPages = new JLabel("<valeur>");
+    nbChargedPages.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    weigtChargedPages = new JLabel("<valeur>");
+    weigtChargedPages.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    nbCookie = new JLabel("<valeur>");
+    nbCookie.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    mostViewedSite = new JLabel("<valeur>");
+    mostViewedSite.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     methode = new JLabel("<valeur>");
     methode.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
@@ -200,19 +180,19 @@ public class Vue {
     bmethode.addActionListener(control_graph);
 
     onglet2_1.add(txtcap);
-    onglet2_1.add(cap);
+    onglet2_1.add(tmpCapture);
     onglet2_1.add(bcap);
     onglet2_1.add(txtpagechar);
-    onglet2_1.add(pagechar);
+    onglet2_1.add(nbChargedPages);
     onglet2_1.add(bpagechar);
     onglet2_1.add(txtpoid);
-    onglet2_1.add(poid);
+    onglet2_1.add(weigtChargedPages);
     onglet2_1.add(bpoid);
     onglet2_1.add(txtcookie);
-    onglet2_1.add(cookie);
+    onglet2_1.add(nbCookie);
     onglet2_1.add(bcookie);
     onglet2_1.add(txtsite);
-    onglet2_1.add(site);
+    onglet2_1.add(mostViewedSite);
     onglet2_1.add(bsite);
     onglet2_1.add(txtmethode);
     onglet2_1.add(methode);
@@ -285,9 +265,9 @@ public class Vue {
   public void start(){
     this.start_pause.setText("Pause");
     this.stop.setVisible(true);
-    this.portlog.setEnabled(false);
-    this.port.setEnabled(false);
-    this.proxy.setEnabled(false);
+    this.proxyPortLogiciel.setEnabled(false);
+    this.proxyPort.setEnabled(false);
+    this.adressProxySysteme.setEnabled(false);
     this.stop.setVisible(true);
     this.proxy_oui.setEnabled(false);
     this.proxy_non.setEnabled(false);
@@ -303,9 +283,9 @@ public class Vue {
   public void stop(){
     this.start_pause.setText("Start");
     this.stop.setVisible(false);
-    this.portlog.setEnabled(true);
-    this.port.setEnabled(true);
-    this.proxy.setEnabled(true);
+    this.proxyPortLogiciel.setEnabled(true);
+    this.proxyPort.setEnabled(true);
+    this.adressProxySysteme.setEnabled(true);
     this.proxy_oui.setEnabled(true);
     this.proxy_non.setEnabled(true);
     this.param_auto.setEnabled(true);
@@ -329,39 +309,39 @@ public class Vue {
 
   public void question2_oui(){
     txtproxy.setVisible(true);
-    proxy.setVisible(true);
-    proxy.setText("http://proxyetu.iut-nantes.univ-nantes.prive");
+    adressProxySysteme.setVisible(true);
+    adressProxySysteme.setText("http://proxyetu.iut-nantes.univ-nantes.prive");
     txtport.setVisible(true);
-    port.setVisible(true);
-    port.setValue(3128);
+    proxyPort.setVisible(true);
+    proxyPort.setValue(3128);
   }
 
   public void question2_non(){
     txtproxy.setVisible(false);
-    proxy.setVisible(false);
+    adressProxySysteme.setVisible(false);
     txtport.setVisible(false);
-    port.setVisible(false);
+    proxyPort.setVisible(false);
   }
 
   //maj affichge
   public void maj_cap(String s){
-    cap.setText(s);
+    tmpCapture.setText(s);
   }
 
   public void maj_pagecharge(String s){
-    pagechar.setText(s);
+    nbChargedPages.setText(s);
   }
 
   public void maj_poid(String s){
-    poid.setText(s);
+    weigtChargedPages.setText(s);
   }
 
   public void maj_cookie(String s){
-    cookie.setText(s);
+    nbCookie.setText(s);
   }
 
   public void maj_site(String s){
-    site.setText(s);
+    mostViewedSite.setText(s);
   }
 
   public void maj_methode(String s){
@@ -369,15 +349,15 @@ public class Vue {
   }
 
   public int getPortLog(){
-    return (int)portlog.getValue();
+    return (int) proxyPortLogiciel.getValue();
   }
 
   public int getPortProxy(){
-    return (int)port.getValue();
+    return (int) proxyPort.getValue();
   }
 
   public String getProxy(){
-    return proxy.getText();
+    return adressProxySysteme.getText();
   }
 
   public String getQuestion1(){
