@@ -287,6 +287,11 @@ public class Vue {
     this.portlog.setEnabled(false);
     this.port.setEnabled(false);
     this.proxy.setEnabled(false);
+    this.stop.setVisible(true);
+    this.proxy_oui.setEnabled(false);
+    this.proxy_non.setEnabled(false);
+    this.param_auto.setEnabled(false);
+    this.param_man.setEnabled(false);
   }
 
   public void pause(){
@@ -299,6 +304,10 @@ public class Vue {
     this.portlog.setEnabled(true);
     this.port.setEnabled(true);
     this.proxy.setEnabled(true);
+    this.proxy_oui.setEnabled(true);
+    this.proxy_non.setEnabled(true);
+    this.param_auto.setEnabled(true);
+    this.param_man.setEnabled(true);
   }
 
   public void question1_oui(){
