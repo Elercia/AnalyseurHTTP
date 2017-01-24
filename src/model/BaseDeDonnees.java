@@ -75,7 +75,6 @@ public class BaseDeDonnees{
 	/**
 	 * hashmap qui fait correspondre : site vers données
 	 * les données sont représenté par une hashMap se string vers string
-	 * le 1er string représente les noms des headers et le 2nd les valeurs
 	 * @return une hashmap qui fait correspondre : site vers données
 	 */
 	public synchronized HashMap<String, HashMap<String, String>> actuValues(){
@@ -87,10 +86,64 @@ public class BaseDeDonnees{
 		HashMap<String, String> nbPagesCharged      = new HashMap<>(),
 								poidPagesCharged    = new HashMap<>(),
 								nbCookiesCreated    = new HashMap<>(),
-								usedWebSite         = new HashMap<>(),
+//								usedWebSite         = new HashMap<>(),
 								methodeUsed         = new HashMap<>();
 
+		JSONParser parser = new JSONParser();
+		String content = null;
+		try {
+			content = this.readAllContent();
+			Object obj = null;
+			obj = parser.parse(content.isEmpty()?"{}":content);
+			JSONObject jsonObjFileContent = (JSONObject) obj;
 
+			//pour tous les objet dans notre fichier
+			for(Object objs : jsonObjFileContent.keySet()){
+
+				//on recupere le nom du site (la clé que l'on a)
+				String site = (String)objs;
+				//le JsonObject correspondant au site que l'on a visité
+				JSONObject siteJsonObj = (JSONObject)jsonObjFileContent.get(objs);
+
+				//on ajoute a la map du nombre de pages charge le site vers son nb de consultations
+				nbPagesCharged.put(site, String.valueOf((Integer)siteJsonObj.get("consultations")));
+
+				//on ajoute a la map du des poids des pages chargé le poid total
+				poidPagesCharged.put(site, String.valueOf((Integer)siteJsonObj.get("poidTotal")));
+
+				//si le site a mis en place des cookies
+				if(siteJsonObj.containsKey("cookies"))
+				{
+					//on les recupere
+					JSONObject cookie = (JSONObject)(siteJsonObj.get("cookies"));
+					//pour tous les cookies qui on été set on prend leurs clé
+					for(Object c : cookie.keySet()){
+						//on les ajoute a la map des cookies créé
+						nbCookiesCreated.put(site+"::"+c, (String)cookie.get(c));
+					}
+				}
+
+				//on recup je JSON des methodes utilisée pour charger la page
+				JSONObject jsmethode = (JSONObject)siteJsonObj.get("methodes");
+				//pour toutes les methodes utilisée pour chaque site
+				for(Object methode : jsmethode.keySet()){
+					//si on a deja enregistré la methode
+					if(methodeUsed.containsKey(methode)){
+						//on repren l'ancienne valeur et on ajoute la nouvelle
+						methodeUsed.put((String)methode,
+								String.valueOf(Integer.parseInt(methodeUsed.get(methode))+
+										Integer.parseInt((String)jsmethode.get(methode))));
+					}else{
+						methodeUsed.put((String)methode, (String)jsmethode.get(methode));
+					}
+				}
+			}
+
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 
 		return this.values;
 	}
