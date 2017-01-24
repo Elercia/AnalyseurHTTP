@@ -25,6 +25,8 @@ public class Control_stop implements ActionListener {
 			v.stop();
 			try {
 				analyseur.finEcoute();
+
+
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}

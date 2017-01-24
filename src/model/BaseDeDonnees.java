@@ -118,18 +118,20 @@ public class BaseDeDonnees{
 				String site = this.getWebSite(requete);
 
 				//on verifie si le site à déjà été chargé
+				//donc que le fichier Json contient deja une clé qui est le nom du site
 				if(jsonObjFileContent.containsKey(site)){
-					//on recup les valeurs déja existantes
+					//on recup les valeurs déja existantes dans un objet Json
+					siteJsonObject = (JSONObject)jsonObjFileContent.get(site);
 
 					//on met à ajour le nombre de consutlations
-					siteJsonObject = (JSONObject)jsonObjFileContent.get(site);
 					siteJsonObject.put("consultations", (Integer)siteJsonObject.get("consultations")+1);
 
 					//on met a jour le nombre de methodes utilisées
 					JSONObject jsonObjectMethod = (JSONObject)siteJsonObject.get("methodes");
 					String methode = this.getMethod(requete);
+
 					if(jsonObjectMethod.containsKey(methode))
-						jsonObjectMethod.put(methode, (Integer)siteJsonObject.get(methode)+1);
+						jsonObjectMethod.put(methode, (Integer)jsonObjectMethod.get(methode)+1);
 					else
 						jsonObjectMethod.put(methode, 1);
 					siteJsonObject.put("methodes", jsonObjectMethod);
@@ -155,7 +157,7 @@ public class BaseDeDonnees{
 
 				}else{
 					//si la page n'à pas enore été chargée alors on initialise des valeurs par defauts
-					// vallant celles du premeiere header
+					// vallant celles du premiere header
 
 					//le nombre de consultations
 					siteJsonObject.put("consultations", 1);
@@ -179,7 +181,7 @@ public class BaseDeDonnees{
 
 				//finalement on ajoute les valeurs dans un json pour le site
 				jsonObjFileContent.put(site, siteJsonObject);
-				System.out.println("Json modifié pour "+site+" en "+siteJsonObject.toJSONString());
+				//System.out.println("Json modifié pour "+site+" en "+siteJsonObject.toJSONString());
 			}
 			System.out.println("Final json : "+jsonObjFileContent.toJSONString());
 			jsonObjFileContent.writeJSONString(new BufferedWriter(new FileWriter(this.fichier)));
@@ -195,8 +197,10 @@ public class BaseDeDonnees{
 		header = header.toLowerCase();
 		if (header.contains("host: ")) {
 			//on recupère l'host
-			//c'est la sous chaine a partir de l'index de "Host: " jusqu'aux premier "\n" (en partant du meme index)
-			String host = (header.substring(header.indexOf("host: ") + ("host: ").length(), header.indexOf("\n", header.indexOf("host: ")))).trim();
+			//c'est la sous chaine a partir de l'index de "Host: "
+			// jusqu'aux premier "\n" (en partant du meme index)
+			String host = (header.substring(header.indexOf("host: ") + ("host: ").length(), header.indexOf("\n",
+					header.indexOf("host: ")))).trim();
 			if(host.contains(":"))
 				host = host.split(":")[0];
 			return host;
@@ -205,17 +209,19 @@ public class BaseDeDonnees{
 	}
 
 	private String getMethod(String header){
-		String methode = header.split(" ", 1)[0];
+		String methode = header.split(" ", 2)[0];
 
-		return methode.isEmpty()?"undefined":methode;
+		return methode == null || methode.isEmpty()?"undefined":methode;
 	}
 
 	private int getLength(String header){
 		header = header.toLowerCase();
 		if (header.contains("Content-Length: ")) {
-			//on recupère l'host
-			//c'est la sous chaine a partir de l'index de "Host: " jusqu'aux premier "\n" (en partant du meme index)
-			String length = (header.substring(header.indexOf("Content-Length: ") + ("Content-Length: ").length(), header.indexOf("\n", header.indexOf("Content-Length: ")))).trim();
+			//on recupère la valeur de la taille du contenu
+			//c'est la sous chaine a partir de l'index de "Content-Length: "
+			// jusqu'aux premier "\n" (en partant du meme index)
+			String length = (header.substring(header.indexOf("Content-Length: ") + ("Content-Length: ").length(),
+					header.indexOf("\n", header.indexOf("Content-Length: ")))).trim();
 
 			return Integer.parseInt(length);
 		}

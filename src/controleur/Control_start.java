@@ -25,7 +25,7 @@ public class Control_start implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if ((e.getSource()).equals(start)){
-      /*
+			/*
       - transformation du bouton en pause
       - bouton stop apparait
       - demarage de la capture
@@ -63,8 +63,10 @@ public class Control_start implements ActionListener {
 									System.err.println("port indisponible");
 								}
 
-								analyseur.start();
-								//System.out.println("nique ta mere");
+								
+								Thread t = new Thread(analyseur);
+								t.start();
+
 								v.start();
 
 							}
@@ -86,8 +88,8 @@ public class Control_start implements ActionListener {
 								System.err.println("port indisponible");
 							}
 
-							analyseur.start();
-							//System.out.println("nique ta mere");
+							Thread t = new Thread(analyseur);
+							t.start();
 							v.start();
 						}
 					}

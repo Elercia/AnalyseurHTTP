@@ -10,7 +10,7 @@ import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Analyseur extends Thread {
+public class Analyseur implements Runnable {
 
 	private ArrayList<ProxyHTTP> proxysHTTP;
 	private ArrayList<ProxyHTTPS> proxysHTTPS;
@@ -41,21 +41,24 @@ public class Analyseur extends Thread {
 	}
 
 	public void setPort(int port)throws IOException{
-		this.serverSocket = new ServerSocket(port);
+		if(serverSocket == null)
+			this.serverSocket = new ServerSocket(port);
 
-		SSLServerSocketFactory sf = (SSLServerSocketFactory)SSLServerSocketFactory.getDefault();
-		this.serverSSLSocket = (SSLServerSocket)sf.createServerSocket(port+1);
-		this.serverSSLSocket.setEnableSessionCreation(true);
-
-		System.out.println("Proxy HTTP lancé sur le port "+port+" et proxy HTTPS lancé sur le port " + (port+1));
+		if(serverSSLSocket == null) {
+			SSLServerSocketFactory sf = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
+			this.serverSSLSocket = (SSLServerSocket) sf.createServerSocket(port + 1);
+			this.serverSSLSocket.setEnableSessionCreation(true);
+		}
+		System.out.println("Proxy HTTP lancé sur le port "+port+" " +
+				"et proxy HTTPS lancé sur le port " + port+1);
 	}
 
 	public void setFile(File f){
 		if(f == null) {
 			this.bdd = new BaseDeDonnees((File)null);
 		}
-		else
-			this.bdd= new BaseDeDonnees(f);
+		else if(this.bdd == null)
+			this.bdd = new BaseDeDonnees(f);
 	}
 
 	public void setProxy(String adress, int port){
@@ -120,7 +123,11 @@ public class Analyseur extends Thread {
 	 */
 	public void finEcoute() throws IOException {
 		this.listening = false;
-
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		Iterator<ProxyHTTP> it1 = this.proxysHTTP.iterator();
 
 		ProxyHTTP p;
@@ -149,9 +156,10 @@ public class Analyseur extends Thread {
 		ProxyHTTP.PROXY_NUMBERS=0;
 		ProxyHTTPS.PROXY_NUMBERS=0;
 
-
-		this.serverSocket.close();
-		this.serverSSLSocket.close();
+//		if(!serverSocket.isClosed())
+//			this.serverSocket.close();
+//		if(!serverSSLSocket.isClosed())
+//			this.serverSSLSocket.close();
 
 		this.saveData();
 	}
