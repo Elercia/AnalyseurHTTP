@@ -46,11 +46,13 @@ public class ProxyHTTPS extends Thread {
             int len = incommingIS.read(b);
 
             if (len > 0) {//si ya de la data
-                this.clientSocket.startHandshake();
+//                this.clientSocket.startHandshake();
                 System.out.println("HTTPS recus");
                 //représente le header de demande
                 String h1 = new String(b, 0, len);
-
+                if(h1.contains("CONNECT")){
+                    return;
+                }
                 String host = "";
                 host = this.getHost(h1);
                 int port;
@@ -121,8 +123,7 @@ public class ProxyHTTPS extends Thread {
                 socket.close();
                 clientSocket.close();
 
-                String toSave = h1 +" "+ h2;
-                this.bdd.enregistrement(h1, h2);
+                //this.bdd.enregistrement(h1, h2);
 
             } else {
                 incommingIS.close();
