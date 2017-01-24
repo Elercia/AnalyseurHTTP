@@ -41,6 +41,10 @@ public class BaseDeDonnees{
 		this.setFile(f);
 	}
 
+	/**
+	 * Fonction utilisé pour set le fichier à utiliser
+	 * @param f @Nullable Le fichier à utiliser
+	 */
 	private void setFile(File f){
 		if(f != null)
 			fichier = f;
@@ -85,6 +89,8 @@ public class BaseDeDonnees{
 								nbCookiesCreated    = new HashMap<>(),
 								usedWebSite         = new HashMap<>(),
 								methodeUsed         = new HashMap<>();
+
+
 
 		return this.values;
 	}
@@ -190,6 +196,9 @@ public class BaseDeDonnees{
 			BufferedWriter w = new BufferedWriter(new FileWriter(this.fichier));
 			w.write(jsonObjFileContent.toJSONString());
 			w.close();
+
+			headersBuffer.clear();
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ParseException e) {
