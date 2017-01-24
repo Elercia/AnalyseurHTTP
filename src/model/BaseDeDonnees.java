@@ -38,6 +38,10 @@ public class BaseDeDonnees{
 	public BaseDeDonnees(File f){
 		this.values = new HashMap<>();
 		this.headersBuffer = new ArrayList<>();
+		this.setFile(f);
+	}
+
+	private void setFile(File f){
 		if(f != null)
 			fichier = f;
 		else {
@@ -100,10 +104,8 @@ public class BaseDeDonnees{
 		JSONParser parser = new JSONParser();
 		//Toutes les hashMap pour les différent graphiques
 
-
 		try {
-			//append all to the existing file (if there is something in
-
+			//append all to the existing file (if there is something in)
 			String content = this.readAllContent();
 			//si le fichier est vide en cré un Json vide sinon on utilise le contenu du fichier
 			Object obj = parser.parse(content.isEmpty()?"{}":content);
@@ -183,9 +185,11 @@ public class BaseDeDonnees{
 				jsonObjFileContent.put(site, siteJsonObject);
 				//System.out.println("Json modifié pour "+site+" en "+siteJsonObject.toJSONString());
 			}
-			System.out.println("Final json : "+jsonObjFileContent.toJSONString());
-			jsonObjFileContent.writeJSONString(new BufferedWriter(new FileWriter(this.fichier)));
+			System.out.println("JSon sauvegarder: "+jsonObjFileContent.toJSONString());
 
+			BufferedWriter w = new BufferedWriter(new FileWriter(this.fichier));
+			w.write(jsonObjFileContent.toJSONString());
+			w.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ParseException e) {
@@ -215,13 +219,14 @@ public class BaseDeDonnees{
 	}
 
 	private int getLength(String header){
+		System.out.println("\n"+header+"\n");
 		header = header.toLowerCase();
-		if (header.contains("Content-Length: ")) {
+		if (header.contains("content-length: ")) {
 			//on recupère la valeur de la taille du contenu
 			//c'est la sous chaine a partir de l'index de "Content-Length: "
 			// jusqu'aux premier "\n" (en partant du meme index)
-			String length = (header.substring(header.indexOf("Content-Length: ") + ("Content-Length: ").length(),
-					header.indexOf("\n", header.indexOf("Content-Length: ")))).trim();
+			String length = (header.substring(header.indexOf("content-length: ") + ("content-length: ").length(),
+					header.indexOf("\n", header.indexOf("content-length: ")))).trim();
 
 			return Integer.parseInt(length);
 		}
@@ -230,11 +235,23 @@ public class BaseDeDonnees{
 
 	/**
 	 * Methode retournant tous les cookies set par le serveur
+	 *
+	 * les cookies sont sous la forme
+	 * Set-Cookie: theme=light
+	 * Set-Cookie: sessionToken=abc123; Expires=Wed, 09 Jun 2021 10:18:14 GMT
 	 * @param header le header de reponse du serveur
 	 * @return une hashMap assossiant nom -> valeur
 	 */
 	private HashMap<String, String> getCookie(String header){
-		//TODO : à implementer
-		return new HashMap<>();
+		HashMap<String, String> map = new HashMap<>();
+		for(String line : header.split("\n")){
+			if(line.contains("Set-Cookie: ")){
+				String[] cookie = line.substring("Set-Cookie: ".length()).split("=",2);
+				map.put(cookie[0], cookie[1]);
+			}
+			if(line.equals("\r\n") || line.equals("\n"))
+				break;
+		}
+		return map;
 	}
 }

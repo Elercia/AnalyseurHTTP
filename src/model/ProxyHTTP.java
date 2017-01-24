@@ -133,7 +133,7 @@ public class ProxyHTTP extends Thread {
 
         if(isUsingProxy){
             String s = this.proxyAdresse+":"+this.proxyPort;
-            System.out.println("L'host Utilisé est un proxy ("+s+")");
+            //System.out.println("L'host Utilisé est un proxy ("+s+")");
             return s;
         }else {
             header = header.toLowerCase();

@@ -102,9 +102,6 @@ public class ProxyHTTPS extends Thread {
                 System.out.write(b, 0, len);
                 System.out.println("serveur -> client");
 
-
-
-
                 OutputStream incommingOS = clientSocket.getOutputStream();
                 InputStream outgoingIS = socket.getInputStream();
 

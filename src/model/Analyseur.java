@@ -50,7 +50,7 @@ public class Analyseur implements Runnable {
 			this.serverSSLSocket.setEnableSessionCreation(true);
 		}
 		System.out.println("Proxy HTTP lancé sur le port "+port+" " +
-				"et proxy HTTPS lancé sur le port " + port+1);
+				"et proxy HTTPS lancé sur le port " + (port+1));
 	}
 
 	public void setFile(File f){
@@ -123,11 +123,7 @@ public class Analyseur implements Runnable {
 	 */
 	public void finEcoute() throws IOException {
 		this.listening = false;
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+
 		Iterator<ProxyHTTP> it1 = this.proxysHTTP.iterator();
 
 		ProxyHTTP p;

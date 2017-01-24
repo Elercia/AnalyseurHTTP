@@ -63,7 +63,7 @@ public class Control_start implements ActionListener {
 									System.err.println("port indisponible");
 								}
 
-								
+
 								Thread t = new Thread(analyseur);
 								t.start();
 
