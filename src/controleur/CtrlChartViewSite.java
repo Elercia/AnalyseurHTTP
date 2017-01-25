@@ -1,10 +1,5 @@
 package controleur;
 
-import java.awt.event.*;
-import java.util.HashMap;
-import java.util.Map;
-import javax.swing.*;
-
 import model.Analyseur;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -12,22 +7,29 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.ui.RefineryUtilities;
-import view.*;
+import view.ChartMethode;
+import view.View;
 
-public class CtrlChartMethode implements ActionListener {
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
-    private JButton bmethode;
+public class CtrlChartViewSite implements ActionListener {
+
+    private JButton bsite;
     private View v;
     private Analyseur analyseur;
 
-    public CtrlChartMethode(JButton bmethode, View vu, Analyseur a) {
+    public CtrlChartViewSite(JButton bsite, View vu, Analyseur a) {
         v=vu;
-        this.bmethode=bmethode;
+        this.bsite=bsite;
         this.analyseur=a;
     }
 
     public void actionPerformed(ActionEvent e) {
-        if ((e.getSource()).equals(bmethode)){
+        if ((e.getSource()).equals(bsite)){
             try{
                 System.out.println(this.analyseur.getData());
                 HashMap<String, HashMap<String, Object>> data = this.analyseur.getData();
@@ -42,7 +44,7 @@ public class CtrlChartMethode implements ActionListener {
                 System.out.println("poidPageCharged : " + poidPageCharged);
                 System.out.println("nbCookiesCreated : " + nbCookiesCreated);
 
-                ChartMethode methode = new ChartMethode( "methode", createDemoPanel(methodeUsed));
+                ChartMethode methode = new ChartMethode( "page", createDemoPanel(nbPageCharged));
                 methode.setSize( 560 , 367 );
                 RefineryUtilities.centerFrameOnScreen( methode );
                 methode.setVisible( true );

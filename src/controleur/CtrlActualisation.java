@@ -29,8 +29,8 @@ public class CtrlActualisation implements ActionListener {
 				HashMap<String, HashMap<String, Object>> data = this.analyseur.getData();
 
 				HashMap<String, Object> methodeUsed = data.get("methodeUsed");
-				HashMap<String, Object> nbPageCharged = data.get("nbPageCharged");
-				HashMap<String, Object> poidPageCharged = data.get("poidPageCharged");
+				HashMap<String, Object> nbPageCharged = data.get("nbPagesCharged");
+				HashMap<String, Object> poidPageCharged = data.get("poidPagesCharged");
 				HashMap<String, Object> nbCookiesCreated = data.get("nbCookiesCreated");
 
 				System.out.println("methodeUsed : " + methodeUsed);
@@ -43,7 +43,8 @@ public class CtrlActualisation implements ActionListener {
 				v.maj_pagecharge("4");
 				v.maj_poid("5");
 				v.maj_cookie("5");
-				v.maj_site("google");
+				//v.maj_site(nbPageCharged.toString());
+				v.maj_site("nbPageCharged.toString()");
 				v.maj_methode(methodeUsed.toString());
 				JOptionPane.showMessageDialog(null,"actualisé");
 			}catch(Exception exeption){

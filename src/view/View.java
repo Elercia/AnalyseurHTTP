@@ -180,6 +180,9 @@ public class View {
     CtrlChartMethode ctrlChartMethode = new CtrlChartMethode(bmethode, this, analyseur);
     bmethode.addActionListener(ctrlChartMethode);
 
+    CtrlChartViewSite ctrlChartViewSite = new CtrlChartViewSite(bsite, this, analyseur);
+    bsite.addActionListener(ctrlChartViewSite);
+
     onglet2_1.add(txtcap);
     onglet2_1.add(tmpCapture);
     onglet2_1.add(bcap);
