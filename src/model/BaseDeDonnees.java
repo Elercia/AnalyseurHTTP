@@ -145,8 +145,8 @@ public class BaseDeDonnees{
 					if(methodeUsed.containsKey(methode)){
 						//on repren l'ancienne valeur et on ajoute la nouvelle
 						methodeUsed.put((String)methode,
-								Integer.parseInt((String)methodeUsed.get(methode)) +
-								Integer.parseInt((String)jsmethode.get(methode))
+								(Long)methodeUsed.get(methode) +
+								(Long)jsmethode.get(methode)
 						);
 
 					}else{

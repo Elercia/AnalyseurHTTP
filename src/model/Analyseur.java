@@ -72,7 +72,7 @@ public class Analyseur implements Runnable {
 		this.proxyPort = port;
 	}
 
-	public HashMap<String, HashMap<String, String>> getData(){
+	public HashMap<String, HashMap<String, Object>> getData(){
 		return this.bdd.actuValues();
 	}
 

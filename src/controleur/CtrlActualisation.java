@@ -26,12 +26,12 @@ public class CtrlActualisation implements ActionListener {
 		if ((e.getSource()).equals(actu)){
 			try{
 				System.out.println(this.analyseur.getData());
-				HashMap<String, HashMap<String, String>> data = this.analyseur.getData();
+				HashMap<String, HashMap<String, Object>> data = this.analyseur.getData();
 
-				HashMap<String, String> methodeUsed = data.get("methodeUsed");
-				HashMap<String, String> nbPageCharged = data.get("nbPageCharged");
-				HashMap<String, String> poidPageCharged = data.get("poidPageCharged");
-				HashMap<String, String> nbCookiesCreated = data.get("nbCookiesCreated");
+				HashMap<String, Object> methodeUsed = data.get("methodeUsed");
+				HashMap<String, Object> nbPageCharged = data.get("nbPageCharged");
+				HashMap<String, Object> poidPageCharged = data.get("poidPageCharged");
+				HashMap<String, Object> nbCookiesCreated = data.get("nbCookiesCreated");
 
 				System.out.println("methodeUsed : " + methodeUsed);
 				System.out.println("nbPageCharged : " + nbPageCharged);
