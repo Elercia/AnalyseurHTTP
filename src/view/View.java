@@ -1,3 +1,7 @@
+/*
+*@author : Jules LE BRIS
+ */
+
 package view;
 
 import java.awt.Dimension;
