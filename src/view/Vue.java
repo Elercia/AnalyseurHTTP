@@ -11,7 +11,7 @@ import model.Analyseur;
 
 
 public class Vue {
-  private JBoutonMod stop, start_pause;
+  private JBoutonMod stop, start;
   private JLabel txtprox, txtproxy, txtport;
   private JRadioButton proxy_oui, proxy_non, param_auto, param_man;
   private JTextField adressProxySysteme;
@@ -118,12 +118,12 @@ public class Vue {
     Control_stop control_stop = new Control_stop(stop, this, analyseur);
     stop.addActionListener(control_stop);
 
-    start_pause = new JBoutonMod("Start");
-    start_pause.setPreferredSize(new Dimension(100, 25));
-    onglet1_3.add(start_pause);
-    Control_start control_start = new Control_start(start_pause, this, analyseur
+    start = new JBoutonMod("Start");
+    start.setPreferredSize(new Dimension(100, 25));
+    onglet1_3.add(start);
+    Control_start control_start = new Control_start(start, this, analyseur
     );
-    start_pause.addActionListener(control_start);
+    start.addActionListener(control_start);
 
 
     JPanel onglet1_G = new JPanel();
@@ -263,7 +263,7 @@ public class Vue {
   }
 
   public void start(){
-    this.start_pause.setText("Pause");
+    this.start.setVisible(false);
     this.stop.setVisible(true);
     this.proxyPortLogiciel.setEnabled(false);
     this.proxyPort.setEnabled(false);
@@ -276,12 +276,9 @@ public class Vue {
     this.onglets.setEnabled(false);
   }
 
-  public void pause(){
-    this.start_pause.setText("Start");
-  }
 
   public void stop(){
-    this.start_pause.setText("Start");
+    this.start.setVisible(true);
     this.stop.setVisible(false);
     this.proxyPortLogiciel.setEnabled(true);
     this.proxyPort.setEnabled(true);
@@ -321,6 +318,16 @@ public class Vue {
     adressProxySysteme.setVisible(false);
     txtport.setVisible(false);
     proxyPort.setVisible(false);
+  }
+
+  public void beforeStop(){
+    //stop.setVisible(false);
+    stop.setText("Chargement ....");
+  }
+
+  public void afterStop(){
+    //stop.setVisible(true);
+    stop.setText("Stop");
   }
 
   //maj affichge
