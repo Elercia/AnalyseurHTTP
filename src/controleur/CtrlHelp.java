@@ -4,19 +4,17 @@ import java.awt.event.*;
 import javax.swing.*;
 import view.*;
 
-import java.awt.*;
 import java.io.*;
-import java.nio.file.*;
 //import ihm.modele.*;
 
 public class CtrlHelp implements ActionListener {
 
 	private JMenuItem aide;
-	private Vue v;
+	private View v;
 	/*private CarnetAdresse c;*/
 
 
-	public CtrlHelp(JMenuItem aide, Vue vu) {
+	public CtrlHelp(JMenuItem aide, View vu) {
 		v=vu;
     this.aide=aide;
 	}

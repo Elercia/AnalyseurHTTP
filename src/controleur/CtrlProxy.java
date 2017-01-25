@@ -9,11 +9,11 @@ public class CtrlProxy implements ActionListener {
 
 	private JRadioButton oui;
   private JRadioButton non;
-	private Vue v;
+	private View v;
 	/*private CarnetAdresse c;*/
 
 
-	public CtrlProxy(JRadioButton oui, JRadioButton non, Vue vu) {
+	public CtrlProxy(JRadioButton oui, JRadioButton non, View vu) {
 		v=vu;
     this.oui=oui;
     this.non=non;

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 public class Analyseur implements Runnable {
@@ -66,6 +67,10 @@ public class Analyseur implements Runnable {
 		this.usingProxy = true;
 		this.proxyAdress = adress;
 		this.proxyPort = port;
+	}
+
+	public HashMap<String, HashMap<String, String>> getData(){
+		return this.bdd.actuValues();
 	}
 
 	@Override

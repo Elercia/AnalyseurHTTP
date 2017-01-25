@@ -10,10 +10,10 @@ public class Control_stop implements ActionListener {
 
 	//private JButton stop;
 	private JBoutonMod stop;
-	private Vue v;
+	private View v;
 	private Analyseur analyseur;
 
-	public Control_stop(JBoutonMod sp, Vue vu, Analyseur a) {
+	public Control_stop(JBoutonMod sp, View vu, Analyseur a) {
 		v=vu;
     	stop=sp;
 		analyseur=a;
@@ -26,6 +26,7 @@ public class Control_stop implements ActionListener {
 			try {
 				v.beforeStop();
 				analyseur.finEcoute();
+
 				v.afterStop();
 				v.stop();
 			} catch (IOException e1) {

@@ -9,11 +9,11 @@ public class CtrlConfiguration implements ActionListener {
 
 	private JRadioButton auto;
   	private JRadioButton man;
-	private Vue v;
+	private View v;
 	/*private CarnetAdresse c;*/
 
 
-	public CtrlConfiguration(JRadioButton auto, JRadioButton man, Vue vu) {
+	public CtrlConfiguration(JRadioButton auto, JRadioButton man, View vu) {
 		v=vu;
     this.auto=auto;
     this.man=man;

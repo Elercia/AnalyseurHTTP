@@ -12,12 +12,12 @@ public class Control_start implements ActionListener {
 
 	//private JButton start;
 	private JBoutonMod start;
-	private Vue v;
+	private View v;
 	private Analyseur analyseur;
 	/*private CarnetAdresse c;*/
 
 
-	public Control_start(JBoutonMod st, Vue vu, Analyseur a) {
+	public Control_start(JBoutonMod st, View vu, Analyseur a) {
 		v=vu;
     	start=st;
 		analyseur=a;

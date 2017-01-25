@@ -6,19 +6,16 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import model.Analyseur;
 import view.*;
-import java.awt.*;
-import java.io.*;
-import java.nio.file.*;
 
 public class CtrlOpen implements ActionListener {
 
     private JMenuItem ouvrir;
-    private Vue v;
+    private View v;
     private Analyseur analyseur;
 	/*private CarnetAdresse c;*/
 
 
-    public CtrlOpen(JMenuItem ouvrir, Vue vu, Analyseur a) {
+    public CtrlOpen(JMenuItem ouvrir, View vu, Analyseur a) {
         v=vu;
         this.ouvrir=ouvrir;
         analyseur=a;

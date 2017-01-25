@@ -10,7 +10,7 @@ import model.Analyseur;
 //http://proxyetu.iut-nantes.univ-nantes.prive:3128
 
 
-public class Vue {
+public class View {
   private JBoutonMod stop, start;
   private JLabel txtprox, txtproxy, txtport;
   private JRadioButton proxy_oui, proxy_non, param_auto, param_man;
@@ -23,7 +23,7 @@ public class Vue {
   //modele
   private Analyseur analyseur;
 
-  public Vue(){
+  public View(){
     Analyseur analyseur=new Analyseur();
 
     JFrame f = new JFrame("Projet Analyseur");
@@ -121,8 +121,7 @@ public class Vue {
     start = new JBoutonMod("Start");
     start.setPreferredSize(new Dimension(100, 25));
     onglet1_3.add(start);
-    Control_start control_start = new Control_start(start, this, analyseur
-    );
+    Control_start control_start = new Control_start(start, this, analyseur);
     start.addActionListener(control_start);
 
 
@@ -201,7 +200,7 @@ public class Vue {
     JPanel onglet2_2 = new JPanel();
     JButton actu = new JButton("refresh");
     onglet2_2.add(actu);
-    CtrlActualisation ctrlActualisation = new CtrlActualisation(actu, this);
+    CtrlActualisation ctrlActualisation = new CtrlActualisation(actu, this, analyseur);
     actu.addActionListener(ctrlActualisation);
 
 
@@ -397,6 +396,6 @@ public class Vue {
 
   public static void main(String[] args) {
     setBestLookAndFeelAvailable();
-    Vue fenetre = new Vue();
+    View fenetre = new View();
   }
 }
