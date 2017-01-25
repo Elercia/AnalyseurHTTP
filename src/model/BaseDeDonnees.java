@@ -120,10 +120,10 @@ public class BaseDeDonnees{
 				JSONObject siteJsonObj = (JSONObject)jsonObjFileContent.get(objs);
 
 				//on ajoute a la map du nombre de pages charge le site vers son nb de consultations
-				nbPagesCharged.put(site, String.valueOf((Integer)siteJsonObj.get("consultations")));
+				nbPagesCharged.put(site, String.valueOf((Long)siteJsonObj.get("consultations")));
 
 				//on ajoute a la map du des poids des pages chargé le poid total
-				poidPagesCharged.put(site, String.valueOf((Integer)siteJsonObj.get("poidTotal")));
+				poidPagesCharged.put(site, String.valueOf((Long)siteJsonObj.get("poidTotal")));
 
 				//si le site a mis en place des cookies
 				if(siteJsonObj.containsKey("cookies"))
@@ -148,7 +148,7 @@ public class BaseDeDonnees{
 								String.valueOf(Integer.parseInt(methodeUsed.get(methode))+
 										Integer.parseInt((String)jsmethode.get(methode))));
 					}else{
-						methodeUsed.put((String)methode, (String)jsmethode.get(methode));
+						methodeUsed.put((String)methode, String.valueOf((Long)jsmethode.get(methode)));
 					}
 				}
 			}
@@ -196,12 +196,16 @@ public class BaseDeDonnees{
 			Object obj = parser.parse(content.isEmpty()?"{}":content);
 			JSONObject jsonObjFileContent = (JSONObject) obj;
 
+			//une variable pour stocker les json object en rapport avec un site
 			JSONObject siteJsonObject = new JSONObject();
 
+			//pour toute les paires dans le buffer
 			for(Pair<String, String> p_header : this.headersBuffer){
+				//on recupère la requete et la reponse
 				String requete = p_header.getKey();
 				String response = p_header.getValue();
 
+				//le site correspond à l'host de la requete
 				String site = this.getWebSite(requete);
 
 				//on verifie si le site à déjà été chargé
@@ -211,9 +215,9 @@ public class BaseDeDonnees{
 					siteJsonObject = (JSONObject)jsonObjFileContent.get(site);
 
 					//on met à ajour le nombre de consutlations
-					System.out.println("Consultation Avant : "+((Integer)siteJsonObject.get("consultations")));
+					System.out.println("Consultation Avant : "+(siteJsonObject.get("consultations")));
 					siteJsonObject.put("consultations", (Integer)siteJsonObject.get("consultations")+1);
-					System.out.println("Consultation Apres : "+((Integer)siteJsonObject.get("consultations")));
+					System.out.println("Consultation Apres : "+(siteJsonObject.get("consultations")));
 
 
 					//on met a jour le nombre de methodes utilisées
@@ -268,7 +272,9 @@ public class BaseDeDonnees{
 					}
 
 					//on ajoute le poid
-					siteJsonObject.put("poidTotal", this.getLength(response));
+					int length = this.getLength(response);
+					siteJsonObject.put("poidTotal", length);
+					System.out.println("Premier Json généré : "+site+" / "+siteJsonObject);
 				}
 
 				//finalement on ajoute les valeurs dans un json pour le site

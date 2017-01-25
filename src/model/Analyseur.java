@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -139,31 +140,32 @@ public class Analyseur implements Runnable {
 		this.isStoping =true;
 		this.listening = false;
 
-		Iterator<ProxyHTTP> it1 = this.proxysHTTP.iterator();
+			Iterator<ProxyHTTP> it1 = this.proxysHTTP.iterator();
 
-		ProxyHTTP p;
-		while(it1.hasNext())
-		{
-			p = it1.next();
-			try {
-				if(p != null)
-					p.join();
-			}catch (InterruptedException e){
-				//rien de plus
+			ProxyHTTP p;
+			while (it1.hasNext()) {
+				p = it1.next();
+				try {
+					if (p != null)
+						p.join();
+				}catch (ConcurrentModificationException e){
+					System.err.println("Erreur concurrente");
+				} catch (InterruptedException e) {
+					//rien de plus
+				}
 			}
-		}
 
-		Iterator<ProxyHTTPS> it2 = this.proxysHTTPS.iterator();
-		ProxyHTTPS pp;
-		while(it2.hasNext())
-		{
-			pp = it2.next();
-			try {
-				pp.join();
-			}catch (InterruptedException e){
-				//rien de plus
+			Iterator<ProxyHTTPS> it2 = this.proxysHTTPS.iterator();
+			ProxyHTTPS pp;
+			while (it2.hasNext()) {
+				pp = it2.next();
+				try {
+					pp.join();
+				} catch (InterruptedException e) {
+					//rien de plus
+				}
 			}
-		}
+
 		ProxyHTTP.PROXY_NUMBERS=0;
 		ProxyHTTPS.PROXY_NUMBERS=0;
 

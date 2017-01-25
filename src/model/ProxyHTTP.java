@@ -35,6 +35,7 @@ public class ProxyHTTP extends Thread {
 
     public void run() {
         try {
+            long startTime = System.currentTimeMillis();
             // Read request
             InputStream incommingIS = clientSocket.getInputStream();
             byte[] b = new byte[BUFFER_SIZE];
@@ -98,6 +99,10 @@ public class ProxyHTTP extends Thread {
                 incommingIS.close();
                 socket.close();
                 clientSocket.close();
+
+                long stopTime = System.currentTimeMillis();
+                long timeUsed = stopTime-startTime;
+                h1+="\ntimeUsed:"+ timeUsed;
 
                 this.bdd.enregistrement(h1, h2);
 
