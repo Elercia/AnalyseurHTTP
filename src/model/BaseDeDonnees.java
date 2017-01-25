@@ -84,10 +84,10 @@ public class BaseDeDonnees{
 		//@see declaration de la variable
 
 		HashMap<String, String> nbPagesCharged      = new HashMap<>(),
-								poidPagesCharged    = new HashMap<>(),
-								nbCookiesCreated    = new HashMap<>(),
+				poidPagesCharged    = new HashMap<>(),
+				nbCookiesCreated    = new HashMap<>(),
 //								usedWebSite         = new HashMap<>(),
-								methodeUsed         = new HashMap<>();
+				methodeUsed         = new HashMap<>();
 
 		//Si ya déjà des valeurs dans les hash map
 		//je sais pas si c'est vraiment utile
@@ -146,9 +146,9 @@ public class BaseDeDonnees{
 						//on repren l'ancienne valeur et on ajoute la nouvelle
 						methodeUsed.put((String)methode,
 								String.valueOf(Integer.parseInt(methodeUsed.get(methode))+
-										Integer.parseInt((String) jsmethode.get(methode))));
+										Integer.parseInt((String)jsmethode.get(methode))));
+
 					}else{
-						//methodeUsed.put((String)methode, String.valueOf((Long)jsmethode.get(methode)));
 						methodeUsed.put((String)methode, String.valueOf((Long)jsmethode.get(methode)));
 					}
 				}
@@ -216,9 +216,7 @@ public class BaseDeDonnees{
 					siteJsonObject = (JSONObject)jsonObjFileContent.get(site);
 
 					//on met à ajour le nombre de consutlations
-					System.out.println("Consultation Avant : "+(siteJsonObject.get("consultations")));
 					siteJsonObject.put("consultations", (Integer)siteJsonObject.get("consultations")+1);
-					System.out.println("Consultation Apres : "+(siteJsonObject.get("consultations")));
 
 
 					//on met a jour le nombre de methodes utilisées
@@ -238,7 +236,7 @@ public class BaseDeDonnees{
 					if(!map.isEmpty()){//il n'y a pas de cookie a faire on garde donc les meme valeurs que avant
 						JSONObject jsonObjCookies;
 						if(siteJsonObject.containsKey("cookies"))
-							 jsonObjCookies = (JSONObject)siteJsonObject.get("cookies");
+							jsonObjCookies = (JSONObject)siteJsonObject.get("cookies");
 						else
 							jsonObjCookies = new JSONObject();
 						//on rempli les cookies
@@ -247,10 +245,8 @@ public class BaseDeDonnees{
 						siteJsonObject.put("cookies", jsonObjCookies);
 					}
 
-					System.out.println("Poid Avant : "+((Integer)siteJsonObject.get("poidTotal")));
 					//on mets a jour le poids total des pages chargées
 					siteJsonObject.put("poidTotal", (Integer)siteJsonObject.get("poidTotal")+this.getLength(response));
-					System.out.println("Poid apres : "+((Integer)siteJsonObject.get("poidTotal")));
 
 				}else{
 					//si la page n'à pas enore été chargée alors on initialise des valeurs par defauts
