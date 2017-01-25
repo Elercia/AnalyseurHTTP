@@ -21,12 +21,10 @@ public class Control_stop implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if ((e.getSource()).equals(stop)){
-
-
 			try {
 				v.beforeStop();
 				analyseur.finEcoute();
-
+				while(analyseur.isStoping()){}
 				v.afterStop();
 				v.stop();
 			} catch (IOException e1) {

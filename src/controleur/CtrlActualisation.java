@@ -1,6 +1,8 @@
 package controleur;
 
 import java.awt.event.*;
+import java.io.IOException;
+import java.util.HashMap;
 import javax.swing.*;
 import model.Analyseur;
 import view.*;
@@ -22,15 +24,32 @@ public class CtrlActualisation implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if ((e.getSource()).equals(actu)){
-			System.out.println(this.analyseur.getData());
+			try{
+				System.out.println(this.analyseur.getData());
+				HashMap<String, HashMap<String, String>> data = this.analyseur.getData();
 
-			v.maj_cap("3");
-			v.maj_pagecharge("4");
-			v.maj_poid("5");
-			v.maj_cookie("5");
-			v.maj_site("google");
-			v.maj_methode("test");
-			JOptionPane.showMessageDialog(null,"actualisé");
+				HashMap<String, String> methodeUsed = data.get("methodeUsed");
+				HashMap<String, String> nbPageCharged = data.get("nbPageCharged");
+				HashMap<String, String> poidPageCharged = data.get("poidPageCharged");
+				HashMap<String, String> nbCookiesCreated = data.get("nbCookiesCreated");
+
+				System.out.println("methodeUsed : " + methodeUsed);
+				System.out.println("nbPageCharged : " + nbPageCharged);
+				System.out.println("poidPageCharged : " + poidPageCharged);
+				System.out.println("nbCookiesCreated : " + nbCookiesCreated);
+
+
+				v.maj_cap("3");
+				v.maj_pagecharge("4");
+				v.maj_poid("5");
+				v.maj_cookie("5");
+				v.maj_site("google");
+				v.maj_methode(methodeUsed.toString());
+				JOptionPane.showMessageDialog(null,"actualisé");
+			}catch(Exception exeption){
+				JOptionPane.showMessageDialog(null,"recupération des données impossible","ERREUR",JOptionPane.ERROR_MESSAGE);
+				exeption.printStackTrace();
+			}
 			//JOptionPane.showMessageDialog(null,"erreur","FATAL ERROR 404", JOptionPane.ERROR_MESSAGE);
 		}
 	}

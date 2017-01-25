@@ -27,8 +27,6 @@ public class JBoutonMod extends JButton {
         setForeground(Color.white);
     }
 
-
-
     protected void paintComponent(Graphics g)
     {
 

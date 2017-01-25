@@ -146,8 +146,9 @@ public class BaseDeDonnees{
 						//on repren l'ancienne valeur et on ajoute la nouvelle
 						methodeUsed.put((String)methode,
 								String.valueOf(Integer.parseInt(methodeUsed.get(methode))+
-										Integer.parseInt((String)jsmethode.get(methode))));
+										Integer.parseInt((String) jsmethode.get(methode))));
 					}else{
+						//methodeUsed.put((String)methode, String.valueOf((Long)jsmethode.get(methode)));
 						methodeUsed.put((String)methode, String.valueOf((Long)jsmethode.get(methode)));
 					}
 				}

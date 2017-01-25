@@ -322,11 +322,15 @@ public class View {
   public void beforeStop(){
     //stop.setVisible(false);
     stop.setText("Chargement ....");
+      start.setText("Chargement ....");
+      JOptionPane.showMessageDialog(null,"beforeStop","DEBUG",JOptionPane.ERROR_MESSAGE);
   }
 
   public void afterStop(){
     //stop.setVisible(true);
     stop.setText("Stop");
+      start.setText("Start");
+      JOptionPane.showMessageDialog(null,"afterStop","DEBUG",JOptionPane.ERROR_MESSAGE);
   }
 
   //maj affichge
