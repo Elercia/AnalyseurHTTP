@@ -177,13 +177,8 @@ public class View {
     JButton bsite =new JButton("more info");
     JButton bmethode =new JButton("more info");
 
-    CtrlChart ctrlChart = new CtrlChart(bcap, bpagechar,bpoid, bcookie, bsite, bmethode, this);
-    bcap.addActionListener(ctrlChart);
-    bpagechar.addActionListener(ctrlChart);
-    bpoid.addActionListener(ctrlChart);
-    bcookie.addActionListener(ctrlChart);
-    bsite.addActionListener(ctrlChart);
-    bmethode.addActionListener(ctrlChart);
+    CtrlChartMethode ctrlChartMethode = new CtrlChartMethode(bmethode, this, analyseur);
+    bmethode.addActionListener(ctrlChartMethode);
 
     onglet2_1.add(txtcap);
     onglet2_1.add(tmpCapture);

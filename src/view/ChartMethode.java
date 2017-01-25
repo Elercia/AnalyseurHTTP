@@ -8,47 +8,12 @@ package view;
 
 import javax.swing.*;
 
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.data.general.PieDataset;
-import org.jfree.ui.ApplicationFrame;
-import org.jfree.ui.RefineryUtilities;
-
 public class ChartMethode extends JFrame {
-    public ChartMethode(String title ) {
+    public ChartMethode(String title, JPanel j) {
         super( title );
-        setContentPane(createDemoPanel( ));
+        setContentPane(j);
     }
 
-    private static PieDataset createDataset( ) {
-        DefaultPieDataset dataset = new DefaultPieDataset( );
-        dataset.setValue( "GET" , new Double( 11 ) );
-        dataset.setValue( "POST" , new Double( 11 ) );
-        dataset.setValue( "HEAD" , new Double( 11 ) );
-        dataset.setValue( "OPTIONS" , new Double( 11 ) );
-        dataset.setValue( "CONNECT" , new Double( 11 ) );
-        dataset.setValue( "TRACE" , new Double( 11 ) );
-        dataset.setValue("PUT", new Double(11));
-        dataset.setValue( "PATCH" , new Double( 11 ) );
-        dataset.setValue( "DELETE" , new Double( 12 ) );
-        return dataset;
-    }
 
-    private static JFreeChart createChart( PieDataset dataset ) {
-        JFreeChart chart = ChartFactory.createPieChart(
-                "methode",  // chart title
-                dataset,        // data
-                true,           // include legend
-                true,
-                false);
 
-        return chart;
-    }
-
-    public static JPanel createDemoPanel( ) {
-        JFreeChart chart = createChart(createDataset( ) );
-        return new ChartPanel( chart );
-    }
 }
