@@ -27,7 +27,7 @@ public class BaseDeDonnees{
 	 *  pour le nombres de pages chargées on aura
 	 *   pageCharge -> (site1 -> 100, site2 -> 3)
 	 */
-	private HashMap<String, HashMap<String, String>> values;
+	private HashMap<String, HashMap<String, Object>> values;
 
 	/**
 	 * Crée une base de données à partir d'un fichier
@@ -77,17 +77,17 @@ public class BaseDeDonnees{
 	 * les données sont représenté par une hashMap se string vers string
 	 * @return une hashmap qui fait correspondre : site vers données
 	 */
-	public synchronized HashMap<String, HashMap<String, String>> actuValues(){
+	public synchronized HashMap<String, HashMap<String, Object>> actuValues(){
 		//on doit lire le fichier
 		//pour tous les couples Requetes, Reponse
 		//on doit les synthetiser et remplire les différent nom que la vue vas utiliser
 		//@see declaration de la variable
 
-		HashMap<String, String> nbPagesCharged      = new HashMap<>(),
-				poidPagesCharged    = new HashMap<>(),
-				nbCookiesCreated    = new HashMap<>(),
+		HashMap<String, Object> nbPagesCharged      = new HashMap<>(),
+								poidPagesCharged    = new HashMap<>(),
+								nbCookiesCreated    = new HashMap<>(),
 //								usedWebSite         = new HashMap<>(),
-				methodeUsed         = new HashMap<>();
+								methodeUsed         = new HashMap<>();
 
 		//Si ya déjà des valeurs dans les hash map
 		//je sais pas si c'est vraiment utile
@@ -120,10 +120,10 @@ public class BaseDeDonnees{
 				JSONObject siteJsonObj = (JSONObject)jsonObjFileContent.get(objs);
 
 				//on ajoute a la map du nombre de pages charge le site vers son nb de consultations
-				nbPagesCharged.put(site, String.valueOf((Long)siteJsonObj.get("consultations")));
+				nbPagesCharged.put(site, siteJsonObj.get("consultations"));
 
 				//on ajoute a la map du des poids des pages chargé le poid total
-				poidPagesCharged.put(site, String.valueOf((Long)siteJsonObj.get("poidTotal")));
+				poidPagesCharged.put(site, siteJsonObj.get("poidTotal"));
 
 				//si le site a mis en place des cookies
 				if(siteJsonObj.containsKey("cookies"))
@@ -133,7 +133,7 @@ public class BaseDeDonnees{
 					//pour tous les cookies qui on été set on prend leurs clé
 					for(Object c : cookie.keySet()){
 						//on les ajoute a la map des cookies créé
-						nbCookiesCreated.put(site+"::"+c, (String)cookie.get(c));
+						nbCookiesCreated.put(site+"::"+c, cookie.get(c));
 					}
 				}
 
@@ -145,11 +145,12 @@ public class BaseDeDonnees{
 					if(methodeUsed.containsKey(methode)){
 						//on repren l'ancienne valeur et on ajoute la nouvelle
 						methodeUsed.put((String)methode,
-								String.valueOf(Integer.parseInt(methodeUsed.get(methode))+
-										Integer.parseInt((String)jsmethode.get(methode))));
+								Integer.parseInt((String)methodeUsed.get(methode)) +
+								Integer.parseInt((String)jsmethode.get(methode))
+						);
 
 					}else{
-						methodeUsed.put((String)methode, String.valueOf((Long)jsmethode.get(methode)));
+						methodeUsed.put((String)methode, jsmethode.get(methode));
 					}
 				}
 			}
