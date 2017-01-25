@@ -89,6 +89,20 @@ public class BaseDeDonnees{
 //								usedWebSite         = new HashMap<>(),
 								methodeUsed         = new HashMap<>();
 
+		//Si ya déjà des valeurs dans les hash map
+		//je sais pas si c'est vraiment utile
+
+		if(this.values.containsKey("nbPagesCharged"))
+			nbPagesCharged.putAll(this.values.get("nbPagesCharged"));
+		if(this.values.containsKey("poidPagesCharged"))
+			poidPagesCharged.putAll(this.values.get("poidPagesCharged"));
+		if(this.values.containsKey("nbCookiesCreated"))
+			nbCookiesCreated.putAll(this.values.get("nbCookiesCreated"));
+//		if(this.values.containsKey("usedWebSite"))
+//			usedWebSite.putAll(this.values.get("usedWebSite"));
+		if(this.values.containsKey("methodeUsed"))
+			methodeUsed.putAll(this.values.get("methodeUsed"));
+
 		JSONParser parser = new JSONParser();
 		String content = null;
 		try {
@@ -145,6 +159,13 @@ public class BaseDeDonnees{
 			e.printStackTrace();
 		}
 
+		//on les mets dans la map des valeurs
+		this.values.put("nbPagesCharged", nbPagesCharged);
+		this.values.put("poidPagesCharged", poidPagesCharged);
+		this.values.put("nbCookiesCreated", nbCookiesCreated);
+//		this.values.put("usedWebSite", usedWebSite);
+		this.values.put("methodeUsed", methodeUsed);
+
 		return this.values;
 	}
 
@@ -159,6 +180,11 @@ public class BaseDeDonnees{
 		return content.toString();
 	}
 
+	/**
+	 * Traitement des pages enregistrée dans la liste de buffer
+	 *
+	 * On parse le fichier et on ajoute des données dedans
+	 */
 	public void saveData(){
 		JSONParser parser = new JSONParser();
 		//Toutes les hashMap pour les différent graphiques
@@ -166,7 +192,7 @@ public class BaseDeDonnees{
 		try {
 			//append all to the existing file (if there is something in)
 			String content = this.readAllContent();
-			//si le fichier est vide en cré un Json vide sinon on utilise le contenu du fichier
+			//si le fichier est vide on cré un Json vide sinon on utilise le contenu du fichier
 			Object obj = parser.parse(content.isEmpty()?"{}":content);
 			JSONObject jsonObjFileContent = (JSONObject) obj;
 
@@ -185,7 +211,10 @@ public class BaseDeDonnees{
 					siteJsonObject = (JSONObject)jsonObjFileContent.get(site);
 
 					//on met à ajour le nombre de consutlations
+					System.out.println("Consultation Avant : "+((Integer)siteJsonObject.get("consultations")));
 					siteJsonObject.put("consultations", (Integer)siteJsonObject.get("consultations")+1);
+					System.out.println("Consultation Apres : "+((Integer)siteJsonObject.get("consultations")));
+
 
 					//on met a jour le nombre de methodes utilisées
 					JSONObject jsonObjectMethod = (JSONObject)siteJsonObject.get("methodes");
@@ -213,8 +242,10 @@ public class BaseDeDonnees{
 						siteJsonObject.put("cookies", jsonObjCookies);
 					}
 
+					System.out.println("Poid Avant : "+((Integer)siteJsonObject.get("poidTotal")));
 					//on mets a jour le poids total des pages chargées
 					siteJsonObject.put("poidTotal", (Integer)siteJsonObject.get("poidTotal")+this.getLength(response));
+					System.out.println("Poid apres : "+((Integer)siteJsonObject.get("poidTotal")));
 
 				}else{
 					//si la page n'à pas enore été chargée alors on initialise des valeurs par defauts
@@ -281,7 +312,6 @@ public class BaseDeDonnees{
 	}
 
 	private int getLength(String header){
-		System.out.println("\n"+header+"\n");
 		header = header.toLowerCase();
 		if (header.contains("content-length: ")) {
 			//on recupère la valeur de la taille du contenu
@@ -315,5 +345,15 @@ public class BaseDeDonnees{
 				break;
 		}
 		return map;
+	}
+
+
+	public static void main(String[] args) {
+		Integer i = 1;
+		JSONObject js = new JSONObject();
+		js.put("consultation", 1);
+
+
+		System.out.println((Integer)js.get("consultation")+1);
 	}
 }
