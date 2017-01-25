@@ -92,16 +92,16 @@ public class BaseDeDonnees{
 		//Si ya déjà des valeurs dans les hash map
 		//je sais pas si c'est vraiment utile
 
-		if(this.values.containsKey("nbPagesCharged"))
-			nbPagesCharged.putAll(this.values.get("nbPagesCharged"));
-		if(this.values.containsKey("poidPagesCharged"))
-			poidPagesCharged.putAll(this.values.get("poidPagesCharged"));
-		if(this.values.containsKey("nbCookiesCreated"))
-			nbCookiesCreated.putAll(this.values.get("nbCookiesCreated"));
-//		if(this.values.containsKey("usedWebSite"))
-//			usedWebSite.putAll(this.values.get("usedWebSite"));
-		if(this.values.containsKey("methodeUsed"))
-			methodeUsed.putAll(this.values.get("methodeUsed"));
+//		if(this.values.containsKey("nbPagesCharged"))
+//			nbPagesCharged.putAll(this.values.get("nbPagesCharged"));
+//		if(this.values.containsKey("poidPagesCharged"))
+//			poidPagesCharged.putAll(this.values.get("poidPagesCharged"));
+//		if(this.values.containsKey("nbCookiesCreated"))
+//			nbCookiesCreated.putAll(this.values.get("nbCookiesCreated"));
+////		if(this.values.containsKey("usedWebSite"))
+////			usedWebSite.putAll(this.values.get("usedWebSite"));
+//		if(this.values.containsKey("methodeUsed"))
+//			methodeUsed.putAll(this.values.get("methodeUsed"));
 
 		JSONParser parser = new JSONParser();
 		String content = null;
