@@ -349,11 +349,18 @@ public class BaseDeDonnees{
 
 
 	public static void main(String[] args) {
-		Integer i = 1;
+		Integer i = 8;
 		JSONObject js = new JSONObject();
-		js.put("consultation", 1);
+		JSONObject all = new JSONObject();
+
+		js.put("consultation", i);
+		all.put("all",js);
+		js = (JSONObject)all.get("all");
+
+		js.put("consultation", (Integer)js.get("consultation")+1);
+		all.put("all",js);
 
 
-		System.out.println((Integer)js.get("consultation")+1);
+		System.out.println(((JSONObject)all.get("all")).get("consultation"));
 	}
 }
