@@ -6,6 +6,8 @@ import java.io.IOException;
 import model.Analyseur;
 import view.*;
 
+import javax.swing.*;
+
 public class Control_stop implements ActionListener {
 
 	//private JButton stop;
@@ -27,8 +29,9 @@ public class Control_stop implements ActionListener {
 				while(analyseur.isStoping()){}
 				v.afterStop();
 				v.stop();
-			} catch (IOException e1) {
-				e1.printStackTrace();
+			}catch (Exception ex){
+				JOptionPane.showMessageDialog(null,"erreur pendant stop","ERREUR",JOptionPane.ERROR_MESSAGE);
+				ex.printStackTrace();
 			}
 		}
 	}

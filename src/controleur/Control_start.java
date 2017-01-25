@@ -61,6 +61,7 @@ public class Control_start implements ActionListener {
 								} catch (IOException e1) {
 									e1.printStackTrace();
 									System.err.println("port indisponible");
+									JOptionPane.showMessageDialog(null,"Port indisponible","ERREUR",JOptionPane.ERROR_MESSAGE);
 								}
 
 
@@ -86,6 +87,7 @@ public class Control_start implements ActionListener {
 							} catch (IOException e1) {
 								e1.printStackTrace();
 								System.err.println("port indisponible");
+								JOptionPane.showMessageDialog(null,"Port indisponible","ERREUR",JOptionPane.ERROR_MESSAGE);
 							}
 
 							Thread t = new Thread(analyseur);

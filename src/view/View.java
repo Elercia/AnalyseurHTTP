@@ -12,7 +12,7 @@ import model.Analyseur;
 
 public class View {
   private JBoutonMod stop, start;
-  private JLabel txtprox, txtproxy, txtport;
+  private JLabel txtprox, txtproxy, txtport, chargement;
   private JRadioButton proxy_oui, proxy_non, param_auto, param_man;
   private JTextField adressProxySysteme;
   private JSpinner proxyPort, proxyPortLogiciel;
@@ -124,6 +124,9 @@ public class View {
     Control_start control_start = new Control_start(start, this, analyseur);
     start.addActionListener(control_start);
 
+    chargement=new JLabel("Chargement ....");
+    chargement.setVisible(false);
+    onglet1_3.add(chargement);
 
     JPanel onglet1_G = new JPanel();
     onglet1_G.setLayout(new GridLayout(3, 1));//l,c
@@ -321,16 +324,16 @@ public class View {
 
   public void beforeStop(){
     //stop.setVisible(false);
-    stop.setText("Chargement ....");
-      start.setText("Chargement ....");
-      JOptionPane.showMessageDialog(null,"beforeStop","DEBUG",JOptionPane.ERROR_MESSAGE);
+    stop.setVisible(false);
+    chargement.setVisible(true);
+    //JOptionPane.showMessageDialog(null,"beforeStop","DEBUG",JOptionPane.ERROR_MESSAGE);
   }
 
   public void afterStop(){
     //stop.setVisible(true);
-    stop.setText("Stop");
-      start.setText("Start");
-      JOptionPane.showMessageDialog(null,"afterStop","DEBUG",JOptionPane.ERROR_MESSAGE);
+    chargement.setVisible(false);
+    stop.setVisible(true);
+    //JOptionPane.showMessageDialog(null,"afterStop","DEBUG",JOptionPane.ERROR_MESSAGE);
   }
 
   //maj affichge
