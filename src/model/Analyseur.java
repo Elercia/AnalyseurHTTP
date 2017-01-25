@@ -21,6 +21,7 @@ public class Analyseur implements Runnable {
 	private SSLServerSocket serverSSLSocket;
 
 	private boolean listening;
+	private boolean isStoping;
 
 	private boolean usingProxy;
 	private String proxyAdress;
@@ -32,6 +33,7 @@ public class Analyseur implements Runnable {
 		this.proxysHTTP = new ArrayList<>();
 		this.proxysHTTPS = new ArrayList<>();
 
+		this.isStoping = false;
 
 		this.serverSocket = null;
 		this.serverSSLSocket = null;
@@ -134,6 +136,7 @@ public class Analyseur implements Runnable {
 	 * @throws IOException
 	 */
 	public synchronized void finEcoute() throws IOException {
+		this.isStoping =true;
 		this.listening = false;
 
 		Iterator<ProxyHTTP> it1 = this.proxysHTTP.iterator();
@@ -170,6 +173,11 @@ public class Analyseur implements Runnable {
 //			this.serverSSLSocket.close();
 
 		this.saveData();
+		this.isStoping= false;
+	}
+
+	public boolean isStoping(){
+		return this.isStoping;
 	}
 
 	private void saveData(){
