@@ -147,6 +147,7 @@ public class BaseDeDonnees{
 						methodeUsed.put((String)methode,
 								String.valueOf(Integer.parseInt(methodeUsed.get(methode))+
 										Integer.parseInt((String)jsmethode.get(methode))));
+
 					}else{
 						methodeUsed.put((String)methode, String.valueOf((Long)jsmethode.get(methode)));
 					}
@@ -215,9 +216,7 @@ public class BaseDeDonnees{
 					siteJsonObject = (JSONObject)jsonObjFileContent.get(site);
 
 					//on met à ajour le nombre de consutlations
-					System.out.println("Consultation Avant : "+(siteJsonObject.get("consultations")));
 					siteJsonObject.put("consultations", (Integer)siteJsonObject.get("consultations")+1);
-					System.out.println("Consultation Apres : "+(siteJsonObject.get("consultations")));
 
 
 					//on met a jour le nombre de methodes utilisées
@@ -246,10 +245,8 @@ public class BaseDeDonnees{
 						siteJsonObject.put("cookies", jsonObjCookies);
 					}
 
-					System.out.println("Poid Avant : "+((Integer)siteJsonObject.get("poidTotal")));
 					//on mets a jour le poids total des pages chargées
 					siteJsonObject.put("poidTotal", (Integer)siteJsonObject.get("poidTotal")+this.getLength(response));
-					System.out.println("Poid apres : "+((Integer)siteJsonObject.get("poidTotal")));
 
 				}else{
 					//si la page n'à pas enore été chargée alors on initialise des valeurs par defauts
