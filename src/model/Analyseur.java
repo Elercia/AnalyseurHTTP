@@ -64,6 +64,8 @@ public class Analyseur implements Runnable {
 		}
 		else if(this.bdd == null)
 			this.bdd = new BaseDeDonnees(f);
+
+		this.bdd.saveData();
 	}
 
 	public void setProxy(String adress, int port){
@@ -144,8 +146,9 @@ public class Analyseur implements Runnable {
 
 			ProxyHTTP p;
 			while (it1.hasNext()) {
-				p = it1.next();
 				try {
+					p = it1.next();
+
 					if (p != null)
 						p.join();
 				}catch (ConcurrentModificationException e){
