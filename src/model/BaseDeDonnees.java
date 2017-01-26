@@ -7,6 +7,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.awt.*;
 import java.io.*;
 import java.text.DateFormat;
 import java.util.*;
@@ -67,6 +68,7 @@ public class BaseDeDonnees{
 	/**
 	 * Methode ajoutant les header reçu dans le buffer de headers
 	 * Ce buffer sera écrit dans le fichier à la fin quand l'analyse sera finie
+	 * @see BaseDeDonnees::saveData()
 	 */
 	public synchronized void enregistrement(String requete, String reponse){
 		this.headersBuffer.add(new Pair<>(requete, reponse));
@@ -171,6 +173,11 @@ public class BaseDeDonnees{
 		return this.values;
 	}
 
+	/**
+	 * Methode permettant de lire tous le contenu du fichier
+	 * @return Le contenu du fichier (lignes séparée par "\n")
+	 * @throws FileNotFoundException
+	 */
 	private String readAllContent()throws FileNotFoundException{
 		StringBuilder content = new StringBuilder();
 		Scanner sc = new Scanner(this.fichier);
@@ -196,10 +203,10 @@ public class BaseDeDonnees{
 			String content = this.readAllContent();
 			//si le fichier est vide on cré un Json vide sinon on utilise le contenu du fichier
 			Object obj = parser.parse(content.isEmpty()?"{}":content);
-			JSONObject jsonObjFileContent = (JSONObject) obj;
+			JSONObject JSonComplet = (JSONObject) obj;
 
 			//une variable pour stocker les json object en rapport avec un site
-			JSONObject siteJsonObject = new JSONObject();
+			JSONObject siteJsonObject;
 
 			//pour toute les paires dans le buffer
 			for(Pair<String, String> p_header : this.headersBuffer){
@@ -212,22 +219,26 @@ public class BaseDeDonnees{
 
 				//on verifie si le site à déjà été chargé
 				//donc que le fichier Json contient deja une clé qui est le nom du site
-				if(jsonObjFileContent.containsKey(site)){
+				if(JSonComplet.containsKey(site)){
 					//on recup les valeurs déja existantes dans un objet Json
-					siteJsonObject = (JSONObject)jsonObjFileContent.get(site);
+					siteJsonObject = (JSONObject)JSonComplet.get(site);
 
 					//on met à ajour le nombre de consutlations
-					siteJsonObject.put("consultations", (Integer)siteJsonObject.get("consultations")+1);
+					Integer consultation = (Integer)(siteJsonObject.get("consultations"))+1;
+					siteJsonObject.put("consultations", consultation);
 
 
 					//on met a jour le nombre de methodes utilisées
 					JSONObject jsonObjectMethod = (JSONObject)siteJsonObject.get("methodes");
 					String methode = this.getMethod(requete);
 
-					if(jsonObjectMethod.containsKey(methode))
-						jsonObjectMethod.put(methode, (Integer)jsonObjectMethod.get(methode)+1);
+					if(jsonObjectMethod.containsKey(methode)){
+						Integer met = (Integer)(jsonObjectMethod.get(methode))+1;
+						jsonObjectMethod.put(methode, met);
+					}
 					else
 						jsonObjectMethod.put(methode, 1);
+
 					siteJsonObject.put("methodes", jsonObjectMethod);
 
 					//on mets a jour les cookies si il exites
@@ -247,11 +258,18 @@ public class BaseDeDonnees{
 					}
 
 					//on mets a jour le poids total des pages chargées
-					siteJsonObject.put("poidTotal", (Integer)siteJsonObject.get("poidTotal")+this.getLength(response));
+					Integer poid = (Integer)(siteJsonObject.get("poidTotal"));
+					siteJsonObject.put("poidTotal", (poid + this.getLength(response)));
 
+					int temps = ((Integer)(siteJsonObject.get("timeUsed"))+this.getTime(requete))/consultation;
+					siteJsonObject.put("timeUsed", temps);
+
+					System.out.println("Deuxieme Json généré : "+site+" / "+siteJsonObject);
 				}else{
 					//si la page n'à pas enore été chargée alors on initialise des valeurs par defauts
 					// vallant celles du premiere header
+
+					siteJsonObject = new JSONObject();
 
 					//le nombre de consultations
 					siteJsonObject.put("consultations", 1);
@@ -272,19 +290,27 @@ public class BaseDeDonnees{
 					//on ajoute le poid
 					int length = this.getLength(response);
 					siteJsonObject.put("poidTotal", length);
+
+
+					//on ajoute le temps de la capture
+					int temps = this.getTime(requete);
+					siteJsonObject.put("timeUsed", temps);
+
 					System.out.println("Premier Json généré : "+site+" / "+siteJsonObject);
 				}
 
 				//finalement on ajoute les valeurs dans un json pour le site
-				jsonObjFileContent.put(site, siteJsonObject);
+				JSonComplet.put(site, siteJsonObject);
 				//System.out.println("Json modifié pour "+site+" en "+siteJsonObject.toJSONString());
-			}
-			System.out.println("JSon sauvegarder: "+jsonObjFileContent.toJSONString());
+			}//en foreach loop
+
+			System.out.println("JSon sauvegarder: "+JSonComplet.toJSONString());
 
 			BufferedWriter w = new BufferedWriter(new FileWriter(this.fichier));
-			w.write(jsonObjFileContent.toJSONString());
+			w.write(JSonComplet.toJSONString());
 			w.close();
 
+			//on clear le buffer pour faire d'autre captures
 			headersBuffer.clear();
 
 		} catch (IOException e) {
@@ -315,6 +341,11 @@ public class BaseDeDonnees{
 		return methode == null || methode.isEmpty()?"undefined":methode;
 	}
 
+	/**
+	 * Methode pour retrouver la taille d'une page dans un header grace à "content-length: "
+	 * @param header le header reponse
+	 * @return (int)
+	 */
 	private int getLength(String header){
 		header = header.toLowerCase();
 		if (header.contains("content-length: ")) {
@@ -351,20 +382,17 @@ public class BaseDeDonnees{
 		return map;
 	}
 
+	private int getTime(String header){
+		header = header.toLowerCase();
+		if (header.contains("timeUsed: ")) {
+			//on recupère la valeur de la taille du contenu
+			//c'est la sous chaine a partir de l'index de "Content-Length: "
+			// jusqu'aux premier "\n" (en partant du meme index)
+			String time = (header.substring(header.indexOf("timeUsed: ") + ("timeUsed: ").length(),
+					header.indexOf("\n", header.indexOf("timeUsed: ")))).trim();
 
-	public static void main(String[] args) {
-		Integer i = 8;
-		JSONObject js = new JSONObject();
-		JSONObject all = new JSONObject();
-
-		js.put("consultation", i);
-		all.put("all",js);
-		js = (JSONObject)all.get("all");
-
-		js.put("consultation", (Integer)js.get("consultation")+1);
-		all.put("all",js);
-
-
-		System.out.println(((JSONObject)all.get("all")).get("consultation"));
+			return Integer.parseInt(time);
+		}
+		return 0;
 	}
 }

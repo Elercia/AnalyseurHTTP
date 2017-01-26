@@ -91,6 +91,8 @@ public class ProxyHTTP extends Thread {
                     h2 = new String(b2, 0, length);
                 }
                 h2 = h2.split("\r\n\r\n")[0];
+                long stopTime = System.currentTimeMillis();
+                long timeUsed = stopTime-startTime;
 
                 //faire enregistrement ici plz
                 incommingOS.close();
@@ -100,9 +102,9 @@ public class ProxyHTTP extends Thread {
                 socket.close();
                 clientSocket.close();
 
-                long stopTime = System.currentTimeMillis();
-                long timeUsed = stopTime-startTime;
-                h1+="\ntimeUsed:"+ timeUsed;
+
+                h1+="\ntimeUsed: "+ timeUsed+"\n";
+                System.out.println(timeUsed);
 
                 this.bdd.enregistrement(h1, h2);
 
