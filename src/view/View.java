@@ -23,6 +23,7 @@ public class View {
   private JLabel tmpCapture, nbChargedPages, weigtChargedPages, nbCookie, mostViewedSite, methode; //affichage
   private ButtonGroup bgAutoMan, bgProxy;
   private JTabbedPane onglets;
+  private JPanel onglet1_3;
 
   //modele
   private Analyseur analyseur;
@@ -110,7 +111,7 @@ public class View {
     onglet1_2.add(proxyPort);
 
 
-    JPanel onglet1_3 = new JPanel();
+    onglet1_3 = new JPanel();
     FlowLayout layout1_3=new FlowLayout();
     layout1_3.setHgap(50);
     onglet1_3.setLayout(layout1_3);
@@ -325,17 +326,13 @@ public class View {
   }
 
   public void beforeStop(){
-    //stop.setVisible(false);
-    stop.setVisible(false);
     chargement.setVisible(true);
-    //JOptionPane.showMessageDialog(null,"beforeStop","DEBUG",JOptionPane.ERROR_MESSAGE);
+
+    JOptionPane.showMessageDialog(null, "Patienter SVP");
   }
 
   public void afterStop(){
-    //stop.setVisible(true);
     chargement.setVisible(false);
-    stop.setVisible(true);
-    //JOptionPane.showMessageDialog(null,"afterStop","DEBUG",JOptionPane.ERROR_MESSAGE);
   }
 
   //maj affichge

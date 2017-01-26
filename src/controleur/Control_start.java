@@ -58,18 +58,14 @@ public class Control_start implements ActionListener {
 								try {
 									analyseur.setPort(v.getPortLog());
 									System.out.println("port affecter : "+ v.getPortLog());
+									Thread t = new Thread(analyseur);
+									t.start();
+									v.start();
 								} catch (IOException e1) {
 									e1.printStackTrace();
 									System.err.println("port indisponible");
 									JOptionPane.showMessageDialog(null,"Port indisponible","ERREUR",JOptionPane.ERROR_MESSAGE);
 								}
-
-
-								Thread t = new Thread(analyseur);
-								t.start();
-
-								v.start();
-
 							}
 						}
 					}
@@ -84,15 +80,14 @@ public class Control_start implements ActionListener {
 							try {
 								analyseur.setPort(v.getPortLog());
 								System.out.println("port affecter : "+ v.getPortLog());
+								Thread t = new Thread(analyseur);
+								t.start();
+								v.start();
 							} catch (IOException e1) {
 								e1.printStackTrace();
 								System.err.println("port indisponible");
 								JOptionPane.showMessageDialog(null,"Port indisponible","ERREUR",JOptionPane.ERROR_MESSAGE);
 							}
-
-							Thread t = new Thread(analyseur);
-							t.start();
-							v.start();
 						}
 					}
 				}

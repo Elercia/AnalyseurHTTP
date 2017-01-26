@@ -26,7 +26,10 @@ public class Control_stop implements ActionListener {
 			try {
 				v.beforeStop();
 				analyseur.finEcoute();
-				while(analyseur.isStoping()){}
+				Thread.sleep(1000);
+				while(analyseur.isStoping()){
+					System.out.println("kzgjzipj");
+				}
 				v.afterStop();
 				v.stop();
 			}catch (Exception ex){

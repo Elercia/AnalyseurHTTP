@@ -67,7 +67,7 @@ public class CtrlChartViewSite implements ActionListener {
 
     private static JFreeChart createChart(PieDataset dataset ) {
         JFreeChart chart = ChartFactory.createPieChart(
-                "methode",  // chart title
+                "site",  // chart title
                 dataset,        // data
                 true,           // include legend
                 true,
