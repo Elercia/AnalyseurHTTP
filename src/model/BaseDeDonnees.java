@@ -261,7 +261,7 @@ public class BaseDeDonnees{
 					Integer poid = (Integer)(siteJsonObject.get("poidTotal"));
 					siteJsonObject.put("poidTotal", (poid + this.getLength(response)));
 
-					int temps = ((Integer)(siteJsonObject.get("timeUsed"))+this.getTime(requete))/consultation;
+					int temps = ((Integer)(siteJsonObject.get("timeUsed"))+this.getTime(requete))/2;
 					siteJsonObject.put("timeUsed", temps);
 
 					System.out.println("Deuxieme Json généré : "+site+" / "+siteJsonObject);
@@ -335,6 +335,11 @@ public class BaseDeDonnees{
 		return "undefined";
 	}
 
+	/**
+	 * Retourne la methode utilisé pour la requete
+	 * @param header le header requete
+	 * @return
+	 */
 	private String getMethod(String header){
 		String methode = header.split(" ", 2)[0];
 
@@ -382,14 +387,19 @@ public class BaseDeDonnees{
 		return map;
 	}
 
+	/**
+	 * Methode retournant le temps qu'a pris la requete
+	 * @param header le header requete
+	 * @return
+	 */
 	private int getTime(String header){
 		header = header.toLowerCase();
-		if (header.contains("timeUsed: ")) {
+		if (header.contains("timeused: ")) {
 			//on recupère la valeur de la taille du contenu
 			//c'est la sous chaine a partir de l'index de "Content-Length: "
 			// jusqu'aux premier "\n" (en partant du meme index)
-			String time = (header.substring(header.indexOf("timeUsed: ") + ("timeUsed: ").length(),
-					header.indexOf("\n", header.indexOf("timeUsed: ")))).trim();
+			String time = (header.substring(header.indexOf("timeused: ") + ("timeused: ").length(),
+					header.indexOf("\n", header.indexOf("timeused: ")))).trim();
 
 			return Integer.parseInt(time);
 		}

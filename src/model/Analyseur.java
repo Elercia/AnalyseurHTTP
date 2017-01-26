@@ -144,8 +144,9 @@ public class Analyseur implements Runnable {
 
 			ProxyHTTP p;
 			while (it1.hasNext()) {
-				p = it1.next();
 				try {
+					p = it1.next();
+
 					if (p != null)
 						p.join();
 				}catch (ConcurrentModificationException e){
