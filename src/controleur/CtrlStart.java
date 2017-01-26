@@ -8,7 +8,7 @@ import model.Analyseur;
 import view.*;
 
 
-public class Control_start implements ActionListener {
+public class CtrlStart implements ActionListener {
 
 	//private JButton start;
 	private JBoutonMod start;
@@ -17,7 +17,7 @@ public class Control_start implements ActionListener {
 	/*private CarnetAdresse c;*/
 
 
-	public Control_start(JBoutonMod st, View vu, Analyseur a) {
+	public CtrlStart(JBoutonMod st, View vu, Analyseur a) {
 		v=vu;
     	start=st;
 		analyseur=a;

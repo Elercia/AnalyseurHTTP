@@ -8,14 +8,14 @@ import view.*;
 
 import javax.swing.*;
 
-public class Control_stop implements ActionListener {
+public class CtrlStop implements ActionListener {
 
 	//private JButton stop;
 	private JBoutonMod stop;
 	private View v;
 	private Analyseur analyseur;
 
-	public Control_stop(JBoutonMod sp, View vu, Analyseur a) {
+	public CtrlStop(JBoutonMod sp, View vu, Analyseur a) {
 		v=vu;
     	stop=sp;
 		analyseur=a;

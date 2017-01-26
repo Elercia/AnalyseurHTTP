@@ -120,14 +120,14 @@ public class View {
     stop.setPreferredSize(new Dimension(100, 25));
     stop.setVisible(false);
     onglet1_3.add(stop);
-    Control_stop control_stop = new Control_stop(stop, this, analyseur);
-    stop.addActionListener(control_stop);
+    CtrlStop ctrlStop = new CtrlStop(stop, this, analyseur);
+    stop.addActionListener(ctrlStop);
 
     start = new JBoutonMod("Start");
     start.setPreferredSize(new Dimension(100, 25));
     onglet1_3.add(start);
-    Control_start control_start = new Control_start(start, this, analyseur);
-    start.addActionListener(control_start);
+    CtrlStart ctrlStart = new CtrlStart(start, this, analyseur);
+    start.addActionListener(ctrlStart);
 
     chargement=new JLabel("Chargement ....");
     chargement.setVisible(false);
@@ -183,6 +183,8 @@ public class View {
 
     CtrlChartViewSite ctrlChartViewSite = new CtrlChartViewSite(bsite, this, analyseur);
     bsite.addActionListener(ctrlChartViewSite);
+
+
 
     onglet2_1.add(txtcap);
     onglet2_1.add(tmpCapture);
