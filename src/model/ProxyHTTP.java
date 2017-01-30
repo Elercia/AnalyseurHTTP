@@ -12,7 +12,7 @@ import java.util.concurrent.TimeoutException;
 /**
  * Created by E155399M on 21/11/16.
  */
-public class ProxyHTTP extends Thread {
+public class ProxyHTTP implements Runnable {
     private Socket clientSocket = null;
     private int id;
     private BaseDeDonnees bdd;
@@ -93,6 +93,9 @@ public class ProxyHTTP extends Thread {
                 h2 = h2.split("\r\n\r\n")[0];
                 long stopTime = System.currentTimeMillis();
                 long timeUsed = stopTime-startTime;
+                h1+="\ntimeUsed: "+ timeUsed+"\n";
+
+                this.bdd.enregistrement(h1, h2);
 
                 //faire enregistrement ici plz
                 incommingOS.close();
@@ -101,13 +104,6 @@ public class ProxyHTTP extends Thread {
                 incommingIS.close();
                 socket.close();
                 clientSocket.close();
-
-
-                h1+="\ntimeUsed: "+ timeUsed+"\n";
-                System.out.println(timeUsed);
-
-                this.bdd.enregistrement(h1, h2);
-
             } else {
                 incommingIS.close();
             }

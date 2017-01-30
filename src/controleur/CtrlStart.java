@@ -42,7 +42,7 @@ public class CtrlStart implements ActionListener {
 					JOptionPane.showMessageDialog(null,"Mauvaise configuration du port (suppérieur à la limite)","IMPOSSIBLE",JOptionPane.ERROR_MESSAGE);
 				}
 				else{
-					if(v.getQuestion1()=="manuel" && v.getQuestion2()=="oui"){
+					if(v.getQuestion1().equalsIgnoreCase("manuel") && v.getQuestion2().equalsIgnoreCase("oui")){
 						if(v.getPortProxy()<1){
 							JOptionPane.showMessageDialog(null,"Mauvaise configuration du port (plus petit que 1)","IMPOSSIBLE",JOptionPane.ERROR_MESSAGE);
 						}
@@ -70,7 +70,7 @@ public class CtrlStart implements ActionListener {
 						}
 					}
 					else{
-						if(v.getQuestion1()=="manuel" && v.getQuestion2()=="non"){
+						if(v.getQuestion1().equalsIgnoreCase("manuel") && v.getQuestion2().equalsIgnoreCase("mon")){
 							System.out.println("Configuration de l'analyseur :\nManuelle");
 
 						}
