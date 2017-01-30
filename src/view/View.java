@@ -31,7 +31,7 @@ public class View {
   public View(){
     Analyseur analyseur=new Analyseur();
 
-    JFrame f = new JFrame("Projet Analyseur");
+    JFrame f = new JFrame("Projet AnalyseurHTTP");
     f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     JPanel pannel = new JPanel();
 
@@ -40,7 +40,7 @@ public class View {
     JPanel onglet1_1 = new JPanel();
     onglet1_1.setLayout(new GridLayout(2, 3));//l,c
 
-    JLabel txtportlog = new JLabel("Port logiciel écouter : ");
+    JLabel txtportlog = new JLabel("Port à écouter : ");
     onglet1_1.add(txtportlog);
 
     proxyPortLogiciel = new JSpinner();
@@ -50,13 +50,13 @@ public class View {
     JLabel bricolage2 = new JLabel("");
     onglet1_1.add(bricolage2);
 
-    JLabel txtparam =new JLabel("configuration :");
+    JLabel txtparam =new JLabel("Configuration :");
     onglet1_1.add(txtparam);
 
     bgProxy = new ButtonGroup();
-    param_auto = new JRadioButton("automatique");
+    param_auto = new JRadioButton("Automatique");
     param_auto.setSelected(true);
-    param_man = new JRadioButton("manuel");
+    param_man = new JRadioButton("Manuel");
     // ajout des boutons radio dans le groupe bgAutoMan
     bgProxy.add(param_auto);
     bgProxy.add(param_man);
@@ -71,13 +71,13 @@ public class View {
     JPanel onglet1_2 = new JPanel();
     onglet1_2.setLayout(new GridLayout(3, 3));
 
-    txtprox =new JLabel("Utiliser un proxy ?");
+    txtprox =new JLabel("Utiliser un autre proxy ?");
     txtprox.setVisible(false);
     onglet1_2.add(txtprox);
 
     bgAutoMan = new ButtonGroup();
-    proxy_oui = new JRadioButton("oui");
-    proxy_non = new JRadioButton("non");
+    proxy_oui = new JRadioButton("Oui");
+    proxy_non = new JRadioButton("Non");
     proxy_non.setSelected(true);
     proxy_non.setVisible(false);
     proxy_oui.setVisible(false);
@@ -91,7 +91,7 @@ public class View {
     proxy_oui.addActionListener(control_prox);
     proxy_non.addActionListener(control_prox);
 
-    txtproxy = new JLabel("Adresse proxy : ");
+    txtproxy = new JLabel("Adresse du proxy : ");
     txtproxy.setVisible(false);
     onglet1_2.add(txtproxy);
 
@@ -102,7 +102,7 @@ public class View {
     JLabel bricolage = new JLabel("");
     onglet1_2.add(bricolage);
 
-    txtport = new JLabel("Proxy port : ");
+    txtport = new JLabel("Port du proxy : ");
     txtport.setVisible(false);
     onglet1_2.add(txtport);
 
@@ -140,43 +140,43 @@ public class View {
     onglet1_G.add(onglet1_2);
     onglet1_G.add(onglet1_3);
 
-    onglets.addTab("Proxy", onglet1_G);
+    onglets.addTab("Analyseur", onglet1_G);
 
     JPanel onglet2_1 = new JPanel(new GridLayout(6,3, -1, -1));//l,c
     onglet2_1.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
 
-    JLabel txtcap = new JLabel("temps capture");
+    JLabel txtcap = new JLabel("Temps des captures");
     txtcap.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    JLabel txtpagechar = new JLabel("nombre de page chargé");
+    JLabel txtpagechar = new JLabel("Nombre de pages chargées");
     txtpagechar.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    JLabel txtpoid = new JLabel("poid page chargé");
+    JLabel txtpoid = new JLabel("Poid des pages chargées");
     txtpoid.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    JLabel txtcookie = new JLabel("nombre de cookie cree");
+    JLabel txtcookie = new JLabel("Nombre de cookies créés");
     txtcookie.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    JLabel txtsite = new JLabel("site le plus chargé");
+    JLabel txtsite = new JLabel("Le site le plus utlisé");
     txtsite.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    JLabel txtmethode = new JLabel("methode la plus utilisé");
+    JLabel txtmethode = new JLabel("Methode HTTP la plus utilisée");
     txtmethode.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-    tmpCapture = new JLabel("<value>");
+    tmpCapture = new JLabel("<valeur>");
     tmpCapture.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    nbChargedPages = new JLabel("<value>");
+    nbChargedPages = new JLabel("<valeur>");
     nbChargedPages.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    weigtChargedPages = new JLabel("<value>");
+    weigtChargedPages = new JLabel("<valeur>");
     weigtChargedPages.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    nbCookie = new JLabel("<value>");
+    nbCookie = new JLabel("<valeur>");
     nbCookie.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    mostViewedSite = new JLabel("<value>");
+    mostViewedSite = new JLabel("<valeur>");
     mostViewedSite.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    methode = new JLabel("<value>");
+    methode = new JLabel("<valeur>");
     methode.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-    JButton bcap =new JButton("more info");
-    JButton bpagechar =new JButton("more info");
-    JButton bpoid =new JButton("more info");
-    JButton bcookie =new JButton("more info");
-    JButton bsite =new JButton("more info");
-    JButton bmethode =new JButton("more info");
+    JButton bcap =new JButton("Plus d'info");
+    JButton bpagechar =new JButton("Plus d'info");
+    JButton bpoid =new JButton("Plus d'info");
+    JButton bcookie =new JButton("Plus d'info");
+    JButton bsite =new JButton("Plus d'info");
+    JButton bmethode =new JButton("Plus d'info");
 
     CtrlChartMethode ctrlChartMethode = new CtrlChartMethode(bmethode, this, analyseur);
     bmethode.addActionListener(ctrlChartMethode);
@@ -206,7 +206,7 @@ public class View {
     onglet2_1.add(bmethode);
 
     JPanel onglet2_2 = new JPanel();
-    JButton actu = new JButton("refresh");
+    JButton actu = new JButton("Rafraichire");
     onglet2_2.add(actu);
     CtrlActualisation ctrlActualisation = new CtrlActualisation(actu, this, analyseur);
     actu.addActionListener(ctrlActualisation);
@@ -215,10 +215,10 @@ public class View {
 
     JPanel onglet2_G=new JPanel();
     onglet2_G.setLayout(new BorderLayout()); //North, South, East, West
-    onglet2_G.add("Center",onglet2_1);
-    onglet2_G.add("East",onglet2_2);
+    onglet2_G.add(BorderLayout.CENTER,onglet2_1);
+    onglet2_G.add(BorderLayout.EAST,onglet2_2);
     onglet2_G.add(onglet2_1);
-    onglets.addTab("affichage", onglet2_G);
+    onglets.addTab("Affichage", onglet2_G);
 
     JMenuBar menuBar;
     JMenu menu, submenu;
@@ -236,26 +236,26 @@ public class View {
 
 
     //a group of JMenuItems
-    submenu = new JMenu("File     ");
+    submenu = new JMenu("Fichier     ");
     submenu.setMnemonic(KeyEvent.VK_S);
 
 
-    ouvrir = new JMenuItem("Open");
+    ouvrir = new JMenuItem("Ouvrir");
     submenu.add(ouvrir);
     CtrlOpen ctrlOpen = new CtrlOpen(ouvrir, this, analyseur);
     ouvrir.addActionListener(ctrlOpen);
 
-    menuItem = new JMenuItem("Save");
+    menuItem = new JMenuItem("Sauvegarder");
     submenu.add(menuItem);
     menu.add(submenu);
 
-    menuItem = new JMenuItem("help",KeyEvent.VK_T);
+    menuItem = new JMenuItem("Aide",KeyEvent.VK_T);
 
 
     CtrlHelp ctrlHelp = new CtrlHelp(menuItem, this);
     menuItem.addActionListener(ctrlHelp);
 
-    menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
+    menuItem.getAccessibleContext().setAccessibleDescription("Cela ne sert à rien");
     menu.add(menuItem);
 
     f.setJMenuBar(menuBar);
@@ -330,7 +330,7 @@ public class View {
   public void beforeStop(){
     chargement.setVisible(true);
 
-    JOptionPane.showMessageDialog(null, "Patienter SVP");
+    JOptionPane.showMessageDialog(null, "Patientez SVP");
   }
 
   public void afterStop(){

@@ -45,10 +45,10 @@ public class CtrlActualisation implements ActionListener {
 
 				//v.maj_site(nbPagesCharged.toString());
 				v.maj_methode(methodeUsed.toString());
-				JOptionPane.showMessageDialog(null,"actualisé");
+				JOptionPane.showMessageDialog(null,"Donées actualisées !");
 
 			}catch(Exception exeption){
-				JOptionPane.showMessageDialog(null,"recupération des données impossible","ERREUR",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null,"Recupération des données impossible","ERREUR",JOptionPane.ERROR_MESSAGE);
 				exeption.printStackTrace();
 			}
 		}

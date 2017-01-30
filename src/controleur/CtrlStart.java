@@ -35,43 +35,43 @@ public class CtrlStart implements ActionListener {
       - si start alors pause
       */
 			if(v.getPortLog()<1){
-				JOptionPane.showMessageDialog(null,"port plus petit que 1","IMPOSSIBLE",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null,"Mauvaise configuration du port (plus petit que 1)","IMPOSSIBLE",JOptionPane.ERROR_MESSAGE);
 			}
 			else{
 				if(v.getPortLog()>65535){
-					JOptionPane.showMessageDialog(null,"port plus grand que 65535","IMPOSSIBLE",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,"Mauvaise configuration du port (suppérieur à la limite)","IMPOSSIBLE",JOptionPane.ERROR_MESSAGE);
 				}
 				else{
 					if(v.getQuestion1()=="manuel" && v.getQuestion2()=="oui"){
 						if(v.getPortProxy()<1){
-							JOptionPane.showMessageDialog(null,"port plus petit que 1","IMPOSSIBLE",JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null,"Mauvaise configuration du port (plus petit que 1)","IMPOSSIBLE",JOptionPane.ERROR_MESSAGE);
 						}
 						else{
 							if(v.getPortProxy()>65535){
-								JOptionPane.showMessageDialog(null,"port plus grand que 65535","IMPOSSIBLE",JOptionPane.ERROR_MESSAGE);
+								JOptionPane.showMessageDialog(null,"Mauvaise configuration du port (suppérieur à la limite)","IMPOSSIBLE",JOptionPane.ERROR_MESSAGE);
 							}
 							else{
-								System.out.println("man+prox");
+								System.out.println("Configuration de l'analyseur :\nManuelle avec utilisation de proxy");
 								analyseur.setProxy(v.getProxy(), v.getPortProxy());
 								System.out.println(v.getProxy()+" "+ v.getPortProxy());
 
 								try {
 									analyseur.setPort(v.getPortLog());
-									System.out.println("port affecter : "+ v.getPortLog());
+									System.out.println("Port logiciel utilisé : "+ v.getPortLog());
 									Thread t = new Thread(analyseur);
 									t.start();
 									v.start();
 								} catch (IOException e1) {
 									e1.printStackTrace();
-									System.err.println("port indisponible");
-									JOptionPane.showMessageDialog(null,"Port indisponible","ERREUR",JOptionPane.ERROR_MESSAGE);
+									System.err.println("Port voulu indisponible");
+									JOptionPane.showMessageDialog(null,"Le port que vous avez rentré est indisponible","ERREUR",JOptionPane.ERROR_MESSAGE);
 								}
 							}
 						}
 					}
 					else{
 						if(v.getQuestion1()=="manuel" && v.getQuestion2()=="non"){
-							System.out.println("man+0prox");
+							System.out.println("Configuration de l'analyseur :\nManuelle");
 
 						}
 						else{
@@ -79,14 +79,14 @@ public class CtrlStart implements ActionListener {
 							System.out.println("auto");
 							try {
 								analyseur.setPort(v.getPortLog());
-								System.out.println("port affecter : "+ v.getPortLog());
+								System.out.println("Port logiciel utilisé : "+ v.getPortLog());
 								Thread t = new Thread(analyseur);
 								t.start();
 								v.start();
 							} catch (IOException e1) {
 								e1.printStackTrace();
-								System.err.println("port indisponible");
-								JOptionPane.showMessageDialog(null,"Port indisponible","ERREUR",JOptionPane.ERROR_MESSAGE);
+								System.err.println("Port voulu indisponible");
+								JOptionPane.showMessageDialog(null,"Le port que vous avez rentré est indisponible","ERREUR",JOptionPane.ERROR_MESSAGE);
 							}
 						}
 					}
