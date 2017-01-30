@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.concurrent.TimeoutException;
 
 /**
@@ -76,6 +77,7 @@ public class ProxyHTTP implements Runnable {
                 SocketFactory sf = SocketFactory.getDefault();
                 InetAddress inet = InetAddress.getByName(host);
                 socket = sf.createSocket(inet, port);
+                socket.setSoTimeout(5000);
                 //socket.setSoTimeout(5000);
                 OutputStream outgoingOS = socket.getOutputStream();
 
@@ -107,10 +109,10 @@ public class ProxyHTTP implements Runnable {
             } else {
                 incommingIS.close();
             }
+        } catch(TimeoutException | SocketTimeoutException toe ){
+
         } catch (IOException e) {
             e.printStackTrace();
-        } catch(TimeoutException toe){
-            //nothing
         } catch(Exception e) {
             System.err.println("Erreur inconnue : "+e.getMessage());
             e.printStackTrace();
