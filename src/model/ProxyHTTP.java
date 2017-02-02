@@ -92,6 +92,7 @@ public class ProxyHTTP implements Runnable {
                     incommingOS.write(b2, 0, length);
                     h2 = new String(b2, 0, length);
                 }
+                incommingOS.flush();
                 h2 = h2.split("\r\n\r\n")[0];
                 long stopTime = System.currentTimeMillis();
                 long timeUsed = stopTime-startTime;
