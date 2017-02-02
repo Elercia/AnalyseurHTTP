@@ -2,11 +2,9 @@ package model;
 
 import javafx.util.Pair;
 import javafx.util.converter.IntegerStringConverter;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.io.*;
 import java.util.*;
 
@@ -16,6 +14,10 @@ import java.util.*;
 public class DataBase {
 	private Connection conn = null;
 
+	/**
+	 * Variable permettant de stocker les headers de requete et reponse avant de les enregistrer
+	 * dans la base de données (le fichier dans data)
+	 */
 	private ArrayList<Pair<String, String>> buffer;
 
 	public DataBase(String path) throws ClassNotFoundException, SQLException {
@@ -26,23 +28,28 @@ public class DataBase {
 		Statement stmt = conn.createStatement();
 
 
-		//creation de la table d'enregistrement en focntion de si elle existe ou pas
+		//creation de la table d'enregistrement en fonction de si elle existe ou pas
 		//Pour ne pas supprimer de table existante
 		String sql = "CREATE TABLE IF NOT EXISTS enregistrement (" +
-				"id INTEGER PRIMARY KEY NOT NULL, " +
-				"siteName TEXT NOT NULL, " +
-				//"consultation INTEGER NOT NULL," +
-				"methode TEXT NOT NULL," +
-				"cookies TEXT NOT NULL," +
-				"poid INTEGER NOT NULL" +
-				"timeUsed INTEGER NOT NULL)";
+                    "id INTEGER PRIMARY KEY NOT NULL, " +
+                    "siteName TEXT NOT NULL, " +
+                    //"consultation INTEGER NOT NULL," +
+                    "methode TEXT NOT NULL," +
+                    "cookies TEXT NOT NULL," +
+                    "poid INTEGER NOT NULL," +
+                    "timeUsed INTEGER NOT NULL)";
 		stmt.execute(sql);
 		stmt.close();
 
+        conn.setAutoCommit(false);
+        conn.commit();
 		//on setup les variables de classe
 		this.buffer = new ArrayList<>();
 	}
 
+	/**
+	 * On doit fermer la connection avec la base de données apres l'avoir utilisé
+	 */
 	public void finalize()
 	{
 		try {
@@ -54,11 +61,11 @@ public class DataBase {
 	}
 
 	/**
+     * @deprecated
 	 * Fonction utilisé pour set le fichier à utiliser
-	 * @param f @Nullable Le fichier à utiliser
+	 * @param path @Nullable Le fichier à utiliser
 	 */
-	private void setFile(File f){
-
+	private void setFile(String path){
 	}
 
 	/**
@@ -75,8 +82,68 @@ public class DataBase {
 	 * les données sont représenté par une hashMap se string vers string
 	 * @return une hashmap qui fait correspondre : site vers données
 	 */
-	public synchronized HashMap<String, HashMap<String, Object>> actuValues(){
-		return null;
+	public HashMap<String, HashMap<String, Object>> actuValues(){
+        this.saveData();
+		HashMap<String, Object> nbPagesCharged      = new HashMap<>(),
+								poidPagesCharged    = new HashMap<>(),
+								nbCookiesCreated    = new HashMap<>(),
+								methodeUsed         = new HashMap<>();
+
+		//la map correspondant aux différentes valeurs récupérée à partir du fichier de base de données
+		HashMap<String, HashMap<String, Object>> values = new HashMap<>();
+
+		try {
+			Statement stmt = conn.createStatement();
+            String count = "SELECT siteName, count(*) FROM enregistrement GROUP BY siteName";
+
+
+			ResultSet resultSet = stmt.executeQuery(count);
+
+			//on enregistre tous les tuples dans notre hashMap
+			while(resultSet.next()){
+                nbPagesCharged.put(resultSet.getString(1), resultSet.getInt(2));
+			}
+
+			String poidPages = "SELECT siteName, sum(poid) FROM enregistrement GROUP BY siteName";
+            resultSet = stmt.executeQuery(poidPages);
+
+            //on enregistre le poid des pages pour tous le tuples de notre base
+            while(resultSet.next()){
+                poidPagesCharged.put(resultSet.getString(1), resultSet.getInt(2));
+            }
+
+            String cookies = "SELECT siteName, cookies FROM enregistrement";
+            resultSet = stmt.executeQuery(cookies);
+            String key, value;
+            while (resultSet.next()){
+                key = resultSet.getString(1);//SiteName
+                value = resultSet.getString(2);//les valeurs de cookies
+
+                /*
+                    TODO Il faut changer ça pour permettre de stocker plusieurs cookies par site
+                    ICI chaque cookies supprimera l'ancien
+                */
+                nbCookiesCreated.put(key, value);
+            }
+
+            String method = "SELECT methode, count(method) FROM enregitrement";
+            resultSet = stmt.executeQuery(method);
+            while (resultSet.next()){
+                key = resultSet.getString(1);
+                value = resultSet.getString(2);
+                methodeUsed.put(key, value);
+            }
+
+		} catch (SQLException e) {
+			System.err.println("Erreur de lecture de la base de données ("+e.getSQLState()+")");
+		}
+
+		values.put("nbPagesCharged", nbPagesCharged);
+        values.put("poidPagesCharged", poidPagesCharged);
+        values.put("nbCookiesCreated", nbCookiesCreated);
+        values.put("methodeUsed", methodeUsed);
+
+		return values;
 	}
 
 	/**
@@ -84,10 +151,16 @@ public class DataBase {
 	 *
 	 * On parse le fichier et on ajoute des données dedans
 	 */
-	public void saveData(){
-		Statement stmt = null;
+	public synchronized void saveData(){
+		PreparedStatement stmt = null;
+
 		try {
-			stmt = conn.createStatement();
+			//on cré la requete à executer
+			//elle est toujours la même donc pas besoin de tjrs la recréer
+			String sql = "INSERT INTO enregistrement (siteName,methode,cookies, poid, timeUsed) " +
+					"VALUES(?,?,?,?,?)";
+			stmt = conn.prepareStatement(sql);
+
 			for (Pair<String, String> pair : this.buffer) {
 				String requete = pair.getKey();
 				String response = pair.getValue();
@@ -98,31 +171,32 @@ public class DataBase {
 				Integer poid = this.getLength(response);
 				Integer timeUsed = this.getTime(requete);
 
+				//on associe chaque parametre aux points d'intérogations dans le String "sql"
+				stmt.setString(1, siteName);
+				stmt.setString(2, methode);
+				stmt.setString(3, cookie);
+				stmt.setInt(4, poid);
+				stmt.setInt(5, timeUsed);
+
 				try {
-
-					String sql = "INSERT INTO enregistrement (siteName,methode,cookies, poid, timeUsed) " +
-							"VALUES(" +
-							siteName+","+
-							methode+","+
-							cookie+","+
-							poid+","+
-							timeUsed+","+
-							")";
-
-					stmt.execute(sql);
-
+					//on execute la requete sql
+					stmt.executeUpdate();
 				} catch (SQLException e) {
-					System.out.println("Erreur d'enregistrement dans la base de données");
-				}finally {
-					try {
-						stmt.close();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					System.err.println("Erreur d'enregistrement dans la base de données ("+e.getSQLState()+")");
 				}
 			}
+			//on vide le buffer pour ne pas enregister 2 fois les même chose par la suite
+			this.buffer.clear();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.err.println("Erreur de création de l'état de la base de données ("+e.getSQLState()+")");
+		}finally {
+			try {
+				if(stmt != null)
+					stmt.close();
+                conn.commit();
+			} catch (SQLException e) {
+				System.err.println("Erreur lors de la fermeture de l'état d'enregistrement ("+e.getSQLState()+")");
+			}
 		}
 	}
 
@@ -144,7 +218,7 @@ public class DataBase {
 	/**
 	 * Retourne la methode utilisé pour la requete
 	 * @param header le header requete
-	 * @return
+	 * @return la methode utilisée par le header
 	 */
 	private String getMethod(String header){
 		String methode = header.split(" ", 2)[0];
@@ -196,7 +270,7 @@ public class DataBase {
 	/**
 	 * Methode retournant le temps qu'a pris la requete
 	 * @param header le header requete
-	 * @return
+	 * @return le temps en ms
 	 */
 	private int getTime(String header){
 		header = header.toLowerCase();
@@ -210,15 +284,5 @@ public class DataBase {
 			return Integer.parseInt(time);
 		}
 		return 0;
-	}
-
-	public static void main(String[] args) {
-		try {
-			DataBase db = new DataBase("projet.db");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 	}
 }
