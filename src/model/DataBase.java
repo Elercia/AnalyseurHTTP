@@ -32,8 +32,7 @@ public class DataBase {
 		//Pour ne pas supprimer de table existante
 		String sql = "CREATE TABLE IF NOT EXISTS enregistrement (" +
                     "id INTEGER PRIMARY KEY NOT NULL, " +
-                    "siteName TEXT NOT NULL, " +
-                    //"consultation INTEGER NOT NULL," +
+                    "siteName TEXT NOT NULL," +
                     "methode TEXT NOT NULL," +
                     "cookies TEXT NOT NULL," +
                     "poid INTEGER NOT NULL," +
@@ -126,16 +125,17 @@ public class DataBase {
                 nbCookiesCreated.put(key, value);
             }
 
-            String method = "SELECT methode, count(method) FROM enregitrement";
+            String method = "SELECT methode, count(methode) FROM enregistrement GROUP BY methode";
             resultSet = stmt.executeQuery(method);
             while (resultSet.next()){
-                key = resultSet.getString(1);
+	            key = resultSet.getString(1);
                 value = resultSet.getString(2);
                 methodeUsed.put(key, value);
             }
 
 		} catch (SQLException e) {
 			System.err.println("Erreur de lecture de la base de données ("+e.getSQLState()+")");
+			e.printStackTrace();
 		}
 
 		values.put("nbPagesCharged", nbPagesCharged);
@@ -187,6 +187,7 @@ public class DataBase {
 			}
 			//on vide le buffer pour ne pas enregister 2 fois les même chose par la suite
 			this.buffer.clear();
+			assert this.buffer.size() == 0;
 		} catch (SQLException e) {
 			System.err.println("Erreur de création de l'état de la base de données ("+e.getSQLState()+")");
 		}finally {

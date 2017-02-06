@@ -1,32 +1,32 @@
 package test;
 
-import static org.junit.Assert.*;
 import model.DataBase;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by E155399M on 25/01/17.
  */
 public class DataBaseTest{
     private DataBase bdd;
-    private ArrayList<String> headersRequete;
-    private ArrayList<String> headersResponse;
+    private ArrayList<String> headersExample;
+    private ArrayList<String> headersPerdu;
     private int numbersOfRequests1;
     private int numbersOfRequests2;
 
     @Before
     public void setUp() throws Exception {
         bdd = new DataBase("db.db");
-        headersRequete = new ArrayList<>();
-        headersResponse = new ArrayList<>();
+        headersExample = new ArrayList<>();
+        headersPerdu = new ArrayList<>();
         numbersOfRequests1 = 7;
         numbersOfRequests2 = 8;
 
         for (int i = 0 ; i < numbersOfRequests1; i++) {
-            headersRequete.add("GET / HTTP/1.1\n" +
+            headersExample.add("GET / HTTP/1.1\n" +
                     "Host: example.com\n" +
                     "User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:48.0) Gecko/20100101 Firefox/48.0\n" +
                     "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\n" +
@@ -36,7 +36,7 @@ public class DataBaseTest{
                     "Upgrade-Insecure-Requests: 1\n" +
                     "Pragma: no-cache\n" +
                     "Cache-Control: no-cache");
-            headersResponse.add("HTTP/1.0 200 OK\n" +
+            headersExample.add("HTTP/1.0 200 OK\n" +
                     "Content-Encoding: gzip\n" +
                     "Cache-Control: max-age=604800\n" +
                     "Content-Type: text/html\n" +
@@ -55,7 +55,7 @@ public class DataBaseTest{
         }//end for
 
         for (int i = 0 ; i < numbersOfRequests2; i++) {
-            headersRequete.add("GET / HTTP/1.1\n" +
+            headersPerdu.add("POST / HTTP/1.1\n" +
                     "Host: perdu.com\n" +
                     "User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:48.0) Gecko/20100101 Firefox/48.0\n" +
                     "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\n" +
@@ -65,7 +65,7 @@ public class DataBaseTest{
                     "Upgrade-Insecure-Requests: 1\n" +
                     "Pragma: no-cache\n" +
                     "Cache-Control: no-cache\n");
-            headersResponse.add("HTTP/1.0 200 OK\n" +
+            headersPerdu.add("HTTP/1.0 200 OK\n" +
                     "Date: Wed, 25 Jan 2017 15:43:34 GMT\n" +
                     "Server: Apache\n" +
                     "Last-Modified: Thu, 02 Jun 2016 06:01:08 GMT\n" +
@@ -81,26 +81,25 @@ public class DataBaseTest{
                     "Connection: keep-alive");
         }
 
-
         //on ajoute numbersOfRequests fois le meme header pour verifier
-        for (int i = 0;i<numbersOfRequests1;  i++)
-            bdd.enregistrement(headersRequete.get(i), headersResponse.get(i));
-        for (int i = 0;i<numbersOfRequests2;  i++)
-            bdd.enregistrement(headersRequete.get(i), headersResponse.get(i));
+        for (int i = 0;i<headersExample.size()-1;  i+=2)
+            bdd.enregistrement(headersExample.get(i), headersExample.get(i+1));
+
+        for (int i = 0;i<headersPerdu.size()-1;  i+=2)
+            bdd.enregistrement(headersPerdu.get(i), headersPerdu.get(i+1));
     }
 
     @Test
     public void saveData() throws Exception {
         bdd.saveData();
-
     }
 
 
 
     @Test
     public void actuValues() throws Exception {
+        HashMap<String, HashMap<String, Object>> map = this.bdd.actuValues();
 
+        System.out.println(map);
     }
-
-
 }
