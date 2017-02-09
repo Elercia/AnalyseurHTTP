@@ -29,7 +29,7 @@ public class CtrlOpen implements ActionListener {
             chooser.setFileFilter(filter);
             int returnVal = chooser.showOpenDialog(null);
             if(returnVal == JFileChooser.APPROVE_OPTION) {
-                analyseur.setFile(chooser.getSelectedFile());
+                analyseur.setFile(chooser.getSelectedFile().getPath());
                 System.out.println("You chose to open this file: " +
                         chooser.getSelectedFile().getName());
             }

@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.SocketTimeoutException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
@@ -26,7 +27,7 @@ public class Analyseur implements Runnable {
 	private ExecutorService executorService;
 
 
-	private BaseDeDonnees bdd;
+	private DataBase bdd;
 
 	private ServerSocket serverSocket;
 	private SSLServerSocket serverSSLSocket;
@@ -72,12 +73,14 @@ public class Analyseur implements Runnable {
 				"et proxy HTTPS lancé sur le port " + (port+1));
 	}
 
-	public void setFile(File f){
-		if(f == null) {
-			this.bdd = new BaseDeDonnees((File)null);
+	public void setFile(String path){
+
+		try {
+			this.bdd = new DataBase(path);
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+			System.exit(-1);
 		}
-		else if(this.bdd == null)
-			this.bdd = new BaseDeDonnees(f);
 
 		this.bdd.saveData();
 	}

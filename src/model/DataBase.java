@@ -1,12 +1,17 @@
 package model;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
 import javafx.util.Pair;
 import javafx.util.converter.IntegerStringConverter;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.io.*;
+import java.text.DateFormat;
 import java.util.*;
+import java.util.Date;
 
 /**
  * Created by E155399M on 30/01/17.
@@ -24,7 +29,18 @@ public class DataBase {
 		//On setup le SQL lite
 		Class.forName("org.sqlite.JDBC");
 
-		conn = DriverManager.getConnection("jdbc:sqlite:data/"+path);
+		if(path == null || path.isEmpty()){
+			path = this.generatePath();
+
+			try {
+				Files.createFile(Paths.get(path));
+			} catch (IOException e) {
+				e.printStackTrace();
+				System.exit(-1);
+			}
+		}
+
+		conn = DriverManager.getConnection("jdbc:sqlite:"+path);
 		Statement stmt = conn.createStatement();
 
 
@@ -44,6 +60,8 @@ public class DataBase {
         conn.commit();
 		//on setup les variables de classe
 		this.buffer = new ArrayList<>();
+
+		System.out.println("DataBase linked to file : "+path);
 	}
 
 	/**
@@ -65,6 +83,15 @@ public class DataBase {
 	 * @param path @Nullable Le fichier à utiliser
 	 */
 	private void setFile(String path){
+	}
+
+	private String generatePath(){
+		Date d = new Date();
+		DateFormat format = DateFormat.getDateTimeInstance(
+				DateFormat.MEDIUM,
+				DateFormat.MEDIUM);
+
+		return "data/capture_"+format.format(d).replace(' ','_').replace(".","").replace(":","_")+".db";
 	}
 
 	/**

@@ -16,7 +16,7 @@ import java.util.concurrent.TimeoutException;
 public class ProxyHTTP implements Runnable {
     private Socket clientSocket = null;
     private int id;
-    private BaseDeDonnees bdd;
+    private DataBase bdd;
 
 
     private static final int BUFFER_SIZE = 10000;
@@ -26,7 +26,7 @@ public class ProxyHTTP implements Runnable {
     private String proxyAdresse;
     private int proxyPort;
 
-    public ProxyHTTP(Socket socket, int id, BaseDeDonnees bdd) {
+    public ProxyHTTP(Socket socket, int id, DataBase bdd) {
         this.clientSocket = socket;
         this.id = id;
         this.bdd = bdd;
