@@ -42,7 +42,7 @@ public class CtrlChartMethode implements ActionListener {
                 System.out.println("poidPageCharged : " + poidPageCharged);
                 System.out.println("nbCookiesCreated : " + nbCookiesCreated);
 
-                ChartMethode methode = new ChartMethode( "methode", createDemoPanel(methodeUsed));
+                ViewChart methode = new ViewChart( "methode", createDemoPanel(methodeUsed));
                 methode.setSize( 560 , 367 );
                 RefineryUtilities.centerFrameOnScreen( methode );
                 methode.setVisible( true );

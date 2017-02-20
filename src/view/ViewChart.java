@@ -8,8 +8,8 @@ package view;
 
 import javax.swing.*;
 
-public class ChartMethode extends JFrame {
-    public ChartMethode(String title, JPanel j) {
+public class ViewChart extends JFrame {
+    public ViewChart(String title, JPanel j) {
         super( title );
         setContentPane(j);
     }

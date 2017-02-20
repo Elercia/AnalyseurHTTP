@@ -22,7 +22,7 @@ public class View {
   private JSpinner proxyPort, proxyPortLogiciel;
   private JLabel tmpCapture, nbChargedPages, weigtChargedPages, nbCookie, mostViewedSite, methode; //affichage
   private ButtonGroup bgAutoMan, bgProxy;
-  private JTabbedPane onglets;
+  private JTabbedPane onglets, ongletsGraph;
   private JPanel onglet1_3;
 
   //modele
@@ -112,9 +112,9 @@ public class View {
 
 
     onglet1_3 = new JPanel();
-    FlowLayout layout1_3=new FlowLayout();
-    layout1_3.setHgap(50);
-    onglet1_3.setLayout(layout1_3);
+    /*FlowLayout layout1_3=new FlowLayout();
+    layout1_3.setHgap(50);*/
+    onglet1_3.setLayout(new FlowLayout());
 
     stop = new JBoutonMod("Stop");
     stop.setPreferredSize(new Dimension(100, 25));
@@ -142,34 +142,24 @@ public class View {
 
     onglets.addTab("Analyseur", onglet1_G);
 
-    JPanel onglet2_1 = new JPanel(new GridLayout(6,3, -1, -1));//l,c
-    onglet2_1.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
+
+
+    this.ongletsGraph= new JTabbedPane(SwingConstants.TOP);
+
 
     JLabel txtcap = new JLabel("Temps des captures");
-    txtcap.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     JLabel txtpagechar = new JLabel("Nombre de pages chargées");
-    txtpagechar.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     JLabel txtpoid = new JLabel("Poid des pages chargées");
-    txtpoid.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     JLabel txtcookie = new JLabel("Nombre de cookies créés");
-    txtcookie.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     JLabel txtsite = new JLabel("Le site le plus utlisé");
-    txtsite.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     JLabel txtmethode = new JLabel("Methode HTTP la plus utilisée");
-    txtmethode.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
     tmpCapture = new JLabel("<valeur>");
-    tmpCapture.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     nbChargedPages = new JLabel("<valeur>");
-    nbChargedPages.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     weigtChargedPages = new JLabel("<valeur>");
-    weigtChargedPages.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     nbCookie = new JLabel("<valeur>");
-    nbCookie.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     mostViewedSite = new JLabel("<valeur>");
-    mostViewedSite.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     methode = new JLabel("<valeur>");
-    methode.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
     JButton bcap =new JButton("Plus d'info");
     JButton bpagechar =new JButton("Plus d'info");
@@ -184,26 +174,38 @@ public class View {
     CtrlChartViewSite ctrlChartViewSite = new CtrlChartViewSite(bsite, this, analyseur);
     bsite.addActionListener(ctrlChartViewSite);
 
+    JPanel JPtmpCapture = new JPanel();
+    JPtmpCapture.add(txtcap);
+    JPtmpCapture.add(tmpCapture);
+    JPtmpCapture.add(bcap);
+
+    JPanel JPnbChargedPages = new JPanel();
+    JPnbChargedPages.add(txtpagechar);
+    JPnbChargedPages.add(nbChargedPages);
+    JPnbChargedPages.add(bpagechar);
+
+    JPanel JPweigtChargedPages = new JPanel();
+    JPweigtChargedPages.add(txtpoid);
+    JPweigtChargedPages.add(weigtChargedPages);
+    JPweigtChargedPages.add(bpoid);
+
+    JPanel JPnbCookie = new JPanel();
+    JPnbCookie.add(txtcookie);
+    JPnbCookie.add(nbCookie);
+    JPnbCookie.add(bcookie);
+
+    JPanel JPmostViewedSite = new JPanel();
+    JPmostViewedSite.add(txtsite);
+    JPmostViewedSite.add(mostViewedSite);
+    JPmostViewedSite.add(bsite);
+
+    JPanel JPmethode = new JPanel();
+    JPmethode.add(txtmethode);
+    JPmethode.add(methode);
+    JPmethode.add(bmethode);
 
 
-    onglet2_1.add(txtcap);
-    onglet2_1.add(tmpCapture);
-    onglet2_1.add(bcap);
-    onglet2_1.add(txtpagechar);
-    onglet2_1.add(nbChargedPages);
-    onglet2_1.add(bpagechar);
-    onglet2_1.add(txtpoid);
-    onglet2_1.add(weigtChargedPages);
-    onglet2_1.add(bpoid);
-    onglet2_1.add(txtcookie);
-    onglet2_1.add(nbCookie);
-    onglet2_1.add(bcookie);
-    onglet2_1.add(txtsite);
-    onglet2_1.add(mostViewedSite);
-    onglet2_1.add(bsite);
-    onglet2_1.add(txtmethode);
-    onglet2_1.add(methode);
-    onglet2_1.add(bmethode);
+
 
     JPanel onglet2_2 = new JPanel();
     JButton actu = new JButton("Rafraichire");
@@ -211,14 +213,17 @@ public class View {
     CtrlActualisation ctrlActualisation = new CtrlActualisation(actu, this, analyseur);
     actu.addActionListener(ctrlActualisation);
 
+    onglet2_2.add(ongletsGraph);
 
+    onglets.addTab("Affichage", onglet2_2);
 
-    JPanel onglet2_G=new JPanel();
-    onglet2_G.setLayout(new BorderLayout()); //North, South, East, West
-    onglet2_G.add(BorderLayout.CENTER,onglet2_1);
-    onglet2_G.add(BorderLayout.EAST,onglet2_2);
-    onglet2_G.add(onglet2_1);
-    onglets.addTab("Affichage", onglet2_G);
+    ongletsGraph.addTab("Temps des captures", JPtmpCapture);
+    ongletsGraph.addTab("Nombre de pages chargées", JPnbChargedPages);
+    ongletsGraph.addTab("Poid des pages chargées", JPweigtChargedPages);
+    ongletsGraph.addTab("Nombre de cookies créés", JPnbCookie);
+    ongletsGraph.addTab("Le site le plus utlisé", JPmostViewedSite);
+    ongletsGraph.addTab("Methode HTTP la plus utilisée", JPmethode);
+
 
     JMenuBar menuBar;
     JMenu menu, submenu;
@@ -260,12 +265,13 @@ public class View {
 
     f.setJMenuBar(menuBar);
 
+    ongletsGraph.setOpaque(true);
     onglets.setOpaque(true);
     pannel.add(onglets);
     f.getContentPane().add(pannel);
     f.setVisible(true);
-		//f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		f.pack();
+    //f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    f.pack();
     f.setExtendedState(Frame.MAXIMIZED_BOTH);
   }
 

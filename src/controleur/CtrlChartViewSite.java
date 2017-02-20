@@ -7,7 +7,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.ui.RefineryUtilities;
-import view.ChartMethode;
+import view.ViewChart;
 import view.View;
 
 import javax.swing.*;
@@ -44,7 +44,7 @@ public class CtrlChartViewSite implements ActionListener {
                 System.out.println("poidPageCharged : " + poidPageCharged);
                 System.out.println("nbCookiesCreated : " + nbCookiesCreated);
 
-                ChartMethode methode = new ChartMethode( "page", createDemoPanel(nbPageCharged));
+                ViewChart methode = new ViewChart( "page", createDemoPanel(nbPageCharged));
                 methode.setSize( 560 , 367 );
                 RefineryUtilities.centerFrameOnScreen( methode );
                 methode.setVisible( true );
