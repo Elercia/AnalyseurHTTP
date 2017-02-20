@@ -77,8 +77,8 @@ public class ProxyHTTP implements Runnable {
                 SocketFactory sf = SocketFactory.getDefault();
                 InetAddress inet = InetAddress.getByName(host);
                 socket = sf.createSocket(inet, port);
-                socket.setSoTimeout(5000);
                 //socket.setSoTimeout(5000);
+
                 OutputStream outgoingOS = socket.getOutputStream();
 
                 outgoingOS.write(b, 0, len);
@@ -96,9 +96,11 @@ public class ProxyHTTP implements Runnable {
                 h2 = h2.split("\r\n\r\n")[0];
                 long stopTime = System.currentTimeMillis();
                 long timeUsed = stopTime-startTime;
-                h1+="\ntimeUsed: "+ timeUsed+"\n";
+//                h1+="\ntimeUsed: "+ timeUsed+"\n";
 
-                this.bdd.enregistrement(h1, h2);
+//                System.out.println("Enregistrement "+id);
+                this.bdd.enregistrement(h1, h2, timeUsed);
+//                System.out.println("Enregistrement fini "+id);
 
                 //faire enregistrement ici plz
                 incommingOS.close();
@@ -111,7 +113,7 @@ public class ProxyHTTP implements Runnable {
                 incommingIS.close();
             }
         } catch(TimeoutException | SocketTimeoutException toe ){
-
+            System.err.println("LOLMDR");
         } catch (IOException e) {
             e.printStackTrace();
         } catch(Exception e) {
@@ -136,7 +138,6 @@ public class ProxyHTTP implements Runnable {
     }
 
     private String getHost(String header) {
-
         if(isUsingProxy){
             String s = this.proxyAdresse+":"+this.proxyPort;
             //System.out.println("L'host Utilisé est un proxy ("+s+")");

@@ -12,20 +12,11 @@ import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 public class Analyseur implements Runnable {
-
-
-	//aput changer bientot
-	private ArrayList<ProxyHTTP> proxysHTTP;
-	private ArrayList<ProxyHTTPS> proxysHTTPS;
 	//remplacé par ca
 	private ExecutorService executorService;
-
 
 	private DataBase bdd;
 
@@ -42,10 +33,6 @@ public class Analyseur implements Runnable {
 
 	public Analyseur(){
 		this.bdd = null;
-
-		//à changer
-		this.proxysHTTP = new ArrayList<>();
-		this.proxysHTTPS = new ArrayList<>();
 
 		this.executorService = Executors.newCachedThreadPool();
 
@@ -69,12 +56,10 @@ public class Analyseur implements Runnable {
 			this.serverSSLSocket = (SSLServerSocket) sf.createServerSocket(portSSL);
 			this.serverSSLSocket.setEnableSessionCreation(true);
 		}
-		System.out.println("Proxy HTTP lancé sur le port "+port+" " +
-				"et proxy HTTPS lancé sur le port " + (port+1));
+		System.out.println("Proxy HTTP lancé sur le port "+port);
 	}
 
 	public void setFile(String path){
-
 		try {
 			this.bdd = new DataBase(path);
 		} catch (ClassNotFoundException | SQLException e) {
@@ -121,35 +106,10 @@ public class Analyseur implements Runnable {
 	private void debutEcoute() throws IOException{
 		this.listening = true;
 		ProxyHTTP proxyHTTP = null;
-//		ProxyHTTPS proxyHTTPS = null;
 		while(this.listening) {
-//			//TODO : Probleme ici
-//			//Si on ne lance pas une page HTTP on ne pourra pas lire de page HTTPS
-//			//this.serverSocket.accept() bloque l'éxecution du programme
-//			//on ne peut donc pas charger de page HTTPS
-//			//pareille pour le HTTP normal si on ne demande pas de page HTTPS alors on ne pourra pas charger de page
-//			//car le start est plus bas ... ennuyant
-//
-//			proxyHTTP = new ProxyHTTP(this.serverSocket.accept(), ProxyHTTP.PROXY_NUMBERS++, bdd);
-////			proxyHTTPS = new ProxyHTTPS((SSLSocket)this.serverSSLSocket.accept(), ProxyHTTPS.PROXY_NUMBERS++, bdd);
-//
-//			if (usingProxy) {
-//				proxyHTTP.setProxy(this.proxyAdress, this.proxyPort);
-////				proxyHTTPS.setProxy(this.proxyAdress, this.proxyPort);
-//			}
-//
-//			proxyHTTP.setPriority(Thread.MAX_PRIORITY);
-////			proxyHTTPS.setPriority(Thread.MAX_PRIORITY);
-//
-//			this.proxysHTTP.add(proxyHTTP);
-////			this.proxysHTTPS.add(proxyHTTPS);
-//
-//			proxyHTTP.start();
-////			proxyHTTPS.start();
 			proxyHTTP = new ProxyHTTP(this.serverSocket.accept(), ProxyHTTP.PROXY_NUMBERS++, bdd);
 			proxyHTTP.setProxy(this.proxyAdress, this.proxyPort);
 			executorService.execute(proxyHTTP);
-
 		}//fin while
 	}
 
@@ -163,45 +123,13 @@ public class Analyseur implements Runnable {
 		this.isStoping =true;
 		this.listening = false;
 
-		/*Iterator<ProxyHTTP> it1 = this.proxysHTTP.iterator();
-
-		ProxyHTTP p;
-		while (it1.hasNext()) {
-			try {
-				p = it1.next();
-
-				if (p != null)
-					p.join();
-			}catch (ConcurrentModificationException e){
-				System.err.println("Erreur concurrente");
-			} catch (InterruptedException e) {
-				//rien de plus
-			}
-		}
-
-		Iterator<ProxyHTTPS> it2 = this.proxysHTTPS.iterator();
-		ProxyHTTPS pp;
-		while (it2.hasNext()) {
-			pp = it2.next();
-			try {
-				pp.join();
-			} catch (InterruptedException e) {
-				//rien de plus
-			}
-		}*/
 		try {
-			executorService.awaitTermination(3, TimeUnit.SECONDS);
+			executorService.awaitTermination(60, TimeUnit.SECONDS);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 
 		ProxyHTTP.PROXY_NUMBERS=0;
-		ProxyHTTPS.PROXY_NUMBERS=0;
-
-//		if(!serverSocket.isClosed())
-//			this.serverSocket.close();
-//		if(!serverSSLSocket.isClosed())
-//			this.serverSSLSocket.close();
 
 		this.saveData();
 		this.isStoping= false;

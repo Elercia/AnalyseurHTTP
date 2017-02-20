@@ -12,7 +12,7 @@ import java.net.Socket;
 /**
  * Created by Vincent on 28/12/2016.
  */
-
+/*
 public class ProxyHTTPS extends Thread {
     private SSLSocket clientSocket = null;
     private int id;
@@ -163,3 +163,4 @@ public class ProxyHTTPS extends Thread {
         return "";
     }
 }
+*/

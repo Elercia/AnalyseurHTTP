@@ -23,7 +23,7 @@ public class DataBase {
 	 * Variable permettant de stocker les headers de requete et reponse avant de les enregistrer
 	 * dans la base de données (le fichier dans data)
 	 */
-	private ArrayList<Pair<String, String>> buffer;
+	private ArrayList<Trio<String, String, Long>> buffer;
 
 	public DataBase(String path) throws ClassNotFoundException, SQLException {
 		//On setup le SQL lite
@@ -97,10 +97,9 @@ public class DataBase {
 	/**
 	 * Methode ajoutant les header reçu dans le buffer de headers
 	 * Ce buffer sera écrit dans le fichier à la fin quand l'analyse sera finie
-	 * @see BaseDeDonnees::saveData()
 	 */
-	public synchronized void enregistrement(String requete, String reponse){
-		this.buffer.add(new Pair<>(requete, reponse));
+	public synchronized void enregistrement(String requete, String reponse, long timeUsed){
+		this.buffer.add(new Trio<>(requete, reponse, timeUsed));
 	}
 
 	/**
@@ -188,22 +187,22 @@ public class DataBase {
 					"VALUES(?,?,?,?,?)";
 			stmt = conn.prepareStatement(sql);
 
-			for (Pair<String, String> pair : this.buffer) {
-				String requete = pair.getKey();
-				String response = pair.getValue();
+			for (Trio<String, String, Long> values : this.buffer) {
+				String requete = values.one;
+				String response = values.two;
+				long timeUsed = values.three;
 
 				String siteName = this.getWebSite(requete);
 				String methode = this.getMethod(requete);
 				String cookie = String.valueOf(this.getCookie(response));
 				Integer poid = this.getLength(response);
-				Integer timeUsed = this.getTime(requete);
 
 				//on associe chaque parametre aux points d'intérogations dans le String "sql"
 				stmt.setString(1, siteName);
 				stmt.setString(2, methode);
 				stmt.setString(3, cookie);
 				stmt.setInt(4, poid);
-				stmt.setInt(5, timeUsed);
+				stmt.setLong(5, timeUsed);
 
 				try {
 					//on execute la requete sql
