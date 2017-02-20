@@ -145,6 +145,7 @@ public class View {
     this.ongletsGraph= new JTabbedPane(SwingConstants.TOP);
 
     actu = new JButton("Rafraichir");
+    actu.setPreferredSize(new Dimension(100, 25));
     CtrlActualisation ctrlActualisation = new CtrlActualisation(actu, this, analyseur);
     actu.addActionListener(ctrlActualisation);
 
@@ -177,31 +178,37 @@ public class View {
     bsite.addActionListener(ctrlChartViewSite);
 
     JPanel JPtmpCapture = new JPanel();
+    JPtmpCapture.setLayout(new FlowLayout());
     JPtmpCapture.add(txtcap);
     JPtmpCapture.add(tmpCapture);
     JPtmpCapture.add(bcap);
 
     JPanel JPnbChargedPages = new JPanel();
+    JPnbChargedPages.setLayout(new FlowLayout());
     JPnbChargedPages.add(txtpagechar);
     JPnbChargedPages.add(nbChargedPages);
     JPnbChargedPages.add(bpagechar);
 
     JPanel JPweigtChargedPages = new JPanel();
+    JPweigtChargedPages.setLayout(new FlowLayout());
     JPweigtChargedPages.add(txtpoid);
     JPweigtChargedPages.add(weigtChargedPages);
     JPweigtChargedPages.add(bpoid);
 
     JPanel JPnbCookie = new JPanel();
+    JPnbCookie.setLayout(new FlowLayout());
     JPnbCookie.add(txtcookie);
     JPnbCookie.add(nbCookie);
     JPnbCookie.add(bcookie);
 
     JPanel JPmostViewedSite = new JPanel();
+    JPmostViewedSite.setLayout(new FlowLayout());
     JPmostViewedSite.add(txtsite);
     JPmostViewedSite.add(mostViewedSite);
     JPmostViewedSite.add(bsite);
 
     JPanel JPmethode = new JPanel();
+    JPmethode.setLayout(new FlowLayout());
     JPmethode.add(txtmethode);
     JPmethode.add(methode);
     JPmethode.add(bmethode);
@@ -210,12 +217,10 @@ public class View {
 
     JPanel onglet2_2 = new JPanel();
     onglet2_2.setLayout(new BorderLayout());
-    onglet2_2.add(ongletsGraph, BorderLayout.NORTH);
-    onglet2_2.add(actu, BorderLayout.WEST);
-    //onglet2_2.add(ongletsGraph);
-
-
-
+    onglet2_2.add(ongletsGraph, BorderLayout.CENTER);
+    JPanel JPactu = new JPanel();
+    JPactu.add(actu);
+    onglet2_2.add(JPactu, BorderLayout.SOUTH);
 
 
     onglets.addTab("Affichage", onglet2_2);

@@ -60,7 +60,7 @@ public class CtrlActualisation implements ActionListener {
 		String expr="";
 		for (String s : poidPageCharged.keySet()) {
 			if(nbPagesCharged.containsKey(s)){
-				long val =(long)poidPageCharged.get(s)/(long)nbPagesCharged.get(s);
+				int val =(int)poidPageCharged.get(s)/(int)nbPagesCharged.get(s);
 				expr = expr + s +" : "+ val + ", ";
 			}
 		}
@@ -79,8 +79,8 @@ public class CtrlActualisation implements ActionListener {
 		long max=0;
 		String strMax ="";
 		for (String s : nbPagesCharged.keySet()) {
-			if(max < (long)nbPagesCharged.get(s)){
-				max = (long)nbPagesCharged.get(s);
+			if(max < (int)nbPagesCharged.get(s)){
+				max = (int)nbPagesCharged.get(s);
 				strMax= s+" -> " + nbPagesCharged.get(s)+" ";
 			}
 		}
@@ -95,7 +95,7 @@ public class CtrlActualisation implements ActionListener {
 		String expr="";
 		long res=0;
 		for (String s : nbPagesCharged.keySet()) {
-			res+=(long)nbPagesCharged.get(s);
+			res+=(int)nbPagesCharged.get(s);
 		}
 		expr="->"+res;
 		v.maj_pagecharge(expr);
