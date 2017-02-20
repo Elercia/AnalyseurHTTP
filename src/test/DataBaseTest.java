@@ -82,11 +82,11 @@ public class DataBaseTest{
         }
 
         //on ajoute numbersOfRequests fois le meme header pour verifier
-        for (int i = 0;i<headersExample.size()-1;  i+=2)
-            bdd.enregistrement(headersExample.get(i), headersExample.get(i+1));
-
-        for (int i = 0;i<headersPerdu.size()-1;  i+=2)
-            bdd.enregistrement(headersPerdu.get(i), headersPerdu.get(i+1));
+//        for (int i = 0;i<headersExample.size()-1;  i+=2)
+//            bdd.enregistrement(headersExample.get(i), headersExample.get(i+1));
+//
+//        for (int i = 0;i<headersPerdu.size()-1;  i+=2)
+//            bdd.enregistrement(headersPerdu.get(i), headersPerdu.get(i+1));
     }
 
     @Test

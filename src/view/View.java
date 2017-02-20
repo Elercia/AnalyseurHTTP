@@ -4,7 +4,6 @@
 
 package view;
 
-import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +14,7 @@ import model.Analyseur;
 
 
 public class View {
-  private JBoutonMod stop, start;
+  private JButton stop, start, actu;
   private JLabel txtprox, txtproxy, txtport, chargement;
   private JRadioButton proxy_oui, proxy_non, param_auto, param_man;
   private JTextField adressProxySysteme;
@@ -29,11 +28,10 @@ public class View {
   private Analyseur analyseur;
 
   public View(){
-    Analyseur analyseur=new Analyseur();
+    analyseur=new Analyseur();
 
     JFrame f = new JFrame("Projet AnalyseurHTTP");
     f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    JPanel pannel = new JPanel();
 
     this.onglets = new JTabbedPane(SwingConstants.TOP);
 
@@ -116,14 +114,14 @@ public class View {
     layout1_3.setHgap(50);*/
     onglet1_3.setLayout(new FlowLayout());
 
-    stop = new JBoutonMod("Stop");
+    stop = new JButton("Stop");
     stop.setPreferredSize(new Dimension(100, 25));
     stop.setVisible(false);
     onglet1_3.add(stop);
     CtrlStop ctrlStop = new CtrlStop(stop, this, analyseur);
     stop.addActionListener(ctrlStop);
 
-    start = new JBoutonMod("Start");
+    start = new JButton("Start");
     start.setPreferredSize(new Dimension(100, 25));
     onglet1_3.add(start);
     CtrlStart ctrlStart = new CtrlStart(start, this, analyseur);
@@ -146,6 +144,10 @@ public class View {
 
     this.ongletsGraph= new JTabbedPane(SwingConstants.TOP);
 
+    actu = new JButton("Rafraichir");
+    CtrlActualisation ctrlActualisation = new CtrlActualisation(actu, this, analyseur);
+    actu.addActionListener(ctrlActualisation);
+
 
     JLabel txtcap = new JLabel("Temps des captures");
     JLabel txtpagechar = new JLabel("Nombre de pages chargées");
@@ -161,12 +163,12 @@ public class View {
     mostViewedSite = new JLabel("<valeur>");
     methode = new JLabel("<valeur>");
 
-    JButton bcap =new JButton("Plus d'info");
-    JButton bpagechar =new JButton("Plus d'info");
-    JButton bpoid =new JButton("Plus d'info");
-    JButton bcookie =new JButton("Plus d'info");
-    JButton bsite =new JButton("Plus d'info");
-    JButton bmethode =new JButton("Plus d'info");
+    javax.swing.JButton bcap =new javax.swing.JButton("Plus d'info");
+    javax.swing.JButton bpagechar =new javax.swing.JButton("Plus d'info");
+    javax.swing.JButton bpoid =new javax.swing.JButton("Plus d'info");
+    javax.swing.JButton bcookie =new javax.swing.JButton("Plus d'info");
+    javax.swing.JButton bsite =new javax.swing.JButton("Plus d'info");
+    javax.swing.JButton bmethode =new javax.swing.JButton("Plus d'info");
 
     CtrlChartMethode ctrlChartMethode = new CtrlChartMethode(bmethode, this, analyseur);
     bmethode.addActionListener(ctrlChartMethode);
@@ -206,14 +208,15 @@ public class View {
 
 
 
-
     JPanel onglet2_2 = new JPanel();
-    JButton actu = new JButton("Rafraichire");
-    onglet2_2.add(actu);
-    CtrlActualisation ctrlActualisation = new CtrlActualisation(actu, this, analyseur);
-    actu.addActionListener(ctrlActualisation);
+    onglet2_2.setLayout(new BorderLayout());
+    onglet2_2.add(ongletsGraph, BorderLayout.NORTH);
+    onglet2_2.add(actu, BorderLayout.WEST);
+    //onglet2_2.add(ongletsGraph);
 
-    onglet2_2.add(ongletsGraph);
+
+
+
 
     onglets.addTab("Affichage", onglet2_2);
 
@@ -267,12 +270,11 @@ public class View {
 
     ongletsGraph.setOpaque(true);
     onglets.setOpaque(true);
-    pannel.add(onglets);
-    f.getContentPane().add(pannel);
+    f.getContentPane().add(onglets);
     f.setVisible(true);
     //f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     f.pack();
-    f.setExtendedState(Frame.MAXIMIZED_BOTH);
+    //f.setSize(new Dimension(1000, 800));
   }
 
   public void start(){

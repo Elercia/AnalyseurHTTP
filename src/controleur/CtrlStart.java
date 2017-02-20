@@ -11,13 +11,13 @@ import view.*;
 public class CtrlStart implements ActionListener {
 
 	//private JButton start;
-	private JBoutonMod start;
+	private JButton start;
 	private View v;
 	private Analyseur analyseur;
 	/*private CarnetAdresse c;*/
 
 
-	public CtrlStart(JBoutonMod st, View vu, Analyseur a) {
+	public CtrlStart(JButton st, View vu, Analyseur a) {
 		v=vu;
     	start=st;
 		analyseur=a;

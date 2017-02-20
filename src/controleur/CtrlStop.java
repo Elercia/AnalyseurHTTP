@@ -1,7 +1,6 @@
 package controleur;
 
 import java.awt.event.*;
-import java.io.IOException;
 
 import model.Analyseur;
 import view.*;
@@ -11,11 +10,11 @@ import javax.swing.*;
 public class CtrlStop implements ActionListener {
 
 	//private JButton stop;
-	private JBoutonMod stop;
+	private JButton stop;
 	private View v;
 	private Analyseur analyseur;
 
-	public CtrlStop(JBoutonMod sp, View vu, Analyseur a) {
+	public CtrlStop(JButton sp, View vu, Analyseur a) {
 		v=vu;
     	stop=sp;
 		analyseur=a;

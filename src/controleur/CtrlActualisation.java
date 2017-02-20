@@ -3,6 +3,8 @@ package controleur;
 import java.awt.event.*;
 import java.util.HashMap;
 import javax.swing.*;
+import javax.swing.JButton;
+
 import model.Analyseur;
 import view.*;
 //import ihm.modele.*;
