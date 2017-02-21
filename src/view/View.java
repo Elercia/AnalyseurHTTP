@@ -342,12 +342,13 @@ public class View {
 
   public void beforeStop(){
     chargement.setVisible(true);
-
+    stop.setEnabled(false);
     JOptionPane.showMessageDialog(null, "Patientez SVP");
   }
 
   public void afterStop(){
     chargement.setVisible(false);
+    stop.setEnabled(true);
   }
 
   //maj affichge
