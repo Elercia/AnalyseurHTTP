@@ -60,7 +60,7 @@ public class CtrlChartViewSite implements ActionListener {
     private static PieDataset createDataset(HashMap<String, Object> data) {
         DefaultPieDataset dataset = new DefaultPieDataset();
         for (Map.Entry<String,Object> entry : data.entrySet()) {
-            dataset.setValue( entry.getKey() , (long)entry.getValue());
+            dataset.setValue( entry.getKey() , (int)entry.getValue());
         }
         return dataset;
     }
