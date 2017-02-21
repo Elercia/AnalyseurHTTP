@@ -156,7 +156,7 @@ public class DataBase {
             while (resultSet.next()){
 	            key = resultSet.getString(1);
                 value = resultSet.getString(2);
-                methodeUsed.put(key, value);
+                methodeUsed.put(key, Integer.valueOf(value));
             }
 
 		} catch (SQLException e) {
@@ -294,22 +294,15 @@ public class DataBase {
 		return map;
 	}
 
-	/**
-	 * Methode retournant le temps qu'a pris la requete
-	 * @param header le header requete
-	 * @return le temps en ms
-	 */
-	private int getTime(String header){
-		header = header.toLowerCase();
-		if (header.contains("timeused: ")) {
-			//on recupère la valeur de la taille du contenu
-			//conn'est la sous chaine a partir de l'index de "Content-Length: "
-			// jusqu'aux premier "\n" (en partant du meme index)
-			String time = (header.substring(header.indexOf("timeused: ") + ("timeused: ").length(),
-					header.indexOf("\n", header.indexOf("timeused: ")))).trim();
+	private class Trio<T1, T2, T3> {
+		public T1 one;
+		public T2 two;
+		public T3 three;
 
-			return Integer.parseInt(time);
+		public Trio(T1 t1, T2 t2, T3 t3){
+			this.one = t1;
+			this.two = t2;
+			this.three = t3;
 		}
-		return 0;
 	}
 }
