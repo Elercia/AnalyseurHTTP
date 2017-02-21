@@ -2,10 +2,16 @@ package controleur;
 
 import java.awt.event.*;
 import java.util.HashMap;
+import java.util.Map;
 import javax.swing.*;
 import javax.swing.JButton;
 
 import model.Analyseur;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.general.PieDataset;
 import view.*;
 //import ihm.modele.*;
 
@@ -34,19 +40,14 @@ public class CtrlActualisation implements ActionListener {
 				HashMap<String, Object> poidPageCharged = data.get("poidPagesCharged");
 				HashMap<String, Object> nbCookiesCreated = data.get("nbCookiesCreated");
 
-				System.out.println("methodeUsed : " + methodeUsed);
-				System.out.println("nbPageCharged : " + nbPagesCharged);
-				System.out.println("poidPageCharged : " + poidPageCharged);
-				System.out.println("nbCookiesCreated : " + nbCookiesCreated);
 
 				this.nbPageCharged(nbPagesCharged);
 				this.pageLeMostCharge(nbPagesCharged);
 				this.nbCookiesCreated(nbCookiesCreated);
 				this.poidPageCharged(poidPageCharged, nbPagesCharged);
-				//v.maj_cap("3");
+				this.methodeUsed(methodeUsed);
 
-				//v.maj_site(nbPagesCharged.toString());
-				v.maj_methode(methodeUsed.toString());
+
 				JOptionPane.showMessageDialog(null,"Donées actualisées !");
 
 			}catch(Exception exeption){
@@ -54,6 +55,11 @@ public class CtrlActualisation implements ActionListener {
 				exeption.printStackTrace();
 			}
 		}
+	}
+
+	public void methodeUsed(HashMap<String, Object> methodeUsed){
+		v.addJPmethode(createDemoPanel(methodeUsed));
+		v.maj_methode(methodeUsed.toString());
 	}
 
 	public void poidPageCharged(HashMap<String, Object> poidPageCharged, HashMap<String, Object> nbPagesCharged){
@@ -89,6 +95,8 @@ public class CtrlActualisation implements ActionListener {
 		}else{
 			v.maj_site("ERREUR");
 		}
+
+		v.addJPmostViewedSite(createDemoPanel(nbPagesCharged));
 	}
 
 	public void nbPageCharged(HashMap<String, Object> nbPagesCharged){
@@ -102,4 +110,29 @@ public class CtrlActualisation implements ActionListener {
 	}
 
 
+
+
+	private static PieDataset createDataset(HashMap<String, Object> data) {
+		DefaultPieDataset dataset = new DefaultPieDataset();
+		for (Map.Entry<String,Object> entry : data.entrySet()) {
+			dataset.setValue( entry.getKey() , (int)entry.getValue());
+		}
+		return dataset;
+	}
+
+	private static JFreeChart createChart(PieDataset dataset ) {
+		JFreeChart chart = ChartFactory.createPieChart(
+				"site",  // chart title
+				dataset,        // data
+				true,           // include legend
+				true,
+				false);
+
+		return chart;
+	}
+
+	public static JPanel createDemoPanel(HashMap<String, Object> data) {
+		JFreeChart chart = createChart(createDataset(data) );
+		return new ChartPanel( chart );
+	}
 }

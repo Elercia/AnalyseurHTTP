@@ -1,5 +1,5 @@
 package controleur;
-
+/*
 import model.Analyseur;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -39,16 +39,18 @@ public class CtrlChartViewSite implements ActionListener {
                 HashMap<String, Object> poidPageCharged = data.get("poidPagesCharged");
                 HashMap<String, Object> nbCookiesCreated = data.get("nbCookiesCreated");
 
-                System.out.println("methodeUsed : " + methodeUsed);
+                /*System.out.println("methodeUsed : " + methodeUsed);
                 System.out.println("nbPageCharged : " + nbPageCharged);
                 System.out.println("poidPageCharged : " + poidPageCharged);
-                System.out.println("nbCookiesCreated : " + nbCookiesCreated);
+                System.out.println("nbCookiesCreated : " + nbCookiesCreated);*/
 
-                ViewChart methode = new ViewChart( "page", createDemoPanel(nbPageCharged));
+                /*ViewChart methode = new ViewChart( "page", createDemoPanel(nbPageCharged));
                 methode.setSize( 560 , 367 );
                 RefineryUtilities.centerFrameOnScreen( methode );
                 methode.setVisible( true );
-                methode.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                methode.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);*//*
+
+                v.addJPmostViewedSite(createDemoPanel(nbPageCharged));
 
             }catch(Exception exeption){
                 JOptionPane.showMessageDialog(null,"recupération des données impossible","ERREUR",JOptionPane.ERROR_MESSAGE);
@@ -80,4 +82,4 @@ public class CtrlChartViewSite implements ActionListener {
         JFreeChart chart = createChart(createDataset(data) );
         return new ChartPanel( chart );
     }
-}
+}*/
