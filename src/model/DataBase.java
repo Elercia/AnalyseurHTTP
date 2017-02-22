@@ -158,10 +158,10 @@ public class DataBase {
 		String method = "SELECT methode, count(methode) FROM enregistrement GROUP BY methode";
 
 		if(!captureN.isEmpty() && !captureN.equalsIgnoreCase("toutes")){
-			count += " WHERE captureName="+DataBase.captureName;
-			poidPages += " WHERE captureName="+DataBase.captureName;
-			cookies += " WHERE captureName="+DataBase.captureName;
-			method += " WHERE captureName="+DataBase.captureName;
+			count += " WHERE captureName='"+DataBase.captureName+"'";
+			poidPages += " WHERE captureName='"+DataBase.captureName+"'";
+			cookies += " WHERE captureName='"+DataBase.captureName+"'";
+			method += " WHERE captureName='"+DataBase.captureName+"'";
 		}
 
 		try {
