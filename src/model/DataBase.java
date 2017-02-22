@@ -75,7 +75,7 @@ public class DataBase {
 		//on instancie le nom de la capture
 		DataBase.captureName = this.generateCaptureName();
 
-		System.out.println("DataBase linked to file : "+path);
+		System.out.println("Base de données attaché au fichier : "+path +" avec le nom de capture : "+DataBase.captureName);
 	}
 
 	/**
@@ -116,7 +116,7 @@ public class DataBase {
 //				DateFormat.MEDIUM,
 //				DateFormat.MEDIUM);
 
-		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat("dd_MM_yy_HH:mm:ss");
 
 		//genere un nom de capture du type :
 		//  capture_20_févr_2017_10_22_59
@@ -228,8 +228,9 @@ public class DataBase {
 			//on cré la requete à executer
 			//elle est toujours la même donc pas besoin de tjrs la recréer
 			String sql = "INSERT INTO enregistrement (captureName, siteName,methode,cookies, poid, timeUsed) " +
-					"VALUES("+captureName+",?,?,?,?,?)";
+					"VALUES(?,?,?,?,?,?)";
 			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, captureName);
 
 			for (Trio<String, String, Long> values : this.buffer) {
 				String requete = values.one;
@@ -242,11 +243,11 @@ public class DataBase {
 				Integer poid = this.getLength(response);
 
 				//on associe chaque parametre aux points d'intérogations dans le String "sql"
-				stmt.setString(1, siteName);
-				stmt.setString(2, methode);
-				stmt.setString(3, cookie);
-				stmt.setInt(4, poid);
-				stmt.setLong(5, timeUsed);
+				stmt.setString(2, siteName);
+				stmt.setString(3, methode);
+				stmt.setString(4, cookie);
+				stmt.setInt(5, poid);
+				stmt.setLong(6, timeUsed);
 
 				try {
 					//on execute la requete sql
@@ -260,6 +261,7 @@ public class DataBase {
 			assert this.buffer.size() == 0;
 		} catch (SQLException e) {
 			System.err.println("Erreur de création de l'état de la base de données ("+e.getSQLState()+")");
+			e.printStackTrace();
 		}finally {
 			try {
 				if(stmt != null)
@@ -267,6 +269,7 @@ public class DataBase {
                 conn.commit();
 			} catch (SQLException e) {
 				System.err.println("Erreur lors de la fermeture de l'état d'enregistrement ("+e.getSQLState()+")");
+				e.printStackTrace();
 			}
 		}
 	}
@@ -345,6 +348,7 @@ public class DataBase {
 	public ArrayList<String> getCapturesNames(){
 		String sql = "SELECT captureName from enregistrement";
 		ArrayList<String> ar = new ArrayList<>();
+		ar.add("Toutes");
 		try {
 			Statement stmt = this.conn.createStatement();
 
