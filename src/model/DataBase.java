@@ -338,7 +338,7 @@ public class DataBase {
 	}
 
 	public String[] getCapturesNames(){
-		String sql = "SELECT captureName from enregistement";
+		String sql = "SELECT captureName from enregistrement";
 		ArrayList<String> ar = new ArrayList<>();
 		try {
 			Statement stmt = this.conn.createStatement();
