@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.sql.*;
 import java.io.*;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Date;
 
@@ -17,6 +18,11 @@ import java.util.Date;
  * Created by E155399M on 30/01/17.
  */
 public class DataBase {
+
+	/**
+	 * Variable representant la connection à la base de données
+	 * La connection est ouverte à la création et fermée quand l'object est détruis
+	 */
 	private Connection conn = null;
 
 	/**
@@ -24,6 +30,9 @@ public class DataBase {
 	 * dans la base de données (le fichier dans data)
 	 */
 	private ArrayList<Trio<String, String, Long>> buffer;
+
+
+	public static String captureName;
 
 	public DataBase(String path) throws ClassNotFoundException, SQLException {
 		//On setup le SQL lite
@@ -46,13 +55,14 @@ public class DataBase {
 
 		//creation de la table d'enregistrement en fonction de si elle existe ou pas
 		//Pour ne pas supprimer de table existante
+		//La table est définie par son nom de capture (généré par le pogramme à chaque lancement
 		String sql = "CREATE TABLE IF NOT EXISTS enregistrement (" +
-                    "id INTEGER PRIMARY KEY NOT NULL, " +
+                    "captureName TEXT PRIMARY KEY NOT NULL, " +
                     "siteName TEXT NOT NULL," +
                     "methode TEXT NOT NULL," +
                     "cookies TEXT NOT NULL," +
                     "poid INTEGER NOT NULL," +
-                    "timeUsed INTEGER NOT NULL)";
+                    "timeUsed INTEGER NOT NULL )";
 		stmt.execute(sql);
 		stmt.close();
 
@@ -60,6 +70,9 @@ public class DataBase {
         conn.commit();
 		//on setup les variables de classe
 		this.buffer = new ArrayList<>();
+
+		//on instancie le nom de la capture
+		DataBase.captureName = this.generateCaptureName();
 
 		System.out.println("DataBase linked to file : "+path);
 	}
@@ -86,12 +99,29 @@ public class DataBase {
 	}
 
 	private String generatePath(){
-		Date d = new Date();
+		return "data/database.db";
+
+		/*Date d = new Date();
 		DateFormat format = DateFormat.getDateTimeInstance(
 				DateFormat.MEDIUM,
 				DateFormat.MEDIUM);
 
-		return "data/capture_"+format.format(d).replace(' ','_').replace(".","").replace(":","_")+".db";
+		return "data/capture_"+format.format(d).replace(' ','_').replace(".","").replace(":","_")+".db";*/
+	}
+
+	private String generateCaptureName(){
+		Date d = new Date();
+//		DateFormat format = DateFormat.getDateTimeInstance(
+//				DateFormat.MEDIUM,
+//				DateFormat.MEDIUM);
+
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+
+		//genere un nom de capture du type :
+		//  capture_20_févr_2017_10_22_59
+		String result = "capture_"+format.format(d).replace(' ','_').replace(".","_").replace(":","_");
+		System.out.println(result);
+		return result;
 	}
 
 	/**
@@ -102,12 +132,15 @@ public class DataBase {
 		this.buffer.add(new Trio<>(requete, reponse, timeUsed));
 	}
 
+	public HashMap<String, HashMap<String, Object>> actuValues() {
+		return actuValues("");
+	}
 	/**
 	 * hashmap qui fait correspondre : site vers données
 	 * les données sont représenté par une hashMap se string vers string
 	 * @return une hashmap qui fait correspondre : site vers données
 	 */
-	public HashMap<String, HashMap<String, Object>> actuValues(){
+	public HashMap<String, HashMap<String, Object>> actuValues(String captureN){
         this.saveData();
 		HashMap<String, Object> nbPagesCharged      = new HashMap<>(),
 								poidPagesCharged    = new HashMap<>(),
@@ -117,10 +150,20 @@ public class DataBase {
 		//la map correspondant aux différentes valeurs récupérée à partir du fichier de base de données
 		HashMap<String, HashMap<String, Object>> values = new HashMap<>();
 
+		String count = "SELECT siteName, count(*) FROM enregistrement GROUP BY siteName";
+		String poidPages = "SELECT siteName, sum(poid) FROM enregistrement GROUP BY siteName";
+		String cookies = "SELECT siteName, cookies FROM enregistrement";
+		String method = "SELECT methode, count(methode) FROM enregistrement GROUP BY methode";
+
+		if(captureN.isEmpty()){
+			count += " WHERE captureName="+DataBase.captureName;
+			poidPages += " WHERE captureName="+DataBase.captureName;
+			cookies += " WHERE captureName="+DataBase.captureName;
+			method += " WHERE captureName="+DataBase.captureName;
+		}
+
 		try {
 			Statement stmt = conn.createStatement();
-            String count = "SELECT siteName, count(*) FROM enregistrement GROUP BY siteName";
-
 
 			ResultSet resultSet = stmt.executeQuery(count);
 
@@ -129,7 +172,6 @@ public class DataBase {
                 nbPagesCharged.put(resultSet.getString(1), resultSet.getInt(2));
 			}
 
-			String poidPages = "SELECT siteName, sum(poid) FROM enregistrement GROUP BY siteName";
             resultSet = stmt.executeQuery(poidPages);
 
             //on enregistre le poid des pages pour tous le tuples de notre base
@@ -137,7 +179,6 @@ public class DataBase {
                 poidPagesCharged.put(resultSet.getString(1), resultSet.getInt(2));
             }
 
-            String cookies = "SELECT siteName, cookies FROM enregistrement";
             resultSet = stmt.executeQuery(cookies);
             String key, value;
             while (resultSet.next()){
@@ -151,7 +192,6 @@ public class DataBase {
                 nbCookiesCreated.put(key, value);
             }
 
-            String method = "SELECT methode, count(methode) FROM enregistrement GROUP BY methode";
             resultSet = stmt.executeQuery(method);
             while (resultSet.next()){
 	            key = resultSet.getString(1);
@@ -171,20 +211,23 @@ public class DataBase {
 
 		return values;
 	}
+	public synchronized void saveData(){
+		this.saveData(DataBase.captureName);
+	}
 
 	/**
 	 * Traitement des pages enregistrée dans la liste de buffer
 	 *
 	 * On parse le fichier et on ajoute des données dedans
 	 */
-	public synchronized void saveData(){
+	public synchronized void saveData(String captureName){
 		PreparedStatement stmt = null;
 
 		try {
 			//on cré la requete à executer
 			//elle est toujours la même donc pas besoin de tjrs la recréer
-			String sql = "INSERT INTO enregistrement (siteName,methode,cookies, poid, timeUsed) " +
-					"VALUES(?,?,?,?,?)";
+			String sql = "INSERT INTO enregistrement (captureName, siteName,methode,cookies, poid, timeUsed) " +
+					"VALUES("+captureName+",?,?,?,?,?)";
 			stmt = conn.prepareStatement(sql);
 
 			for (Trio<String, String, Long> values : this.buffer) {
@@ -294,6 +337,33 @@ public class DataBase {
 		return map;
 	}
 
+	public String[] getCapturesNames(){
+		String sql = "SELECT captureName from enregistement";
+		ArrayList<String> ar = new ArrayList<>();
+		try {
+			Statement stmt = this.conn.createStatement();
+
+			stmt.execute(sql);
+			ResultSet set = stmt.getResultSet();
+
+			while(set.next()){
+				ar.add(set.getString(1));
+			}
+
+			return (String[])ar.toArray();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return new String[0];
+	}
+
+	/**
+	 * Classe utilisée pour stocker les trio de header + temps
+	 * @param <T1>
+	 * @param <T2>
+	 * @param <T3>
+	 */
 	private class Trio<T1, T2, T3> {
 		public T1 one;
 		public T2 two;
