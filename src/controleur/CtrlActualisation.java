@@ -38,7 +38,8 @@ public class CtrlActualisation implements ActionListener {
 				//TODO S2LECTION DE LA BD
 
 
-				HashMap<String, HashMap<String, Object>> data = this.analyseur.getData();
+
+				HashMap<String, HashMap<String, Object>> data = this.analyseur.getData(v.getData());
 
 				HashMap<String, Object> methodeUsed = data.get("methodeUsed");
 				HashMap<String, Object> nbPagesCharged = data.get("nbPagesCharged");
