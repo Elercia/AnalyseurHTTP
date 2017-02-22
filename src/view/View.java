@@ -20,9 +20,11 @@ public class View {
   private JRadioButton proxy_oui, proxy_non, param_auto, param_man;
   private JTextField adressProxySysteme;
   private JSpinner proxyPort, proxyPortLogiciel;
-  private JLabel tmpCapture, nbChargedPages, nbCookie; //affichage
+  private JLabel nbChargedPages;
+  private JLabel nbCookie; //affichage
   private JTabbedPane onglets;
   private JPanel JPtmpCapture, JPnbChargedPages, JPweigtChargedPages, JPnbCookie, JPmostViewedSite, JPmethode;
+  private JComboBox data;
 
   //modele
   private Analyseur analyseur;
@@ -142,7 +144,7 @@ public class View {
     JTabbedPane ongletsGraph = new JTabbedPane(SwingConstants.TOP);
 
     //todo LISTE D2ROULANTE
-    //JComboBox data = new JComboBox(elements);
+    data = new JComboBox(analyseur.getCapturesNames());
 
 
     JButton actu = new JButton("Rafraichir");
@@ -153,17 +155,14 @@ public class View {
 
     JLabel txtcap = new JLabel("Temps des captures");
     JLabel txtpagechar = new JLabel("Nombre de pages chargées");
-    JLabel txtpoid = new JLabel("Poid des pages chargées");
     JLabel txtcookie = new JLabel("Nombre de cookies créés");
-    JLabel txtsite = new JLabel("Le site le plus utlisé");
 
-    tmpCapture = new JLabel("<valeur>");
+    JLabel tmpCapture = new JLabel("<valeur>");
     nbChargedPages = new JLabel("<valeur>");
     nbCookie = new JLabel("<valeur>");
 
     JButton bcap =new javax.swing.JButton("Plus d'info");
     JButton bpagechar =new javax.swing.JButton("Plus d'info");
-    JButton bpoid =new javax.swing.JButton("Plus d'info");
     JButton bcookie =new javax.swing.JButton("Plus d'info");
 
     JPtmpCapture = new JPanel();
@@ -215,8 +214,6 @@ public class View {
     JMenuBar menuBar;
     JMenu menu, submenu;
     JMenuItem menuItem, ouvrir;
-    JRadioButtonMenuItem rbMenuItem;
-    JCheckBoxMenuItem cbMenuItem;
 
     //Create the menu bar.
     menuBar = new JMenuBar();
@@ -342,9 +339,9 @@ public class View {
   }
 
   //maj affichge
-  public void maj_cap(String s){
-    tmpCapture.setText(s);
-  }
+  //public void maj_cap(String s){
+  //  tmpCapture.setText(s);
+  //}
 
   public void maj_pagecharge(String s){
     nbChargedPages.setText(s);
@@ -393,22 +390,26 @@ public class View {
     return proxy_non.getText();
   }
 
+  public String getData(){
+    return (String)data.getSelectedItem();
+  }
 
-  public static void setBestLookAndFeelAvailable(){
+
+  private static void setBestLookAndFeelAvailable(){
     String system_lf = UIManager.getSystemLookAndFeelClassName().toLowerCase();
     if(system_lf.contains("metal")){
       try {
         UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-      }catch (Exception e) {}
+      }catch (Exception e) {e.printStackTrace();}
     }else{
       try {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-      }catch (Exception e) {}
+      }catch (Exception e) {e.printStackTrace();}
     }
   }
 
   public static void main(String[] args) {
     setBestLookAndFeelAvailable();
-    View fenetre = new View();
+    new View();
   }
 }
