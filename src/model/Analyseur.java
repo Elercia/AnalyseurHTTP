@@ -76,8 +76,12 @@ public class Analyseur implements Runnable {
 		this.proxyPort = port;
 	}
 
-	public HashMap<String, HashMap<String, Object>> getData(){
-		return this.bdd.actuValues();
+	public HashMap<String, HashMap<String, Object>> getData(String captureName){
+		return this.bdd.actuValues(captureName);
+	}
+
+	public String[] getCapturesNames(){
+		return DataBase.getCapturesNames();
 	}
 
 	@Override
@@ -124,7 +128,7 @@ public class Analyseur implements Runnable {
 		this.listening = false;
 
 		try {
-			executorService.awaitTermination(60, TimeUnit.SECONDS);
+			executorService.awaitTermination(30, TimeUnit.SECONDS);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
