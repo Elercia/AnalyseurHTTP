@@ -1,5 +1,6 @@
 package controleur;
 
+import java.awt.*;
 import java.awt.event.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +33,11 @@ public class CtrlActualisation implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if ((e.getSource()).equals(actu)){
 			try{
-				System.out.println(this.analyseur.getData());
+				//System.out.println(this.analyseur.getData());
+
+				//TODO S2LECTION DE LA BD
+
+
 				HashMap<String, HashMap<String, Object>> data = this.analyseur.getData();
 
 				HashMap<String, Object> methodeUsed = data.get("methodeUsed");
@@ -58,22 +63,49 @@ public class CtrlActualisation implements ActionListener {
 	}
 
 	public void methodeUsed(HashMap<String, Object> methodeUsed){
-		v.addJPmethode(createDemoPanel(methodeUsed));
-		v.maj_methode(methodeUsed.toString());
+		v.clearJPMethode();
+
+		JPanel JPmetode = new JPanel();
+		JLabel txtmethode = new JLabel("Methode HTTP la plus utilisée : ");
+		JLabel methode = new JLabel(methodeUsed.toString());
+
+		JPmetode.add(txtmethode);
+		JPmetode.add(methode);
+		JPmetode.add(createDemoPanel(methodeUsed));
+		v.addJPmethode(JPmetode);
 	}
 
 	public void poidPageCharged(HashMap<String, Object> poidPageCharged, HashMap<String, Object> nbPagesCharged){
 		String expr="";
+		String exprde= "";
+		HashMap<String, Object> vincent = new HashMap<String, Object>();
 		for (String s : poidPageCharged.keySet()) {
 			if(nbPagesCharged.containsKey(s)){
 				int val =(int)poidPageCharged.get(s)/(int)nbPagesCharged.get(s);
+				vincent.put(s, val);
 				expr = expr + s +" : "+ val + ", ";
+				exprde = exprde + s+ " : "+ poidPageCharged.get(s);
 			}
 		}
 		if(!expr.isEmpty()){
-			v.maj_poid(expr);
-		}else{
-			v.maj_poid("ERREUR");
+			v.clearJPweigtChargedPages();
+
+			JPanel JPpoidPageCharged = new JPanel();
+			JPpoidPageCharged.setLayout(new BorderLayout());//l,c
+			JLabel txtpoidPageCharged = new JLabel("Poid des pages chargées : ");
+			JLabel exppoidPageCharged = new JLabel(expr);
+
+			JPpoidPageCharged.add(txtpoidPageCharged, BorderLayout.NORTH);
+			JPpoidPageCharged.add(exppoidPageCharged, BorderLayout.NORTH);
+			JPpoidPageCharged.add(createDemoPanel(vincent), BorderLayout.CENTER);
+
+			JLabel txtpoidPageChargedde = new JLabel("Poid TOTAL des pages chargées : ");
+			JLabel exppoidPageChargedde = new JLabel(exprde);
+
+			JPpoidPageCharged.add(txtpoidPageChargedde, BorderLayout.SOUTH);
+			JPpoidPageCharged.add(exppoidPageChargedde, BorderLayout.SOUTH);
+
+			v.addJPweigtChargedPages(JPpoidPageCharged);
 		}
 	}
 
@@ -91,12 +123,17 @@ public class CtrlActualisation implements ActionListener {
 			}
 		}
 		if(!strMax.isEmpty()){
-			v.maj_site(strMax);
-		}else{
-			v.maj_site("ERREUR");
-		}
+			v.clearJPMostViewedSite();
 
-		v.addJPmostViewedSite(createDemoPanel(nbPagesCharged));
+			JPanel JPmostViewedSite = new JPanel();
+			JLabel txtmostViewedSite = new JLabel("Le site le plus utlisé : ");
+			JLabel mostViewedSite = new JLabel(strMax);
+
+			JPmostViewedSite.add(txtmostViewedSite);
+			JPmostViewedSite.add(mostViewedSite);
+			JPmostViewedSite.add(createDemoPanel(nbPagesCharged));
+			v.addJPmostViewedSite(JPmostViewedSite);
+		}
 	}
 
 	public void nbPageCharged(HashMap<String, Object> nbPagesCharged){
