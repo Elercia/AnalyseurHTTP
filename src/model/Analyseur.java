@@ -146,6 +146,13 @@ public class Analyseur implements Runnable {
 	}
 
 	/**
+	 * @see DataBase::getCurrentFilePath
+	 */
+	public String getPath(){
+		return this.bdd.getCurrentFilePath();
+	}
+
+	/**
 	 * @see DataBase::supprimerCapture
 	 */
 	public void supprimerCapture(String captureN){
