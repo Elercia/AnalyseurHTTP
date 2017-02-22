@@ -1,18 +1,14 @@
 package model;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
-import javafx.util.Pair;
-import javafx.util.converter.IntegerStringConverter;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.*;
 import java.io.*;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Date;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetEncoder;
 
 /**
  * Created by E155399M on 30/01/17.
@@ -131,7 +127,9 @@ public class DataBase {
 	 * Ce buffer sera écrit dans le fichier à la fin quand l'analyse sera finie
 	 */
 	public synchronized void enregistrement(String requete, String reponse, long timeUsed){
-		this.buffer.add(new Trio<>(requete, reponse, timeUsed));
+		if(Charset.forName("US-ASCII").newEncoder().canEncode(requete)
+				&& Charset.forName("US-ASCII").newEncoder().canEncode(requete))
+			this.buffer.add(new Trio<>(requete, reponse, timeUsed));
 	}
 
 	public HashMap<String, HashMap<String, Object>> actuValues() {

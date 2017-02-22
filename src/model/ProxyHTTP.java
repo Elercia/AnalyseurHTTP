@@ -47,6 +47,8 @@ public class ProxyHTTP implements Runnable {
             //on recupére le temps de début
             long startTime = System.currentTimeMillis();
 
+            //headers[0] represente la requete
+            //headers[1] represente la reponse
             final String[] headers = new String[2];
 
             //TODO à changer
@@ -75,8 +77,7 @@ public class ProxyHTTP implements Runnable {
                             fluxSortantServeur.write(request, 0, length);
                             fluxSortantServeur.flush();
                         }
-                    }
-                    catch(IOException e){
+                    }catch(IOException e){
 
                     }
                 }
@@ -100,10 +101,10 @@ public class ProxyHTTP implements Runnable {
             long endTime = System.currentTimeMillis();
             long delta = endTime-startTime;
 
-            /*TODO
-                Récupérer les deux headers requete et reponse et les enregistrer
-             */
-            this.bdd.enregistrement(new String(), new String(), delta);
+            //TODO idée : Change un peu la methode d'enregistrement en lui ajoutant la verification
+            //que les headers sont valide
+            //C'est a dire qu'ils ne sont pas issu d'une requete https (qu'ils ne sont pas encrypter et donc en claire)
+            this.bdd.enregistrement(headers[0], headers[1], delta);
         }
         catch(IOException e)
         {
