@@ -131,7 +131,6 @@ public class ProxyHTTP implements Runnable {
     private String getHost(String header) {
         if(isUsingProxy){
             String s = this.proxyAdresse+":"+this.proxyPort;
-            //System.out.println("L'host Utilisé est un proxy ("+s+")");
             return s;
         }else {
             header = header.toLowerCase();

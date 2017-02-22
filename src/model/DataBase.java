@@ -47,22 +47,8 @@ public class DataBase {
 		}
 
 		conn = DriverManager.getConnection("jdbc:sqlite:"+path);
-		Statement stmt = conn.createStatement();
 
-
-		//creation de la table d'enregistrement en fonction de si elle existe ou pas
-		//Pour ne pas supprimer de table existante
-		//La table est définie par son nom de capture (généré par le pogramme à chaque lancement
-		String sql = "CREATE TABLE IF NOT EXISTS enregistrement (" +
-                    "id INTEGER PRIMARY KEY NOT NULL, " +
-					"captureName TEXT NOT NULL," +
-                    "siteName TEXT NOT NULL," +
-                    "methode TEXT NOT NULL," +
-                    "cookies TEXT NOT NULL," +
-                    "poid INTEGER NOT NULL," +
-                    "timeUsed INTEGER NOT NULL )";
-		stmt.execute(sql);
-		stmt.close();
+		this.generateTable();
 
         conn.setAutoCommit(false);
         conn.commit();
@@ -73,6 +59,27 @@ public class DataBase {
 		DataBase.captureName = this.generateCaptureName();
 
 		System.out.println("Base de données attaché au fichier : "+path +" avec le nom de capture : "+DataBase.captureName);
+	}
+
+	/**
+	 * Methode générant la table utilisée par notre programme si elle n'existe pas dans notre fichier
+	 * @throws SQLException
+	 */
+	public void generateTable() throws SQLException {
+		Statement stmt = conn.createStatement();
+		//creation de la table d'enregistrement en fonction de si elle existe ou pas
+		//Pour ne pas supprimer de table existante
+		//La table est définie par son nom de capture (généré par le pogramme à chaque lancement
+		String sql = "CREATE TABLE IF NOT EXISTS enregistrement (" +
+				"id INTEGER PRIMARY KEY NOT NULL, " +
+				"captureName TEXT NOT NULL," +
+				"siteName TEXT NOT NULL," +
+				"methode TEXT NOT NULL," +
+				"cookies TEXT NOT NULL," +
+				"poid INTEGER NOT NULL," +
+				"timeUsed INTEGER NOT NULL )";
+		stmt.execute(sql);
+		stmt.close();
 	}
 
 	/**
@@ -89,36 +96,24 @@ public class DataBase {
 	}
 
 	/**
-     * @deprecated
 	 * Fonction utilisé pour set le fichier à utiliser
 	 * @param path @Nullable Le fichier à utiliser
 	 */
-	private void setFile(String path){
+	private void setFile(String path) throws SQLException {
+		this.conn = DriverManager.getConnection("jdbc:sqlite:"+path);
 	}
 
 	private String generatePath(){
 		return "data/database.db";
-
-		/*Date d = new Date();
-		DateFormat format = DateFormat.getDateTimeInstance(
-				DateFormat.MEDIUM,
-				DateFormat.MEDIUM);
-
-		return "data/capture_"+format.format(d).replace(' ','_').replace(".","").replace(":","_")+".db";*/
 	}
 
 	private String generateCaptureName(){
 		Date d = new Date();
-//		DateFormat format = DateFormat.getDateTimeInstance(
-//				DateFormat.MEDIUM,
-//				DateFormat.MEDIUM);
-
 		SimpleDateFormat format = new SimpleDateFormat("dd_MM_yy_HH:mm:ss");
 
 		//genere un nom de capture du type :
 		//  capture_20_févr_2017_10_22_59
 		String result = "capture_"+format.format(d).replace(' ','_').replace(".","_").replace(":","_");
-		System.out.println(result);
 		return result;
 	}
 
@@ -127,8 +122,9 @@ public class DataBase {
 	 * Ce buffer sera écrit dans le fichier à la fin quand l'analyse sera finie
 	 */
 	public synchronized void enregistrement(String requete, String reponse, long timeUsed){
-		if(Charset.forName("US-ASCII").newEncoder().canEncode(requete)
-				&& Charset.forName("US-ASCII").newEncoder().canEncode(requete))
+		CharsetEncoder ce = Charset.forName("US-ASCII").newEncoder();
+		if(ce.canEncode(requete)
+				&& ce.canEncode(requete))
 			this.buffer.add(new Trio<>(requete, reponse, timeUsed));
 	}
 
@@ -365,6 +361,31 @@ public class DataBase {
 			e.printStackTrace();
 		}
 		return new ArrayList<>();
+	}
+
+	/**
+	 * Methode permettant de supprimer une capture
+	 * @param captureN le nom de la capture à supprimer ou "toutes" si on veut toutes les supprimer
+	 */
+	public void supprimerCapture(String captureN){
+		String sql = "DELETE FROM enregistrement";
+
+		if(!captureN.equalsIgnoreCase("toutes"))
+			sql += " WHERE captureName=?";
+
+		PreparedStatement stmt = null;
+		try {
+			stmt = this.conn.prepareStatement(sql);
+			
+			if(!captureN.equalsIgnoreCase("toutes"))
+				stmt.setString(1, captureN);
+
+
+			stmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

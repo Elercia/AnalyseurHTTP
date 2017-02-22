@@ -145,6 +145,13 @@ public class Analyseur implements Runnable {
 		this.isStoping= false;
 	}
 
+	/**
+	 * @see DataBase::supprimerCapture
+	 */
+	public void supprimerCapture(String captureN){
+		this.bdd.supprimerCapture(captureN);
+	}
+
 	public boolean isStoping(){
 		return this.isStoping;
 	}
