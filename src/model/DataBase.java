@@ -42,7 +42,8 @@ public class DataBase {
 			path = this.generatePath();
 
 			try {
-				Files.createFile(Paths.get(path));
+				if(!Files.exists(Paths.get(path)))
+					Files.createFile(Paths.get(path));
 			} catch (IOException e) {
 				e.printStackTrace();
 				System.exit(-1);
