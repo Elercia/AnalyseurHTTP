@@ -58,7 +58,8 @@ public class DataBase {
 		//Pour ne pas supprimer de table existante
 		//La table est définie par son nom de capture (généré par le pogramme à chaque lancement
 		String sql = "CREATE TABLE IF NOT EXISTS enregistrement (" +
-                    "captureName TEXT PRIMARY KEY NOT NULL, " +
+                    "id INTEGER PRIMARY KEY NOT NULL, " +
+					"captureName TEXT NOT NULL," +
                     "siteName TEXT NOT NULL," +
                     "methode TEXT NOT NULL," +
                     "cookies TEXT NOT NULL," +
@@ -221,7 +222,7 @@ public class DataBase {
 	 *
 	 * On parse le fichier et on ajoute des données dedans
 	 */
-	public synchronized void saveData(String captureName){
+	public synchronized void saveData(String captureN){
 		PreparedStatement stmt = null;
 
 		try {
@@ -230,7 +231,6 @@ public class DataBase {
 			String sql = "INSERT INTO enregistrement (captureName, siteName,methode,cookies, poid, timeUsed) " +
 					"VALUES(?,?,?,?,?,?)";
 			stmt = conn.prepareStatement(sql);
-			stmt.setString(1, captureName);
 
 			for (Trio<String, String, Long> values : this.buffer) {
 				String requete = values.one;
@@ -242,12 +242,16 @@ public class DataBase {
 				String cookie = String.valueOf(this.getCookie(response));
 				Integer poid = this.getLength(response);
 
+				System.out.println(captureN);
 				//on associe chaque parametre aux points d'intérogations dans le String "sql"
+				stmt.setString(1, captureN);
 				stmt.setString(2, siteName);
 				stmt.setString(3, methode);
 				stmt.setString(4, cookie);
 				stmt.setInt(5, poid);
 				stmt.setLong(6, timeUsed);
+
+				System.out.println(stmt);
 
 				try {
 					//on execute la requete sql
