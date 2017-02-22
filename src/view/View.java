@@ -7,6 +7,8 @@ package view;
 import java.awt.event.KeyEvent;
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+
 import controleur.*;
 import model.Analyseur;
 //proxyPort 1 à 65535
@@ -144,7 +146,13 @@ public class View {
     JTabbedPane ongletsGraph = new JTabbedPane(SwingConstants.TOP);
 
     //todo LISTE D2ROULANTE
-    data = new JComboBox(analyseur.getCapturesNames());
+
+    ArrayList<String> ar = analyseur.getCapturesNames();
+
+    String[] tab = new String[ar.size()];
+    tab = ar.toArray(tab);
+
+    data = new JComboBox(tab);
 
 
     JButton actu = new JButton("Rafraichir");
@@ -197,6 +205,7 @@ public class View {
     onglet2_2.setLayout(new BorderLayout());
     onglet2_2.add(ongletsGraph, BorderLayout.CENTER);
     JPanel JPactu = new JPanel();
+    JPactu.add(data);
     JPactu.add(actu);
     onglet2_2.add(JPactu, BorderLayout.SOUTH);
 
