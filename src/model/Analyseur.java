@@ -44,6 +44,12 @@ public class Analyseur implements Runnable {
 		this.usingProxy = false;
 		this.proxyAdress ="";
 		this.proxyPort=0;
+
+		try {
+			this.bdd = new DataBase("");
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void setPort(int port)throws IOException{
