@@ -157,7 +157,7 @@ public class DataBase {
 		String cookies = "SELECT siteName, cookies FROM enregistrement";
 		String method = "SELECT methode, count(methode) FROM enregistrement GROUP BY methode";
 
-		if(captureN.isEmpty()){
+		if(!captureN.isEmpty() && !captureN.equalsIgnoreCase("toutes")){
 			count += " WHERE captureName="+DataBase.captureName;
 			poidPages += " WHERE captureName="+DataBase.captureName;
 			cookies += " WHERE captureName="+DataBase.captureName;
