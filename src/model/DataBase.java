@@ -350,7 +350,7 @@ public class DataBase {
 	 * @return un Arraylist correspondant
 	 */
 	public ArrayList<String> getCapturesNames(){
-		String sql = "SELECT captureName from enregistrement";
+		String sql = "SELECT captureName from enregistrement GROUP BY captureName";
 		ArrayList<String> ar = new ArrayList<>();
 		ar.add("Toutes");
 		try {
