@@ -81,7 +81,7 @@ public class Analyseur implements Runnable {
 	}
 
 	public String[] getCapturesNames(){
-		return DataBase.getCapturesNames();
+		return this.getCapturesNames();
 	}
 
 	@Override

@@ -2,11 +2,13 @@ package model;
 
 import javax.net.SocketFactory;
 import javax.net.ssl.SSLSocketFactory;
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.concurrent.TimeoutException;
 
@@ -30,6 +32,12 @@ public class ProxyHTTP implements Runnable {
         this.clientSocket = socket;
         this.id = id;
         this.bdd = bdd;
+
+        try {
+            this.clientSocket.setSoTimeout(10000);
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
 
         System.out.println("------DEBUT thread id = "+id+"-------");
     }
@@ -77,7 +85,8 @@ public class ProxyHTTP implements Runnable {
                 SocketFactory sf = SocketFactory.getDefault();
                 InetAddress inet = InetAddress.getByName(host);
                 socket = sf.createSocket(inet, port);
-                //socket.setSoTimeout(5000);
+                //latence de 5s pas bien !
+                socket.setSoTimeout(30000);
 
                 OutputStream outgoingOS = socket.getOutputStream();
 
@@ -89,18 +98,20 @@ public class ProxyHTTP implements Runnable {
                 String h2="";
                 //On lit la réponse du serveur et on l'ecrit au client
                 for (int length; (length = outgoingIS.read(b2)) != -1; ) {
+                    //TODO content length
                     incommingOS.write(b2, 0, length);
                     h2 = new String(b2, 0, length);
                 }
-                incommingOS.flush();
-                h2 = h2.split("\r\n\r\n")[0];
+
+               /* int length = outgoingIS.read(b2);
+                incommingOS.write(b2, 0, length);
+                h2 = new String(b2, 0, length);*/
+
+                h2 = h2.split("\r\n\r\n",2)[0];
                 long stopTime = System.currentTimeMillis();
                 long timeUsed = stopTime-startTime;
-//                h1+="\ntimeUsed: "+ timeUsed+"\n";
 
-//                System.out.println("Enregistrement "+id);
                 this.bdd.enregistrement(h1, h2, timeUsed);
-//                System.out.println("Enregistrement fini "+id);
 
                 //faire enregistrement ici plz
                 incommingOS.close();
@@ -113,14 +124,14 @@ public class ProxyHTTP implements Runnable {
                 incommingIS.close();
             }
         } catch(TimeoutException | SocketTimeoutException toe ){
-            System.err.println("LOLMDR");
+            System.err.println("Timeout exception !");
         } catch (IOException e) {
             e.printStackTrace();
         } catch(Exception e) {
             System.err.println("Erreur inconnue : "+e.getMessage());
             e.printStackTrace();
         }finally{
-            System.out.println("------FIN thread id = "+id+"---------");
+            System.out.println("------FIN thread id = "+ id +"---------");
         }
     }
 
