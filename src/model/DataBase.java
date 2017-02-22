@@ -27,8 +27,12 @@ public class DataBase {
 	 */
 	private ArrayList<Trio<String, String, Long>> buffer;
 
-
+	/**
+	 * Le nom de la capture attaché à la base de données
+	 */
 	public static String captureName;
+
+	private String filePath;
 
 	public DataBase(String path) throws ClassNotFoundException, SQLException {
 		//On setup le SQL lite
@@ -45,6 +49,8 @@ public class DataBase {
 				System.exit(-1);
 			}
 		}
+
+		this.filePath = Paths.get(path).toAbsolutePath().toString();
 
 		conn = DriverManager.getConnection("jdbc:sqlite:"+path);
 
@@ -208,6 +214,7 @@ public class DataBase {
 
 		return values;
 	}
+
 	public synchronized void saveData(){
 		this.saveData(DataBase.captureName);
 	}
@@ -376,7 +383,7 @@ public class DataBase {
 		PreparedStatement stmt = null;
 		try {
 			stmt = this.conn.prepareStatement(sql);
-			
+
 			if(!captureN.equalsIgnoreCase("toutes"))
 				stmt.setString(1, captureN);
 
@@ -386,6 +393,10 @@ public class DataBase {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public String getCurrentFilePath(){
+		return this.filePath;
 	}
 
 	/**
