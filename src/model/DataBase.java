@@ -158,10 +158,10 @@ public class DataBase {
 		String method = "SELECT methode, count(methode) FROM enregistrement GROUP BY methode";
 
 		if(!captureN.isEmpty() && !captureN.equalsIgnoreCase("toutes")){
-			count += " WHERE captureName='"+DataBase.captureName+"'";
-			poidPages += " WHERE captureName='"+DataBase.captureName+"'";
-			cookies += " WHERE captureName='"+DataBase.captureName+"'";
-			method += " WHERE captureName='"+DataBase.captureName+"'";
+			count = "SELECT siteName, count(*) FROM enregistrement WHERE captureName='"+DataBase.captureName+"' GROUP BY siteName";
+			poidPages = "SELECT siteName, sum(poid) FROM enregistrement WHERE captureName='"+DataBase.captureName+"' GROUP BY siteName";
+			cookies = "SELECT siteName, cookies FROM enregistrement WHERE captureName='"+DataBase.captureName+"'";
+			method = "SELECT methode, count(methode) FROM enregistrement WHERE captureName='"+DataBase.captureName+"' GROUP BY methode";
 		}
 
 		try {
