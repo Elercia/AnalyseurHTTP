@@ -14,15 +14,14 @@ import model.Analyseur;
 
 
 public class View {
-  private JButton stop, start, actu;
+  private JButton stop;
+  private JButton start;
   private JLabel txtprox, txtproxy, txtport, chargement;
   private JRadioButton proxy_oui, proxy_non, param_auto, param_man;
   private JTextField adressProxySysteme;
   private JSpinner proxyPort, proxyPortLogiciel;
-  private JLabel tmpCapture, nbChargedPages, weigtChargedPages, nbCookie, mostViewedSite, methode; //affichage
-  private ButtonGroup bgAutoMan, bgProxy;
-  private JTabbedPane onglets, ongletsGraph;
-  private JPanel onglet1_3;
+  private JLabel tmpCapture, nbChargedPages, nbCookie; //affichage
+  private JTabbedPane onglets;
   private JPanel JPtmpCapture, JPnbChargedPages, JPweigtChargedPages, JPnbCookie, JPmostViewedSite, JPmethode;
 
   //modele
@@ -52,7 +51,7 @@ public class View {
     JLabel txtparam =new JLabel("Configuration :");
     onglet1_1.add(txtparam);
 
-    bgProxy = new ButtonGroup();
+    ButtonGroup bgProxy = new ButtonGroup();
     param_auto = new JRadioButton("Automatique");
     param_auto.setSelected(true);
     param_man = new JRadioButton("Manuel");
@@ -74,7 +73,7 @@ public class View {
     txtprox.setVisible(false);
     onglet1_2.add(txtprox);
 
-    bgAutoMan = new ButtonGroup();
+    ButtonGroup bgAutoMan = new ButtonGroup();
     proxy_oui = new JRadioButton("Oui");
     proxy_non = new JRadioButton("Non");
     proxy_non.setSelected(true);
@@ -110,9 +109,7 @@ public class View {
     onglet1_2.add(proxyPort);
 
 
-    onglet1_3 = new JPanel();
-    /*FlowLayout layout1_3=new FlowLayout();
-    layout1_3.setHgap(50);*/
+    JPanel onglet1_3 = new JPanel();
     onglet1_3.setLayout(new FlowLayout());
 
     stop = new JButton("Stop");
@@ -142,10 +139,13 @@ public class View {
     onglets.addTab("Analyseur", onglet1_G);
 
 
+    JTabbedPane ongletsGraph = new JTabbedPane(SwingConstants.TOP);
 
-    this.ongletsGraph= new JTabbedPane(SwingConstants.TOP);
+    //todo LISTE D2ROULANTE
+    //JComboBox data = new JComboBox(elements);
 
-    actu = new JButton("Rafraichir");
+
+    JButton actu = new JButton("Rafraichir");
     actu.setPreferredSize(new Dimension(100, 25));
     CtrlActualisation ctrlActualisation = new CtrlActualisation(actu, this, analyseur);
     actu.addActionListener(ctrlActualisation);
@@ -156,27 +156,15 @@ public class View {
     JLabel txtpoid = new JLabel("Poid des pages chargées");
     JLabel txtcookie = new JLabel("Nombre de cookies créés");
     JLabel txtsite = new JLabel("Le site le plus utlisé");
-    JLabel txtmethode = new JLabel("Methode HTTP la plus utilisée");
 
     tmpCapture = new JLabel("<valeur>");
     nbChargedPages = new JLabel("<valeur>");
-    weigtChargedPages = new JLabel("<valeur>");
     nbCookie = new JLabel("<valeur>");
-    mostViewedSite = new JLabel("<valeur>");
-    methode = new JLabel("<valeur>");
 
     JButton bcap =new javax.swing.JButton("Plus d'info");
     JButton bpagechar =new javax.swing.JButton("Plus d'info");
     JButton bpoid =new javax.swing.JButton("Plus d'info");
     JButton bcookie =new javax.swing.JButton("Plus d'info");
-    JButton bsite =new javax.swing.JButton("Plus d'info");
-    JButton bmethode =new javax.swing.JButton("Plus d'info");
-
-    /*CtrlChartMethode ctrlChartMethode = new CtrlChartMethode(bmethode, this, analyseur);
-    bmethode.addActionListener(ctrlChartMethode);
-
-    CtrlChartViewSite ctrlChartViewSite = new CtrlChartViewSite(bsite, this, analyseur);
-    bsite.addActionListener(ctrlChartViewSite);*/
 
     JPtmpCapture = new JPanel();
     JPtmpCapture.setLayout(new FlowLayout());
@@ -192,9 +180,6 @@ public class View {
 
     JPweigtChargedPages = new JPanel();
     JPweigtChargedPages.setLayout(new FlowLayout());
-    JPweigtChargedPages.add(txtpoid);
-    JPweigtChargedPages.add(weigtChargedPages);
-    JPweigtChargedPages.add(bpoid);
 
     JPnbCookie = new JPanel();
     JPnbCookie.setLayout(new FlowLayout());
@@ -204,14 +189,9 @@ public class View {
 
     JPmostViewedSite = new JPanel();
     JPmostViewedSite.setLayout(new FlowLayout());
-    JPmostViewedSite.add(txtsite);
-    JPmostViewedSite.add(mostViewedSite);
 
     JPmethode = new JPanel();
     JPmethode.setLayout(new FlowLayout());
-    JPmethode.add(txtmethode);
-    JPmethode.add(methode);
-
 
 
     JPanel onglet2_2 = new JPanel();
@@ -276,9 +256,8 @@ public class View {
     onglets.setOpaque(true);
     f.getContentPane().add(onglets);
     f.setVisible(true);
-    //f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     f.pack();
-    //f.setSize(new Dimension(1000, 800));
+    f.setPreferredSize(new Dimension(1000, 800));
   }
 
   public void start(){
@@ -354,6 +333,10 @@ public class View {
     JPmostViewedSite.add(add);
   }
 
+  public void addJPweigtChargedPages(JPanel add){
+    JPweigtChargedPages.add(add);
+  }
+
   public void addJPmethode(JPanel add){
     JPmethode.add(add);
   }
@@ -367,20 +350,21 @@ public class View {
     nbChargedPages.setText(s);
   }
 
-  public void maj_poid(String s){
-    weigtChargedPages.setText(s);
-  }
 
   public void maj_cookie(String s){
     nbCookie.setText(s);
   }
 
-  public void maj_site(String s){
-    mostViewedSite.setText(s);
+  public void clearJPMethode(){
+    JPmethode.removeAll();
   }
 
-  public void maj_methode(String s){
-    methode.setText(s);
+  public void clearJPMostViewedSite(){
+    JPmostViewedSite.removeAll();
+  }
+
+  public void clearJPweigtChargedPages(){
+    JPweigtChargedPages.removeAll();
   }
 
   public int getPortLog(){

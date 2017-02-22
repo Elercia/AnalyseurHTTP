@@ -25,7 +25,7 @@ public class CtrlOpen implements ActionListener {
         if ((e.getSource()).equals(ouvrir)){
             JFileChooser chooser = new JFileChooser();
             FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                    "*.json", "json");
+                    "*.db", "db");
             chooser.setFileFilter(filter);
             int returnVal = chooser.showOpenDialog(null);
             if(returnVal == JFileChooser.APPROVE_OPTION) {
