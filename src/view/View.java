@@ -23,6 +23,7 @@ public class View {
   private ButtonGroup bgAutoMan, bgProxy;
   private JTabbedPane onglets, ongletsGraph;
   private JPanel onglet1_3;
+  private JPanel JPtmpCapture, JPnbChargedPages, JPweigtChargedPages, JPnbCookie, JPmostViewedSite, JPmethode;
 
   //modele
   private Analyseur analyseur;
@@ -164,54 +165,52 @@ public class View {
     mostViewedSite = new JLabel("<valeur>");
     methode = new JLabel("<valeur>");
 
-    javax.swing.JButton bcap =new javax.swing.JButton("Plus d'info");
-    javax.swing.JButton bpagechar =new javax.swing.JButton("Plus d'info");
-    javax.swing.JButton bpoid =new javax.swing.JButton("Plus d'info");
-    javax.swing.JButton bcookie =new javax.swing.JButton("Plus d'info");
-    javax.swing.JButton bsite =new javax.swing.JButton("Plus d'info");
-    javax.swing.JButton bmethode =new javax.swing.JButton("Plus d'info");
+    JButton bcap =new javax.swing.JButton("Plus d'info");
+    JButton bpagechar =new javax.swing.JButton("Plus d'info");
+    JButton bpoid =new javax.swing.JButton("Plus d'info");
+    JButton bcookie =new javax.swing.JButton("Plus d'info");
+    JButton bsite =new javax.swing.JButton("Plus d'info");
+    JButton bmethode =new javax.swing.JButton("Plus d'info");
 
-    CtrlChartMethode ctrlChartMethode = new CtrlChartMethode(bmethode, this, analyseur);
+    /*CtrlChartMethode ctrlChartMethode = new CtrlChartMethode(bmethode, this, analyseur);
     bmethode.addActionListener(ctrlChartMethode);
 
     CtrlChartViewSite ctrlChartViewSite = new CtrlChartViewSite(bsite, this, analyseur);
-    bsite.addActionListener(ctrlChartViewSite);
+    bsite.addActionListener(ctrlChartViewSite);*/
 
-    JPanel JPtmpCapture = new JPanel();
+    JPtmpCapture = new JPanel();
     JPtmpCapture.setLayout(new FlowLayout());
     JPtmpCapture.add(txtcap);
     JPtmpCapture.add(tmpCapture);
     JPtmpCapture.add(bcap);
 
-    JPanel JPnbChargedPages = new JPanel();
+    JPnbChargedPages = new JPanel();
     JPnbChargedPages.setLayout(new FlowLayout());
     JPnbChargedPages.add(txtpagechar);
     JPnbChargedPages.add(nbChargedPages);
     JPnbChargedPages.add(bpagechar);
 
-    JPanel JPweigtChargedPages = new JPanel();
+    JPweigtChargedPages = new JPanel();
     JPweigtChargedPages.setLayout(new FlowLayout());
     JPweigtChargedPages.add(txtpoid);
     JPweigtChargedPages.add(weigtChargedPages);
     JPweigtChargedPages.add(bpoid);
 
-    JPanel JPnbCookie = new JPanel();
+    JPnbCookie = new JPanel();
     JPnbCookie.setLayout(new FlowLayout());
     JPnbCookie.add(txtcookie);
     JPnbCookie.add(nbCookie);
     JPnbCookie.add(bcookie);
 
-    JPanel JPmostViewedSite = new JPanel();
+    JPmostViewedSite = new JPanel();
     JPmostViewedSite.setLayout(new FlowLayout());
     JPmostViewedSite.add(txtsite);
     JPmostViewedSite.add(mostViewedSite);
-    JPmostViewedSite.add(bsite);
 
-    JPanel JPmethode = new JPanel();
+    JPmethode = new JPanel();
     JPmethode.setLayout(new FlowLayout());
     JPmethode.add(txtmethode);
     JPmethode.add(methode);
-    JPmethode.add(bmethode);
 
 
 
@@ -349,6 +348,14 @@ public class View {
   public void afterStop(){
     chargement.setVisible(false);
     stop.setEnabled(true);
+  }
+
+  public void addJPmostViewedSite(JPanel add){
+    JPmostViewedSite.add(add);
+  }
+
+  public void addJPmethode(JPanel add){
+    JPmethode.add(add);
   }
 
   //maj affichge

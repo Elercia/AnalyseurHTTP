@@ -1,5 +1,5 @@
 package controleur;
-
+/*
 import java.awt.event.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -79,3 +79,4 @@ public class CtrlChartMethode implements ActionListener {
         return new ChartPanel( chart );
     }
 }
+*/
