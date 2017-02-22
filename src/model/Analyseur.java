@@ -86,7 +86,7 @@ public class Analyseur implements Runnable {
 		return this.bdd.actuValues(captureName);
 	}
 
-	public String[] getCapturesNames(){
+	public ArrayList<String> getCapturesNames(){
 		return this.bdd.getCapturesNames();
 	}
 

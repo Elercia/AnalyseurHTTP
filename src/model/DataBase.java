@@ -338,7 +338,11 @@ public class DataBase {
 		return map;
 	}
 
-	public String[] getCapturesNames(){
+	/**
+	 * Methode permettant de connaitre tous les nom de capture enregistrée dans la base de données
+	 * @return un Arraylist correspondant
+	 */
+	public ArrayList<String> getCapturesNames(){
 		String sql = "SELECT captureName from enregistrement";
 		ArrayList<String> ar = new ArrayList<>();
 		try {
@@ -351,12 +355,12 @@ public class DataBase {
 				ar.add(set.getString(1));
 			}
 
-			return (String[])ar.toArray();
+			return ar;
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return new String[0];
+		return new ArrayList<>();
 	}
 
 	/**
