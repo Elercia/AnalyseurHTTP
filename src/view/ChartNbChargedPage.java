@@ -1,5 +1,5 @@
 package view;
-
+/*
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -55,4 +55,4 @@ public class ChartNbChargedPage extends JFrame
 
         return dataset;
     }
-}
+}*/

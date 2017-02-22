@@ -5,7 +5,7 @@ package view;
  */
 
 // voir http://www.tutorialspoint.com/jfreechart/
-
+/*
 import javax.swing.*;
 
 import org.jfree.chart.ChartFactory;
@@ -48,4 +48,4 @@ public class ChartTmpCapture extends JFrame
         JFreeChart chart = createChart(createDataset( ) );
         return new ChartPanel( chart );
     }
-}
+}*/

@@ -1,6 +1,7 @@
 package controleur;
 
 import java.awt.event.*;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -30,9 +31,15 @@ public class CtrlOpen implements ActionListener {
             int returnVal = chooser.showOpenDialog(null);
             if(returnVal == JFileChooser.APPROVE_OPTION) {
                 analyseur.setFile(chooser.getSelectedFile().getPath());
-                System.out.println("You chose to open this file: " +
-                        chooser.getSelectedFile().getName());
+                //System.out.println("You chose to open this file: " + chooser.getSelectedFile().getName());
             }
+
+            ArrayList<String> ar = analyseur.getCapturesNames();
+
+            String[] tab = new String[ar.size()];
+            tab = ar.toArray(tab);
+
+            v.majData(tab);
         }
     }
 }

@@ -1,5 +1,5 @@
 package view;
-
+/*
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -51,4 +51,4 @@ public class ChartWeightPage extends JFrame
         RefineryUtilities.centerFrameOnScreen( chart );
         chart.setVisible( true );
     }*/
-}
+//}

@@ -26,7 +26,7 @@ public class View {
   private JLabel nbCookie; //affichage
   private JTabbedPane onglets;
   private JPanel JPtmpCapture, JPnbChargedPages, JPweigtChargedPages, JPnbCookie, JPmostViewedSite, JPmethode;
-  private JComboBox data;
+  private JComboBox data, capName;
 
   //modele
   private Analyseur analyseur;
@@ -145,8 +145,6 @@ public class View {
 
     JTabbedPane ongletsGraph = new JTabbedPane(SwingConstants.TOP);
 
-    //todo LISTE D2ROULANTE
-
     ArrayList<String> ar = analyseur.getCapturesNames();
 
     String[] tab = new String[ar.size()];
@@ -220,9 +218,23 @@ public class View {
     ongletsGraph.addTab("Methode HTTP la plus utilisée", JPmethode);
 
 
+    JPanel gestBD = new JPanel();
+
+    JLabel bd = new JLabel("Table à supprimer : ");
+    gestBD.add(bd);
+    capName = new JComboBox(tab);
+    gestBD.add(capName);
+    JButton submit= new JButton("Supprimer");
+    gestBD.add(submit);
+    CtrlGestBD ctrlGestBD = new CtrlGestBD(submit, this, analyseur);
+    submit.addActionListener(ctrlGestBD);
+
+    onglets.addTab("Gestion BD", gestBD);
+
+
     JMenuBar menuBar;
     JMenu menu, submenu;
-    JMenuItem menuItem, ouvrir;
+    JMenuItem menuItem, ouvrir, save;
 
     //Create the menu bar.
     menuBar = new JMenuBar();
@@ -243,8 +255,13 @@ public class View {
     CtrlOpen ctrlOpen = new CtrlOpen(ouvrir, this, analyseur);
     ouvrir.addActionListener(ctrlOpen);
 
-    menuItem = new JMenuItem("Sauvegarder");
-    submenu.add(menuItem);
+    save = new JMenuItem("Enregistrer Sous");
+    submenu.add(save);
+    CtrlSave ctrlSave = new CtrlSave(save, this, analyseur);
+    save.addActionListener(ctrlSave);
+
+
+
     menu.add(submenu);
 
     menuItem = new JMenuItem("Aide",KeyEvent.VK_T);
@@ -403,10 +420,16 @@ public class View {
     return (String)data.getSelectedItem();
   }
 
+  public String getCapture(){
+    return (String)capName.getSelectedItem();
+  }
+
   public void majData(String[] data){
     this.data.removeAllItems();
+    this.capName.removeAllItems();
     for (String s : data) {
       this.data.addItem(s);
+      this.capName.addItem(s);
     }
   }
 

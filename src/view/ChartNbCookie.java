@@ -1,5 +1,5 @@
 package view;
-
+/*
 import java.awt.Color;
 import java.awt.BasicStroke;
 import org.jfree.chart.ChartPanel;
@@ -61,4 +61,4 @@ public class ChartNbCookie extends JFrame
         dataset.addSeries( iexplorer );
         return dataset;
     }
-}
+}*/

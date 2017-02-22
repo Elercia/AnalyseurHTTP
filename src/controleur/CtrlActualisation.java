@@ -64,7 +64,7 @@ public class CtrlActualisation implements ActionListener {
 
 		JPmetode.add(txtmethode);
 		JPmetode.add(methode);
-		JPmetode.add(createDemoPanel(methodeUsed));
+		JPmetode.add(createDemoPanel(methodeUsed, "Methode HTTP la plus utilisée"));
 		v.addJPmethode(JPmetode);
 	}
 
@@ -90,7 +90,7 @@ public class CtrlActualisation implements ActionListener {
 
 			JPpoidPageCharged.add(txtpoidPageCharged, BorderLayout.NORTH);
 			JPpoidPageCharged.add(exppoidPageCharged, BorderLayout.NORTH);
-			JPpoidPageCharged.add(createDemoPanel(vincent), BorderLayout.CENTER);
+			JPpoidPageCharged.add(createDemoPanel(vincent, "Poid des pages chargées"), BorderLayout.CENTER);
 
 			JLabel txtpoidPageChargedde = new JLabel("Poid TOTAL des pages chargées : ");
 			JLabel exppoidPageChargedde = new JLabel(exprde);
@@ -124,7 +124,7 @@ public class CtrlActualisation implements ActionListener {
 
 			JPmostViewedSite.add(txtmostViewedSite);
 			JPmostViewedSite.add(mostViewedSite);
-			JPmostViewedSite.add(createDemoPanel(nbPagesCharged));
+			JPmostViewedSite.add(createDemoPanel(nbPagesCharged, "site le plus utlisé"));
 			v.addJPmostViewedSite(JPmostViewedSite);
 		}
 	}
@@ -150,9 +150,9 @@ public class CtrlActualisation implements ActionListener {
 		return dataset;
 	}
 
-	private static JFreeChart createChart(PieDataset dataset ) {
+	private static JFreeChart createChart(PieDataset dataset , String title) {
 		JFreeChart chart = ChartFactory.createPieChart(
-				"site",  // chart title
+				title,  // chart title
 				dataset,        // data
 				true,           // include legend
 				true,
@@ -161,8 +161,8 @@ public class CtrlActualisation implements ActionListener {
 		return chart;
 	}
 
-	public static JPanel createDemoPanel(HashMap<String, Object> data) {
-		JFreeChart chart = createChart(createDataset(data) );
+	public static JPanel createDemoPanel(HashMap<String, Object> data, String title) {
+		JFreeChart chart = createChart(createDataset(data), title );
 		return new ChartPanel( chart );
 	}
 }
