@@ -33,7 +33,7 @@ public class CtrlActualisation implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if ((e.getSource()).equals(actu)){
 			try{
-				//System.out.println(this.analyseur.getData());
+				System.out.println(this.analyseur.getData(v.getData()));
 
 				//TODO S2LECTION DE LA BD
 

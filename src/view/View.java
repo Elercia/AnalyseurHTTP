@@ -400,7 +400,15 @@ public class View {
   }
 
   public String getData(){
+    System.out.println((String)data.getSelectedItem());
     return (String)data.getSelectedItem();
+  }
+
+  public void majData(String[] data){
+    this.data.removeAllItems();
+    for (String s : data) {
+      this.data.addItem(s);
+    }
   }
 
 

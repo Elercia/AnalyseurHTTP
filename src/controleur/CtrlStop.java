@@ -1,6 +1,7 @@
 package controleur;
 
 import java.awt.event.*;
+import java.util.ArrayList;
 
 import model.Analyseur;
 import view.*;
@@ -27,10 +28,18 @@ public class CtrlStop implements ActionListener {
 				analyseur.finEcoute();
 				Thread.sleep(1000);
 				while(analyseur.isStoping()){
-					System.out.println("kzgjzipj");
+
 				}
 				v.afterStop();
 				v.stop();
+
+				ArrayList<String> ar = analyseur.getCapturesNames();
+
+				String[] tab = new String[ar.size()];
+				tab = ar.toArray(tab);
+
+				v.majData(tab);
+
 			}catch (Exception ex){
 				JOptionPane.showMessageDialog(null,"erreur pendant stop","ERREUR",JOptionPane.ERROR_MESSAGE);
 				ex.printStackTrace();
