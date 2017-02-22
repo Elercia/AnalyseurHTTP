@@ -152,22 +152,23 @@ public class DataBase {
 		//la map correspondant aux différentes valeurs récupérée à partir du fichier de base de données
 		HashMap<String, HashMap<String, Object>> values = new HashMap<>();
 
+		//Si on cherche a avoir les données globales, c'est a dire si on demande à charger "Toutes" ou que l'on a pas spécifié de nom de capture
 		String count = "SELECT siteName, count(*) FROM enregistrement GROUP BY siteName";
 		String poidPages = "SELECT siteName, sum(poid) FROM enregistrement GROUP BY siteName";
 		String cookies = "SELECT siteName, cookies FROM enregistrement";
 		String method = "SELECT methode, count(methode) FROM enregistrement GROUP BY methode";
 
 		if(!captureN.isEmpty() && !captureN.equalsIgnoreCase("toutes")){
-			System.out.println("capture spe "+captureN);
-			count = "SELECT siteName, count(*) FROM enregistrement WHERE captureName='"+DataBase.captureName+"' GROUP BY siteName";
-			poidPages = "SELECT siteName, sum(poid) FROM enregistrement WHERE captureName='"+DataBase.captureName+"' GROUP BY siteName";
-			cookies = "SELECT siteName, cookies FROM enregistrement WHERE captureName='"+DataBase.captureName+"'";
-			method = "SELECT methode, count(methode) FROM enregistrement WHERE captureName='"+DataBase.captureName+"' GROUP BY methode";
+			//Si on cherche a charger une capture qui possede un nom
+			System.out.println("Demande capture spécifique : "+captureN);
+			count = "SELECT siteName, count(*) FROM enregistrement WHERE captureName='"+captureN+"' GROUP BY siteName";
+			poidPages = "SELECT siteName, sum(poid) FROM enregistrement WHERE captureName='"+captureN+"' GROUP BY siteName";
+			cookies = "SELECT siteName, cookies FROM enregistrement WHERE captureName='"+captureN+"'";
+			method = "SELECT methode, count(methode) FROM enregistrement WHERE captureName='"+captureN+"' GROUP BY methode";
 		}
 
 		try {
 			Statement stmt = conn.createStatement();
-
 			ResultSet resultSet = stmt.executeQuery(count);
 
 			//on enregistre tous les tuples dans notre hashMap
@@ -176,7 +177,6 @@ public class DataBase {
 			}
 
             resultSet = stmt.executeQuery(poidPages);
-
             //on enregistre le poid des pages pour tous le tuples de notre base
             while(resultSet.next()){
                 poidPagesCharged.put(resultSet.getString(1), resultSet.getInt(2));
@@ -243,7 +243,6 @@ public class DataBase {
 				String cookie = String.valueOf(this.getCookie(response));
 				Integer poid = this.getLength(response);
 
-				System.out.println(captureN);
 				//on associe chaque parametre aux points d'intérogations dans le String "sql"
 				stmt.setString(1, captureN);
 				stmt.setString(2, siteName);
@@ -251,8 +250,6 @@ public class DataBase {
 				stmt.setString(4, cookie);
 				stmt.setInt(5, poid);
 				stmt.setLong(6, timeUsed);
-
-				System.out.println(stmt);
 
 				try {
 					//on execute la requete sql

@@ -400,7 +400,6 @@ public class View {
   }
 
   public String getData(){
-    System.out.println((String)data.getSelectedItem());
     return (String)data.getSelectedItem();
   }
 

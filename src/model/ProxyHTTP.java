@@ -1,27 +1,19 @@
 package model;
 
-import javax.net.SocketFactory;
-import javax.net.ssl.SSLSocketFactory;
-import java.io.BufferedInputStream;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
-import java.net.SocketTimeoutException;
-import java.util.concurrent.TimeoutException;
 
-/**
- * Created by E155399M on 21/11/16.
- */
 public class ProxyHTTP implements Runnable {
     private Socket clientSocket = null;
     private int id;
     private DataBase bdd;
 
 
-    private static final int BUFFER_SIZE = 10000;
+    private static final int BUFFER_SIZE = 8096;
     public static int PROXY_NUMBERS = 0;
 
     private boolean isUsingProxy;
@@ -38,100 +30,87 @@ public class ProxyHTTP implements Runnable {
         } catch (SocketException e) {
             e.printStackTrace();
         }
-
-        System.out.println("------DEBUT thread id = "+id+"-------");
     }
 
     public void run() {
-        try {
+        try
+        {
+            System.out.println("------DEBUT thread id = "+id+"-------");
+
+            //initialisation des variables
+            final byte[] request = new byte[BUFFER_SIZE];
+            final byte[] answer = new byte[BUFFER_SIZE];
+            final InputStream fluxEntrantClient = this.clientSocket.getInputStream();
+            final OutputStream fluxSortantClient = this.clientSocket.getOutputStream();
+            Socket socketServer;
+
+            //on recupére le temps de début
             long startTime = System.currentTimeMillis();
-            // Read request
-            InputStream incommingIS = clientSocket.getInputStream();
-            byte[] b = new byte[BUFFER_SIZE];
-            byte[] b2 = new byte[BUFFER_SIZE];
-            //on recupère la data du navigateur
-            int len = incommingIS.read(b);
 
-            if (len > 0) {//si ya de la data
+            final String[] headers = new String[2];
 
-                //représente le header de demande
-                String h1 = new String(b, 0, len);
-                String host = "";
-                host = this.getHost(h1);
-                int port = 80;
-                if(host != null && !host.isEmpty()){
-                    if(host.contains(":")){
-                        try {
-                            String tmp = host;
-                            host = tmp.split(":", tmp.lastIndexOf(":")-1)[0];
-                            port = Integer.parseInt(tmp.split(":", tmp.lastIndexOf(":")-1)[1]);
+            //TODO à changer
+            //On a besoin de le definir plus tard car on doit savoir quel serveur intérroger
+            // dans le cas ou il n'y a pas de proxy configuré sur la machine
+            if(this.isUsingProxy)
+                socketServer = new Socket(this.proxyAdresse, this.proxyPort);
+            else
+                socketServer = null;
 
-                        }catch(IndexOutOfBoundsException e) {
-                            throw new Exception("Host impossible a determiner");
+            final InputStream fluxEntrantServeur = socketServer.getInputStream();
+            final OutputStream fluxSortantServeur = socketServer.getOutputStream();
 
-                        }catch(NumberFormatException e){
-                            port = 80;
-                        }catch(Exception e){
-                            System.err.println("host introuvable");
+            Thread t = new Thread()
+            {
+                public void run()
+                {
+                    try
+                    {
+                        int length;
+                        System.out.println("--------\nRequete :");
+                        while ((length = fluxEntrantClient.read(request)) != -1)
+                        {
+                            headers[0] = new String(request, 0, length);
+                            System.out.println(headers[0]);
+                            fluxSortantServeur.write(request, 0, length);
+                            fluxSortantServeur.flush();
                         }
-                    }else{
-                        port = 80;
                     }
-                }else
-                    throw new Exception("Host impossible a determiner");
+                    catch(IOException e){
 
-                Socket socket = null;
-                //HTTP
-                SocketFactory sf = SocketFactory.getDefault();
-                InetAddress inet = InetAddress.getByName(host);
-                socket = sf.createSocket(inet, port);
-                //latence de 5s pas bien !
-                socket.setSoTimeout(30000);
-
-                OutputStream outgoingOS = socket.getOutputStream();
-
-                outgoingOS.write(b, 0, len);
-
-                OutputStream incommingOS = clientSocket.getOutputStream();
-                InputStream outgoingIS = socket.getInputStream();
-
-                String h2="";
-                //On lit la réponse du serveur et on l'ecrit au client
-                for (int length; (length = outgoingIS.read(b2)) != -1; ) {
-                    //TODO content length
-                    incommingOS.write(b2, 0, length);
-                    h2 = new String(b2, 0, length);
+                    }
                 }
+            };
+            t.start();
 
-               /* int length = outgoingIS.read(b2);
-                incommingOS.write(b2, 0, length);
-                h2 = new String(b2, 0, length);*/
-
-                h2 = h2.split("\r\n\r\n",2)[0];
-                long stopTime = System.currentTimeMillis();
-                long timeUsed = stopTime-startTime;
-
-                this.bdd.enregistrement(h1, h2, timeUsed);
-
-                //faire enregistrement ici plz
-                incommingOS.close();
-                outgoingIS.close();
-                outgoingOS.close();
-                incommingIS.close();
-                socket.close();
-                clientSocket.close();
-            } else {
-                incommingIS.close();
+            int length;
+            while ((length = fluxEntrantServeur.read(answer)) != -1)
+            {
+                System.out.println("--------\nReponse :");
+                headers[1] = new String(answer, 0, length);
+                System.out.println(headers[1]);
+                fluxSortantClient.write(answer, 0, length);
+                fluxSortantClient.flush();
             }
-        } catch(TimeoutException | SocketTimeoutException toe ){
-            System.err.println("Timeout exception !");
-        } catch (IOException e) {
+            socketServer.close();
+            this.clientSocket.close();
+
+            //On prend le temps à la fin du chargement
+            //On calcule le temps qu'a mis la capture à ce réaliser
+            long endTime = System.currentTimeMillis();
+            long delta = endTime-startTime;
+
+            /*TODO
+                Récupérer les deux headers requete et reponse et les enregistrer
+             */
+            this.bdd.enregistrement(new String(), new String(), delta);
+        }
+        catch(IOException e)
+        {
+            System.err.println("Exception !");
             e.printStackTrace();
-        } catch(Exception e) {
-            System.err.println("Erreur inconnue : "+e.getMessage());
-            e.printStackTrace();
-        }finally{
-            System.out.println("------FIN thread id = "+ id +"---------");
+        }finally {
+            System.out.println("------FIN thread id = "+id+"-------");
         }
     }
 

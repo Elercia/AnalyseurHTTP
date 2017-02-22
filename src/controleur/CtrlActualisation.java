@@ -33,12 +33,7 @@ public class CtrlActualisation implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if ((e.getSource()).equals(actu)){
 			try{
-				System.out.println(this.analyseur.getData(v.getData()));
-
 				//TODO S2LECTION DE LA BD
-
-
-
 				HashMap<String, HashMap<String, Object>> data = this.analyseur.getData(v.getData());
 
 				HashMap<String, Object> methodeUsed = data.get("methodeUsed");
@@ -46,16 +41,13 @@ public class CtrlActualisation implements ActionListener {
 				HashMap<String, Object> poidPageCharged = data.get("poidPagesCharged");
 				HashMap<String, Object> nbCookiesCreated = data.get("nbCookiesCreated");
 
-
 				this.nbPageCharged(nbPagesCharged);
 				this.pageLeMostCharge(nbPagesCharged);
 				this.nbCookiesCreated(nbCookiesCreated);
 				this.poidPageCharged(poidPageCharged, nbPagesCharged);
 				this.methodeUsed(methodeUsed);
 
-
 				JOptionPane.showMessageDialog(null,"Donées actualisées !");
-
 			}catch(Exception exeption){
 				JOptionPane.showMessageDialog(null,"Recupération des données impossible","ERREUR",JOptionPane.ERROR_MESSAGE);
 				exeption.printStackTrace();
