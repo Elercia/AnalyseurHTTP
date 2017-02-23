@@ -1,17 +1,10 @@
 package model;
 
-import javax.net.ssl.SSLServerSocket;
-import javax.net.ssl.SSLServerSocketFactory;
-import javax.net.ssl.SSLSocket;
-import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.SocketTimeoutException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.concurrent.*;
 
 /**
@@ -188,10 +181,11 @@ public class Analyseur implements Runnable {
 		this.listening = false;
 
 		try {
-			executorService.awaitTermination(30, TimeUnit.SECONDS);
+			executorService.awaitTermination(5, TimeUnit.SECONDS);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		//executorService.shutdownNow();
 
 		ProxyHTTP.PROXY_NUMBERS=0;
 
