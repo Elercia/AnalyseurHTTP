@@ -284,13 +284,35 @@ public class DataBase {
 					stmt.executeUpdate();
 				} catch (SQLException e) {
 					System.err.println("Erreur d'enregistrement dans la base de données ("+e.getSQLState()+")");
+					e.printStackTrace();
 				}
 			}//fin parcour bufferHTTP
 
+			for (Duo<String, Long> duo : buffer_https) {
+				String requ = duo.one+"\n";
+				Long time = duo.two;
+
+				String host = this.getWebSite(requ);
+
+				stmt.setString(1, captureN);
+				stmt.setString(2, host);
+				stmt.setString(3, "GET");
+				stmt.setString(4, "{}");
+				stmt.setInt(5, 0);
+				stmt.setLong(6, time);
+
+				try {
+					//on execute la requete sql
+					stmt.executeUpdate();
+				} catch (SQLException e) {
+					System.err.println("Erreur d'enregistrement dans la base de données ("+e.getSQLState()+")");
+					e.printStackTrace();
+				}
+			}
 
 			//on vide le buffer_http pour ne pas enregister 2 fois les mêmes chose par la suite
 			this.buffer_http.clear();
-			assert this.buffer_http.size() == 0;
+			this.buffer_https.clear();
 		} catch (SQLException e) {
 			System.err.println("Erreur de création de l'état de la base de données ("+e.getSQLState()+")");
 			e.printStackTrace();
