@@ -159,6 +159,9 @@ public class Analyseur implements Runnable {
 		this.bdd.supprimerCapture(captureN);
 	}
 
+	/**
+	 * @see DataBase::modifierCaptureName
+	 */
 	public void modifierCaptureName(String oldCN, String newCN){
 		this.bdd.modifierCaptureName(oldCN, newCN);
 	}
