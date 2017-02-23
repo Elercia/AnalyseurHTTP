@@ -98,6 +98,7 @@ public class DataBase {
 	{
 		try {
 			super.finalize();
+			this.conn.commit();
 			conn.close();
 		} catch (Throwable t) {
 		}
@@ -221,11 +222,12 @@ public class DataBase {
                 methodeUsed.put(key, Integer.valueOf(value));
             }
 
+            int val;
             resultSet = stmt.executeQuery(time_sql);
 			while (resultSet.next()){
 				key = resultSet.getString(1);
-				value = resultSet.getString(2);
-				timeUsed.put(key, Long.parseLong(value));
+				val = resultSet.getInt(2);
+				timeUsed.put(key, val);
 			}
 
 		} catch (SQLException e) {
@@ -440,7 +442,7 @@ public class DataBase {
 
 
 			stmt.executeUpdate();
-
+			this.conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -466,6 +468,7 @@ public class DataBase {
 				stmt.setString(2, oldCN);
 
 			stmt.executeUpdate();
+			this.conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
