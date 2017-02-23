@@ -25,7 +25,9 @@ public class DataBase {
 	 * Variable permettant de stocker les headers de requete et reponse avant de les enregistrer
 	 * dans la base de données (le fichier dans data)
 	 */
-	private ArrayList<Trio<String, String, Long>> buffer;
+	private ArrayList<Trio<String, String, Long>> buffer_http;
+
+	private ArrayList<Duo<String, Long>> buffer_https;
 
 	/**
 	 * Le nom de la capture attaché à la base de données
@@ -59,7 +61,8 @@ public class DataBase {
         conn.setAutoCommit(false);
         conn.commit();
 		//on setup les variables de classe
-		this.buffer = new ArrayList<>();
+		this.buffer_http = new ArrayList<>();
+		this.buffer_https = new ArrayList<>();
 
 		//on instancie le nom de la capture
 		DataBase.captureName = this.generateCaptureName();
@@ -124,14 +127,27 @@ public class DataBase {
 	}
 
 	/**
-	 * Methode ajoutant les header reçu dans le buffer de headers
-	 * Ce buffer sera écrit dans le fichier à la fin quand l'analyse sera finie
+	 * Methode ajoutant les header reçu dans le buffer_http de headers
+	 * Ce buffer_http sera écrit dans le fichier à la fin quand l'analyse sera finie
 	 */
 	public synchronized void enregistrement(String requete, String reponse, long timeUsed){
+		//tester si ya connect
+		//si requete encoadable ascii alors la rep aussi
+		//  donc split avec double retour pour ne pas avoir le corps (seulement le header)
 		CharsetEncoder ce = Charset.forName("US-ASCII").newEncoder();
-		if(ce.canEncode(requete)
-				&& ce.canEncode(requete))
-			this.buffer.add(new Trio<>(requete, reponse, timeUsed));
+
+		if(requete.contains("CONNECT")){
+			//cas ou c'est le premier truc du https
+			buffer_https.add(new Duo<>(requete, timeUsed));
+		}else{
+			//on peut avoir du https ou  du http ici
+			if(ce != null && ce.canEncode(requete))
+			{
+				//ca veut dire que la rep est en http normal donc on la split
+				reponse = reponse.split("\r\n\r\n", 2)[0];
+				this.buffer_http.add(new Trio<>(requete, reponse, timeUsed));
+			}
+		}
 	}
 
 	public HashMap<String, HashMap<String, Object>> actuValues() {
@@ -231,7 +247,7 @@ public class DataBase {
 	}
 
 	/**
-	 * Traitement des pages enregistrée dans la liste de buffer
+	 * Traitement des pages enregistrée dans la liste de buffer_http
 	 *
 	 * On parse le fichier et on ajoute des données dedans
 	 */
@@ -245,7 +261,7 @@ public class DataBase {
 					"VALUES(?,?,?,?,?,?)";
 			stmt = conn.prepareStatement(sql);
 
-			for (Trio<String, String, Long> values : this.buffer) {
+			for (Trio<String, String, Long> values : this.buffer_http) {
 				String requete = values.one;
 				String response = values.two;
 				long timeUsed = values.three;
@@ -269,10 +285,12 @@ public class DataBase {
 				} catch (SQLException e) {
 					System.err.println("Erreur d'enregistrement dans la base de données ("+e.getSQLState()+")");
 				}
-			}
-			//on vide le buffer pour ne pas enregister 2 fois les même chose par la suite
-			this.buffer.clear();
-			assert this.buffer.size() == 0;
+			}//fin parcour bufferHTTP
+
+
+			//on vide le buffer_http pour ne pas enregister 2 fois les mêmes chose par la suite
+			this.buffer_http.clear();
+			assert this.buffer_http.size() == 0;
 		} catch (SQLException e) {
 			System.err.println("Erreur de création de l'état de la base de données ("+e.getSQLState()+")");
 			e.printStackTrace();
@@ -411,13 +429,19 @@ public class DataBase {
 	}
 
 	public void modifierCaptureName(String oldCN, String newCN){
-		String sql = "UPDATE enregistrement SET captureName=? WHERE captureName=?";
+		String sql;
+		if(oldCN.equalsIgnoreCase("Toutes"))
+			sql = "UPDATE enregistrement SET captureName=?";
+		else
+			sql = "UPDATE enregistrement SET captureName=? WHERE captureName=?";
 
 		PreparedStatement stmt = null;
 		try {
 			stmt = this.conn.prepareStatement(sql);
 			stmt.setString(1, newCN);
-			stmt.setString(2, oldCN);
+
+			if(!oldCN.equalsIgnoreCase("Toutes"))
+				stmt.setString(2, oldCN);
 
 			stmt.executeUpdate();
 		} catch (SQLException e) {
@@ -440,6 +464,16 @@ public class DataBase {
 			this.one = t1;
 			this.two = t2;
 			this.three = t3;
+		}
+	}
+
+	private class Duo<T1, T2>{
+		public T1 one;
+		public T2 two;
+
+		public Duo(T1 o, T2 t){
+			this.one = o;
+			this.two = t;
 		}
 	}
 }

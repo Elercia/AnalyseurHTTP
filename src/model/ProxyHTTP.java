@@ -69,11 +69,11 @@ public class ProxyHTTP implements Runnable {
                     try
                     {
                         int length;
-                        System.out.println("--------\nRequete :");
+                        //System.out.println("--------\nRequete :");
                         while ((length = fluxEntrantClient.read(request)) != -1)
                         {
                             headers[0] = new String(request, 0, length);
-                            System.out.println(headers[0]);
+                            //System.out.println(headers[0]);
                             fluxSortantServeur.write(request, 0, length);
                             fluxSortantServeur.flush();
                         }
@@ -87,14 +87,15 @@ public class ProxyHTTP implements Runnable {
             int length;
             while ((length = fluxEntrantServeur.read(answer)) != -1)
             {
-                System.out.println("--------\nReponse :");
+                //System.out.println("--------\nReponse :");
                 headers[1] = new String(answer, 0, length);
-                System.out.println(headers[1]);
+                //System.out.println(headers[1]);
                 fluxSortantClient.write(answer, 0, length);
                 fluxSortantClient.flush();
             }
             socketServer.close();
             this.clientSocket.close();
+
 
             //On prend le temps à la fin du chargement
             //On calcule le temps qu'a mis la capture à ce réaliser
