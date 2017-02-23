@@ -33,13 +33,13 @@ public class CtrlActualisation implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if ((e.getSource()).equals(actu)){
 			try{
-				//TODO S2LECTION DE LA BD
 				HashMap<String, HashMap<String, Object>> data = this.analyseur.getData(v.getData());
 
 				HashMap<String, Object> methodeUsed = data.get("methodeUsed");
 				HashMap<String, Object> nbPagesCharged = data.get("nbPagesCharged");
 				HashMap<String, Object> poidPageCharged = data.get("poidPagesCharged");
 				HashMap<String, Object> nbCookiesCreated = data.get("nbCookiesCreated");
+				HashMap<String, Object> tempSite = data.get("Temps");
 
 				this.nbPageCharged(nbPagesCharged);
 				this.pageLeMostCharge(nbPagesCharged);
@@ -138,6 +138,31 @@ public class CtrlActualisation implements ActionListener {
 		expr="->"+res;
 		v.maj_pagecharge(expr);
 	}
+
+
+	/*public void tempSite(HashMap<String, Object> temps){
+		long max=0;
+		String strMax ="";
+		for (String s : temps.keySet()) {
+			if(max < (int)temps.get(s)){
+				max = (int)temps.get(s);
+				strMax= s+" -> " + temps.get(s)+" ";
+			}
+		}
+		if(!strMax.isEmpty()){
+			v.clearJPMostViewedSite();
+
+			JPanel JPmostViewedSite = new JPanel();
+			JLabel txtmostViewedSite = new JLabel("Le site le plus utlisé : ");
+			JLabel mostViewedSite = new JLabel(strMax);
+
+			JPmostViewedSite.add(txtmostViewedSite);
+			JPmostViewedSite.add(mostViewedSite);
+			JPmostViewedSite.add(createDemoPanel(temps, "site le plus utlisé"));
+			v.addJPmostViewedSite(JPmostViewedSite);
+		}
+	}*/
+
 
 
 
