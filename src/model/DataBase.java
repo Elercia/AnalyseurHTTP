@@ -147,42 +147,45 @@ public class DataBase {
 		HashMap<String, Object> nbPagesCharged      = new HashMap<>(),
 								poidPagesCharged    = new HashMap<>(),
 								nbCookiesCreated    = new HashMap<>(),
-								methodeUsed         = new HashMap<>();
+								methodeUsed         = new HashMap<>(),
+								timeUsed            = new HashMap<>();
 
 		//la map correspondant aux différentes valeurs récupérée à partir du fichier de base de données
 		HashMap<String, HashMap<String, Object>> values = new HashMap<>();
 
 		//Si on cherche a avoir les données globales, c'est a dire si on demande à charger "Toutes" ou que l'on a pas spécifié de nom de capture
-		String count = "SELECT siteName, count(*) FROM enregistrement GROUP BY siteName";
-		String poidPages = "SELECT siteName, sum(poid) FROM enregistrement GROUP BY siteName";
-		String cookies = "SELECT siteName, cookies FROM enregistrement";
-		String method = "SELECT methode, count(methode) FROM enregistrement GROUP BY methode";
+		String count_sql = "SELECT siteName, count(*) FROM enregistrement GROUP BY siteName";
+		String poidPages_sql = "SELECT siteName, sum(poid) FROM enregistrement GROUP BY siteName";
+		String cookies_sql = "SELECT siteName, cookies FROM enregistrement";
+		String method_sql = "SELECT methode, count(methode) FROM enregistrement GROUP BY methode";
+		String time_sql = "SELECT siteName, AVG(timeUsed) FROM enregistrement GROUP BY siteName";
 
 		if(!captureN.isEmpty() && !captureN.equalsIgnoreCase("toutes")){
 			//Si on cherche a charger une capture qui possede un nom
 			System.out.println("Demande capture spécifique : "+captureN);
-			count = "SELECT siteName, count(*) FROM enregistrement WHERE captureName='"+captureN+"' GROUP BY siteName";
-			poidPages = "SELECT siteName, sum(poid) FROM enregistrement WHERE captureName='"+captureN+"' GROUP BY siteName";
-			cookies = "SELECT siteName, cookies FROM enregistrement WHERE captureName='"+captureN+"'";
-			method = "SELECT methode, count(methode) FROM enregistrement WHERE captureName='"+captureN+"' GROUP BY methode";
+			count_sql = "SELECT siteName, count(*) FROM enregistrement WHERE captureName='"+captureN+"' GROUP BY siteName";
+			poidPages_sql = "SELECT siteName, sum(poid) FROM enregistrement WHERE captureName='"+captureN+"' GROUP BY siteName";
+			cookies_sql = "SELECT siteName, cookies FROM enregistrement WHERE captureName='"+captureN+"'";
+			method_sql = "SELECT methode, count(methode) FROM enregistrement WHERE captureName='"+captureN+"' GROUP BY methode";
+			time_sql = "SELECT siteName, AVG(timeUsed) FROM enregistrement WHERE captureName='"+captureN+"'GROUP BY siteName";
 		}
 
 		try {
 			Statement stmt = conn.createStatement();
-			ResultSet resultSet = stmt.executeQuery(count);
+			ResultSet resultSet = stmt.executeQuery(count_sql);
 
 			//on enregistre tous les tuples dans notre hashMap
 			while(resultSet.next()){
                 nbPagesCharged.put(resultSet.getString(1), resultSet.getInt(2));
 			}
 
-            resultSet = stmt.executeQuery(poidPages);
+            resultSet = stmt.executeQuery(poidPages_sql);
             //on enregistre le poid des pages pour tous le tuples de notre base
             while(resultSet.next()){
                 poidPagesCharged.put(resultSet.getString(1), resultSet.getInt(2));
             }
 
-            resultSet = stmt.executeQuery(cookies);
+            resultSet = stmt.executeQuery(cookies_sql);
             String key, value;
             while (resultSet.next()){
                 key = resultSet.getString(1);//SiteName
@@ -195,12 +198,19 @@ public class DataBase {
                 nbCookiesCreated.put(key, value);
             }
 
-            resultSet = stmt.executeQuery(method);
+            resultSet = stmt.executeQuery(method_sql);
             while (resultSet.next()){
 	            key = resultSet.getString(1);
                 value = resultSet.getString(2);
                 methodeUsed.put(key, Integer.valueOf(value));
             }
+
+            resultSet = stmt.executeQuery(time_sql);
+			while (resultSet.next()){
+				key = resultSet.getString(1);
+				value = resultSet.getString(2);
+				timeUsed.put(key, Long.parseLong(value));
+			}
 
 		} catch (SQLException e) {
 			System.err.println("Erreur de lecture de la base de données ("+e.getSQLState()+")");
@@ -211,6 +221,7 @@ public class DataBase {
         values.put("poidPagesCharged", poidPagesCharged);
         values.put("nbCookiesCreated", nbCookiesCreated);
         values.put("methodeUsed", methodeUsed);
+		values.put("temps", timeUsed);
 
 		return values;
 	}
