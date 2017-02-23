@@ -10,11 +10,9 @@ import view.*;
 
 public class CtrlStart implements ActionListener {
 
-	//private JButton start;
 	private JButton start;
 	private View v;
 	private Analyseur analyseur;
-	/*private CarnetAdresse c;*/
 
 
 	public CtrlStart(JButton st, View vu, Analyseur a) {
@@ -25,15 +23,6 @@ public class CtrlStart implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if ((e.getSource()).equals(start)){
-			/*
-      - transformation du bouton en pause
-      - bouton stop apparait
-      - demarage de la capture
-
-      a ajouter : lien avec le modele
-      - si pause alors start
-      - si start alors pause
-      */
 			if(v.getPortLog()<1){
 				JOptionPane.showMessageDialog(null,"Mauvaise configuration du port (plus petit que 1)","IMPOSSIBLE",JOptionPane.ERROR_MESSAGE);
 			}

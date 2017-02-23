@@ -40,6 +40,12 @@ public class CtrlStop implements ActionListener {
 
 				v.majData(tab);
 
+				ArrayList<String> arST = analyseur.getCapturesNames();
+				arST.remove("Toutes");
+				String[] tabST = new String[arST.size()];
+				tabST = arST.toArray(tabST);;
+
+				v.majDataST(tabST);
 			}catch (Exception ex){
 				JOptionPane.showMessageDialog(null,"erreur pendant stop","ERREUR",JOptionPane.ERROR_MESSAGE);
 				ex.printStackTrace();
