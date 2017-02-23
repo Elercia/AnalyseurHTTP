@@ -52,7 +52,7 @@ public class View {
     JLabel bricolage2 = new JLabel("");
     onglet1_1.add(bricolage2);
 
-    JLabel txtparam =new JLabel("Configuration :");
+    JLabel txtparam =new JLabel("Configuration du réseaux :");
     onglet1_1.add(txtparam);
 
     ButtonGroup bgProxy = new ButtonGroup();
