@@ -26,7 +26,7 @@ public class View {
   private JLabel nbCookie; //affichage
   private JTabbedPane onglets;
   private JPanel JPtmpCapture, JPnbChargedPages, JPweigtChargedPages, JPnbCookie, JPmostViewedSite, JPmethode;
-  private JComboBox data, capName, capNameST;
+  private JComboBox data, capName;
 
   //modele
   private Analyseur analyseur;
@@ -73,7 +73,7 @@ public class View {
     JPanel onglet1_2 = new JPanel();
     onglet1_2.setLayout(new GridLayout(3, 3));
 
-    txtprox =new JLabel("Utiliser un autre proxy ?");
+    txtprox =new JLabel("Utilisez vous un autre proxy ?");
     txtprox.setVisible(false);
     onglet1_2.add(txtprox);
 
@@ -167,21 +167,15 @@ public class View {
     nbChargedPages = new JLabel("<valeur>");
     nbCookie = new JLabel("<valeur>");
 
-    JButton bcap =new javax.swing.JButton("Plus d'info");
-    JButton bpagechar =new javax.swing.JButton("Plus d'info");
-    JButton bcookie =new javax.swing.JButton("Plus d'info");
-
     JPtmpCapture = new JPanel();
     JPtmpCapture.setLayout(new FlowLayout());
     JPtmpCapture.add(txtcap);
     JPtmpCapture.add(tmpCapture);
-    JPtmpCapture.add(bcap);
 
     JPnbChargedPages = new JPanel();
     JPnbChargedPages.setLayout(new FlowLayout());
     JPnbChargedPages.add(txtpagechar);
     JPnbChargedPages.add(nbChargedPages);
-    JPnbChargedPages.add(bpagechar);
 
     JPweigtChargedPages = new JPanel();
     JPweigtChargedPages.setLayout(new FlowLayout());
@@ -190,7 +184,6 @@ public class View {
     JPnbCookie.setLayout(new FlowLayout());
     JPnbCookie.add(txtcookie);
     JPnbCookie.add(nbCookie);
-    JPnbCookie.add(bcookie);
 
     JPmostViewedSite = new JPanel();
     JPmostViewedSite.setLayout(new FlowLayout());
@@ -210,7 +203,7 @@ public class View {
 
     onglets.addTab("Affichage", onglet2_2);
 
-    ongletsGraph.addTab("Temps des captures", JPtmpCapture);
+    ongletsGraph.addTab("Durée des captures", JPtmpCapture);
     ongletsGraph.addTab("Nombre de pages chargées", JPnbChargedPages);
     ongletsGraph.addTab("Poid des pages chargées", JPweigtChargedPages);
     ongletsGraph.addTab("Nombre de cookies créés", JPnbCookie);
@@ -219,40 +212,22 @@ public class View {
 
 
     JPanel gestBD = new JPanel();
-    gestBD.setLayout(new BorderLayout());
-    JPanel tableSup=new JPanel();
-    JLabel bd = new JLabel("Table à supprimer : ");
-    tableSup.add(bd);
+    JLabel bd = new JLabel("Capture sélectionée : ");
+    gestBD.add(bd);
     capName = new JComboBox(tab);
-    tableSup.add(capName);
+    gestBD.add(capName);
+    nouveauNom = new JTextField("nouveau nom", 20);
+    gestBD.add(nouveauNom);
     JButton submit= new JButton("Supprimer");
-    tableSup.add(submit);
+    gestBD.add(submit);
     CtrlGestBD ctrlGestBD = new CtrlGestBD(submit, this, analyseur);
     submit.addActionListener(ctrlGestBD);
-    gestBD.add(tableSup, BorderLayout.NORTH);
-
-    ArrayList<String> arST = analyseur.getCapturesNames();
-    arST.remove("Toutes");
-    String[] tabST = new String[arST.size()];
-    tabST = arST.toArray(tabST);
 
 
-
-    JPanel modifNomJP= new JPanel();
-    JLabel modifNom = new JLabel("Modifier le nom de la capture : ");
-    capNameST = new JComboBox(tabST);
-    nouveauNom = new JTextField(20);
-
-    JButton modifier = new JButton("Modifier");
+    JButton modifier = new JButton("Modifier le nom");
     CtrlModifCap ctrlModifCap = new CtrlModifCap(modifier, this, analyseur);
     modifier.addActionListener(ctrlModifCap);
-
-    modifNomJP.add(modifNom);
-    modifNomJP.add(capNameST);
-    modifNomJP.add(nouveauNom);
-    modifNomJP.add(modifier);
-
-    gestBD.add(modifNomJP, BorderLayout.SOUTH);
+    gestBD.add(modifier);
 
     onglets.addTab("Gestion BD", gestBD);
 
@@ -458,16 +433,6 @@ public class View {
     }
   }
 
-  public void majDataST(String[] data){
-    this.capNameST.removeAllItems();
-    for (String s : data) {
-      this.capNameST.addItem(s);
-    }
-  }
-
-  public String getCaptureModif(){
-    return (String)capNameST.getSelectedItem();
-  }
 
   public String getNouveauNom(){
     return nouveauNom.getText();
