@@ -159,6 +159,10 @@ public class Analyseur implements Runnable {
 		this.bdd.supprimerCapture(captureN);
 	}
 
+	public void modifierCaptureName(String oldCN, String newCN){
+		this.bdd.modifierCaptureName(oldCN, newCN);
+	}
+
 	public boolean isStoping(){
 		return this.isStoping;
 	}

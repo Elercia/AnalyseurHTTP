@@ -399,6 +399,21 @@ public class DataBase {
 		return this.filePath;
 	}
 
+	public void modifierCaptureName(String oldCN, String newCN){
+		String sql = "UPDATE enregistrement SET captureName=? WHERE captureName=?";
+
+		PreparedStatement stmt = null;
+		try {
+			stmt = this.conn.prepareStatement(sql);
+			stmt.setString(1, newCN);
+			stmt.setString(2, oldCN);
+
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * Classe utilisée pour stocker les trio de header + temps
 	 * @param <T1>
