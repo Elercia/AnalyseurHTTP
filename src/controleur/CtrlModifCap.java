@@ -9,22 +9,24 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
- * Created by E155251B on 22/02/17.
+ * Created by E155251B on 23/02/17.
  */
-public class CtrlGestBD implements ActionListener{
-    private JButton supprimer;
+
+public class CtrlModifCap implements ActionListener {
+
+    private JButton modifier;
     private View v;
     private Analyseur analyseur;
 
-    public CtrlGestBD(JButton sp, View vu, Analyseur a) {
+    public CtrlModifCap(JButton modif, View vu, Analyseur a) {
         v=vu;
-        supprimer=sp;
+        modifier=modif;
         analyseur=a;
     }
 
     public void actionPerformed(ActionEvent e) {
-        if ((e.getSource()).equals(supprimer)){
-            analyseur.supprimerCapture(v.getCapture());
+        if ((e.getSource()).equals(modifier)){
+            analyseur.modifierCaptureName(v.getCaptureModif(), v.getNouveauNom());
 
             ArrayList<String> ar = analyseur.getCapturesNames();
 
@@ -42,4 +44,3 @@ public class CtrlGestBD implements ActionListener{
         }
     }
 }
-

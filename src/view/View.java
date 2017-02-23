@@ -20,13 +20,13 @@ public class View {
   private JButton start;
   private JLabel txtprox, txtproxy, txtport, chargement;
   private JRadioButton proxy_oui, proxy_non, param_auto, param_man;
-  private JTextField adressProxySysteme;
+  private JTextField adressProxySysteme, nouveauNom;
   private JSpinner proxyPort, proxyPortLogiciel;
   private JLabel nbChargedPages;
   private JLabel nbCookie; //affichage
   private JTabbedPane onglets;
   private JPanel JPtmpCapture, JPnbChargedPages, JPweigtChargedPages, JPnbCookie, JPmostViewedSite, JPmethode;
-  private JComboBox data, capName;
+  private JComboBox data, capName, capNameST;
 
   //modele
   private Analyseur analyseur;
@@ -219,15 +219,40 @@ public class View {
 
 
     JPanel gestBD = new JPanel();
-
+    gestBD.setLayout(new BorderLayout());
+    JPanel tableSup=new JPanel();
     JLabel bd = new JLabel("Table à supprimer : ");
-    gestBD.add(bd);
+    tableSup.add(bd);
     capName = new JComboBox(tab);
-    gestBD.add(capName);
+    tableSup.add(capName);
     JButton submit= new JButton("Supprimer");
-    gestBD.add(submit);
+    tableSup.add(submit);
     CtrlGestBD ctrlGestBD = new CtrlGestBD(submit, this, analyseur);
     submit.addActionListener(ctrlGestBD);
+    gestBD.add(tableSup, BorderLayout.NORTH);
+
+    ArrayList<String> arST = analyseur.getCapturesNames();
+    arST.remove("Toutes");
+    String[] tabST = new String[arST.size()];
+    tabST = arST.toArray(tabST);
+
+
+
+    JPanel modifNomJP= new JPanel();
+    JLabel modifNom = new JLabel("Modifier le nom de la capture : ");
+    capNameST = new JComboBox(tabST);
+    nouveauNom = new JTextField(20);
+
+    JButton modifier = new JButton("Modifier");
+    CtrlModifCap ctrlModifCap = new CtrlModifCap(modifier, this, analyseur);
+    modifier.addActionListener(ctrlModifCap);
+
+    modifNomJP.add(modifNom);
+    modifNomJP.add(capNameST);
+    modifNomJP.add(nouveauNom);
+    modifNomJP.add(modifier);
+
+    gestBD.add(modifNomJP, BorderLayout.SOUTH);
 
     onglets.addTab("Gestion BD", gestBD);
 
@@ -433,6 +458,20 @@ public class View {
     }
   }
 
+  public void majDataST(String[] data){
+    this.capNameST.removeAllItems();
+    for (String s : data) {
+      this.capNameST.addItem(s);
+    }
+  }
+
+  public String getCaptureModif(){
+    return (String)capNameST.getSelectedItem();
+  }
+
+  public String getNouveauNom(){
+    return nouveauNom.getText();
+  }
 
   private static void setBestLookAndFeelAvailable(){
     String system_lf = UIManager.getSystemLookAndFeelClassName().toLowerCase();
