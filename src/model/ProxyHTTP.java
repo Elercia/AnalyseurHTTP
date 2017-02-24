@@ -111,7 +111,8 @@ public class ProxyHTTP implements Runnable {
         {
             System.err.println("Exception !");
             e.printStackTrace();
-        }finally {
+        }catch (Exception poubel){}
+        finally{
             System.out.println("------FIN thread id = "+id+"-------");
         }
     }
