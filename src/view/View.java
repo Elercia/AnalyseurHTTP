@@ -173,8 +173,14 @@ public class View {
     JPnbChargedPages.add(txtpagechar);
     JPnbChargedPages.add(nbChargedPages);
 
+
+
+    //jScrollPane.setViewportView(JPweigtChargedPages);
+
     JPweigtChargedPages = new JPanel();
     JPweigtChargedPages.setLayout(new FlowLayout());
+    JScrollPane jScrollPane = new JScrollPane(JPweigtChargedPages);
+      jScrollPane.getVerticalScrollBar().setUnitIncrement(20);
 
     JPnbCookie = new JPanel();
     JPnbCookie.setLayout(new FlowLayout());
@@ -201,7 +207,7 @@ public class View {
 
     ongletsGraph.addTab("Durée des captures", JPtmpCapture);
     ongletsGraph.addTab("Nombre de pages chargées", JPnbChargedPages);
-    ongletsGraph.addTab("Poid des pages chargées", JPweigtChargedPages);
+    ongletsGraph.addTab("Poid des pages chargées", jScrollPane);
     ongletsGraph.addTab("Nombre de cookies créés", JPnbCookie);
     ongletsGraph.addTab("Le site le plus utlisé", JPmostViewedSite);
     ongletsGraph.addTab("Methode HTTP la plus utilisée", JPmethode);
@@ -276,7 +282,7 @@ public class View {
     f.getContentPane().add(onglets);
     f.setVisible(true);
     f.pack();
-    f.setPreferredSize(new Dimension(1000, 800));
+    f.setSize(Toolkit.getDefaultToolkit().getScreenSize());
   }
 
   public void start(){
@@ -360,15 +366,9 @@ public class View {
     JPmethode.add(add);
   }
 
-  //maj affichge
-  //public void maj_cap(String s){
-  //  tmpCapture.setText(s);
-  //}
-
   public void maj_pagecharge(String s){
     nbChargedPages.setText(s);
   }
-
 
   public void maj_cookie(String s){
     nbCookie.setText(s);

@@ -1,19 +1,21 @@
 package controleur;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.*;
-import javax.swing.JButton;
 
-import model.Analyseur;
+import javax.swing.*;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
-import view.*;
+
+import model.Analyseur;
+import view.View;
 //import ihm.modele.*;
 
 public class CtrlActualisation implements ActionListener {
@@ -77,27 +79,25 @@ public class CtrlActualisation implements ActionListener {
 			if(nbPagesCharged.containsKey(s)){
 				int val =(int)poidPageCharged.get(s)/(int)nbPagesCharged.get(s);
 				vincent.put(s, val);
-				expr = expr + s +" : "+ val + ", ";
-				exprde = exprde + s+ " : "+ poidPageCharged.get(s);
+				expr = expr + s +" : "+ val + ", <br> ";
+				exprde = exprde + s+ " : "+ poidPageCharged.get(s)+" <br> ";
 			}
 		}
 		if(!expr.isEmpty()){
 			v.clearJPweigtChargedPages();
 
 			JPanel JPpoidPageCharged = new JPanel();
-			JPpoidPageCharged.setLayout(new BorderLayout());//l,c
-			JLabel txtpoidPageCharged = new JLabel("Poid des pages chargées : ");
-			JLabel exppoidPageCharged = new JLabel(expr);
+			JPpoidPageCharged.setLayout(new BoxLayout(JPpoidPageCharged, BoxLayout.Y_AXIS));
 
-			JPpoidPageCharged.add(txtpoidPageCharged, BorderLayout.NORTH);
-			JPpoidPageCharged.add(exppoidPageCharged, BorderLayout.NORTH);
-			JPpoidPageCharged.add(createDemoPanel(vincent, "Poid des pages chargées"), BorderLayout.CENTER);
+			JLabel txtpoidPageCharged = new JLabel("<html> Poid des pages chargées : "+expr);
 
-			JLabel txtpoidPageChargedde = new JLabel("Poid TOTAL des pages chargées : ");
-			JLabel exppoidPageChargedde = new JLabel(exprde);
 
-			JPpoidPageCharged.add(txtpoidPageChargedde, BorderLayout.SOUTH);
-			JPpoidPageCharged.add(exppoidPageChargedde, BorderLayout.SOUTH);
+			JPpoidPageCharged.add(txtpoidPageCharged);
+			JPpoidPageCharged.add(createDemoPanel(vincent, "Poid des pages chargées"));
+
+			JLabel txtpoidPageChargedde = new JLabel("<html> Poid TOTAL des pages chargées : "+ exprde);
+
+			JPpoidPageCharged.add(txtpoidPageChargedde);
 
 			v.addJPweigtChargedPages(JPpoidPageCharged);
 		}
