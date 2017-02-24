@@ -27,6 +27,9 @@ public class DataBase {
 	 */
 	private ArrayList<Trio<String, String, Long>> buffer_http;
 
+	/**
+	 * Buffer permettant de stocker les requtes HTTPS car elles ont besoin d'un traitement spécifique
+	 */
 	private ArrayList<Duo<String, Long>> buffer_https;
 
 	/**
@@ -296,7 +299,7 @@ public class DataBase {
 
 				stmt.setString(1, captureN);
 				stmt.setString(2, host);
-				stmt.setString(3, "GET");
+				stmt.setString(3, "HTTPS");
 				stmt.setString(4, "{}");
 				stmt.setInt(5, 0);
 				stmt.setLong(6, time);
