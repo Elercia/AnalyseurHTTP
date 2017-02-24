@@ -159,18 +159,14 @@ public class View {
     actu.addActionListener(ctrlActualisation);
 
 
-    JLabel txtcap = new JLabel("Temps des captures");
     JLabel txtpagechar = new JLabel("Nombre de pages chargées");
     JLabel txtcookie = new JLabel("Nombre de cookies créés");
 
-    JLabel tmpCapture = new JLabel("<valeur>");
     nbChargedPages = new JLabel("<valeur>");
     nbCookie = new JLabel("<valeur>");
 
     JPtmpCapture = new JPanel();
     JPtmpCapture.setLayout(new FlowLayout());
-    JPtmpCapture.add(txtcap);
-    JPtmpCapture.add(tmpCapture);
 
     JPnbChargedPages = new JPanel();
     JPnbChargedPages.setLayout(new FlowLayout());
@@ -400,6 +396,14 @@ public class View {
 
   public String getProxy(){
     return adressProxySysteme.getText();
+  }
+
+  public void cleartempsSite(){
+    JPtmpCapture.removeAll();
+  }
+
+  public void addtempsSite(JPanel add){
+    JPtmpCapture.add(add);
   }
 
   public String getQuestion1(){
