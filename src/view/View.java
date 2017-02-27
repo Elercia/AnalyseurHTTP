@@ -5,7 +5,9 @@
 package view;
 
 import java.awt.event.KeyEvent;
+
 import javax.swing.*;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -15,7 +17,7 @@ import model.Analyseur;
 //http://proxyetu.iut-nantes.univ-nantes.prive:3128
 
 
-public class View {
+public class View{
   private JButton stop;
   private JButton start;
   private JLabel txtprox, txtproxy, txtport, chargement;
@@ -23,7 +25,6 @@ public class View {
   private JTextField adressProxySysteme, nouveauNom;
   private JSpinner proxyPort, proxyPortLogiciel;
   private JLabel nbChargedPages;
-  private JLabel nbCookie; //affichage
   private JTabbedPane onglets;
   private JPanel JPtmpCapture, JPnbChargedPages, JPweigtChargedPages, JPnbCookie, JPmostViewedSite, JPmethode;
   private JComboBox data, capName;
@@ -160,11 +161,8 @@ public class View {
 
 
     JLabel txtpagechar = new JLabel("Nombre de pages chargées");
-    JLabel txtcookie = new JLabel("Nombre de cookies créés");
 
     nbChargedPages = new JLabel("<valeur>");
-    nbCookie = new JLabel("<valeur>");
-
     JPtmpCapture = new JPanel();
     JPtmpCapture.setLayout(new FlowLayout());
 
@@ -180,12 +178,12 @@ public class View {
     JPweigtChargedPages = new JPanel();
     JPweigtChargedPages.setLayout(new FlowLayout());
     JScrollPane jScrollPane = new JScrollPane(JPweigtChargedPages);
-      jScrollPane.getVerticalScrollBar().setUnitIncrement(20);
+    jScrollPane.getVerticalScrollBar().setUnitIncrement(20);
 
     JPnbCookie = new JPanel();
     JPnbCookie.setLayout(new FlowLayout());
-    JPnbCookie.add(txtcookie);
-    JPnbCookie.add(nbCookie);
+    JScrollPane jScrollPaneCookie = new JScrollPane(JPnbCookie);
+    jScrollPaneCookie.getVerticalScrollBar().setUnitIncrement(20);
 
     JPmostViewedSite = new JPanel();
     JPmostViewedSite.setLayout(new FlowLayout());
@@ -208,7 +206,7 @@ public class View {
     ongletsGraph.addTab("Durée des captures", JPtmpCapture);
     ongletsGraph.addTab("Nombre de pages chargées", JPnbChargedPages);
     ongletsGraph.addTab("Poid des pages chargées", jScrollPane);
-    ongletsGraph.addTab("Nombre de cookies créés", JPnbCookie);
+    ongletsGraph.addTab("Nombre de cookies créés", jScrollPaneCookie);
     ongletsGraph.addTab("Le site le plus utlisé", JPmostViewedSite);
     ongletsGraph.addTab("Methode HTTP la plus utilisée", JPmethode);
 
@@ -282,7 +280,7 @@ public class View {
     f.getContentPane().add(onglets);
     f.setVisible(true);
     f.pack();
-    f.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+    f.setSize(Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height-20);
   }
 
   public void start(){
@@ -370,12 +368,16 @@ public class View {
     nbChargedPages.setText(s);
   }
 
-  public void maj_cookie(String s){
-    nbCookie.setText(s);
-  }
-
   public void clearJPMethode(){
     JPmethode.removeAll();
+  }
+
+  public void addJPCookie(JPanel add){
+    JPnbCookie.add(add);
+  }
+
+  public void clearJPCookie(){
+    JPnbCookie.removeAll();
   }
 
   public void clearJPMostViewedSite(){

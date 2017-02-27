@@ -50,7 +50,7 @@ public class CtrlActualisation implements ActionListener {
 				this.poidPageCharged(poidPageCharged, nbPagesCharged);
 				this.methodeUsed(methodeUsed);
 
-				JOptionPane.showMessageDialog(null,"Donées actualisées !");
+				//JOptionPane.showMessageDialog(null,"Donées actualisées !");
 			}catch(Exception exeption){
 				JOptionPane.showMessageDialog(null,"Recupération des données impossible","ERREUR",JOptionPane.ERROR_MESSAGE);
 				exeption.printStackTrace();
@@ -89,13 +89,13 @@ public class CtrlActualisation implements ActionListener {
 			JPanel JPpoidPageCharged = new JPanel();
 			JPpoidPageCharged.setLayout(new BoxLayout(JPpoidPageCharged, BoxLayout.Y_AXIS));
 
-			JLabel txtpoidPageCharged = new JLabel("<html> Poid des pages chargées : "+expr);
+			JLabel txtpoidPageCharged = new JLabel("<html> Poid des pages chargées : "+expr + " <br><br><br> ");
 
 
 			JPpoidPageCharged.add(txtpoidPageCharged);
 			JPpoidPageCharged.add(createDemoPanel(vincent, "Poid des pages chargées"));
 
-			JLabel txtpoidPageChargedde = new JLabel("<html> Poid TOTAL des pages chargées : "+ exprde);
+			JLabel txtpoidPageChargedde = new JLabel("<html><br><br><br> Poid TOTAL des pages chargées : "+ exprde);
 
 			JPpoidPageCharged.add(txtpoidPageChargedde);
 
@@ -104,7 +104,18 @@ public class CtrlActualisation implements ActionListener {
 	}
 
 	public void nbCookiesCreated(HashMap<String, Object> nbCookiesCreated){
-		v.maj_cookie(nbCookiesCreated.toString());
+		String expr="";
+		for (String s : nbCookiesCreated.keySet()) {
+			if(nbCookiesCreated.containsKey(s)){
+				expr = expr + s +" : "+ nbCookiesCreated.get(s) + ", <br> ";
+			}
+		}
+
+		JLabel txtnbCookiesCreated = new JLabel("<html> Liste des cookie cree : "+ expr);
+		JPanel g = new JPanel();
+		g.add(txtnbCookiesCreated);
+		v.clearJPCookie();
+		v.addJPCookie(g);
 	}
 
 	public void pageLeMostCharge(HashMap<String, Object> nbPagesCharged){
