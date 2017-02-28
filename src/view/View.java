@@ -160,20 +160,18 @@ public class View{
     actu.addActionListener(ctrlActualisation);
 
 
-    JLabel txtpagechar = new JLabel("Nombre de pages chargées");
 
-    nbChargedPages = new JLabel("<valeur>");
     JPtmpCapture = new JPanel();
     JPtmpCapture.setLayout(new FlowLayout());
+    JScrollPane JStmpCapture = new JScrollPane(JPtmpCapture);
+    JStmpCapture.getVerticalScrollBar().setUnitIncrement(20);
 
+    JLabel txtpagechar = new JLabel("Nombre de pages chargées");
+    nbChargedPages = new JLabel("<valeur>");
     JPnbChargedPages = new JPanel();
     JPnbChargedPages.setLayout(new FlowLayout());
     JPnbChargedPages.add(txtpagechar);
     JPnbChargedPages.add(nbChargedPages);
-
-
-
-    //jScrollPane.setViewportView(JPweigtChargedPages);
 
     JPweigtChargedPages = new JPanel();
     JPweigtChargedPages.setLayout(new FlowLayout());
@@ -187,9 +185,13 @@ public class View{
 
     JPmostViewedSite = new JPanel();
     JPmostViewedSite.setLayout(new FlowLayout());
+    JScrollPane JSmostViewedSite = new JScrollPane(JPmostViewedSite);
+    JSmostViewedSite.getVerticalScrollBar().setUnitIncrement(20);
 
     JPmethode = new JPanel();
     JPmethode.setLayout(new FlowLayout());
+    JScrollPane JSmethode = new JScrollPane(JPmethode);
+    JSmethode.getVerticalScrollBar().setUnitIncrement(20);
 
 
     JPanel onglet2_2 = new JPanel();
@@ -203,12 +205,12 @@ public class View{
 
     onglets.addTab("Affichage", onglet2_2);
 
-    ongletsGraph.addTab("Durée des captures", JPtmpCapture);
+    ongletsGraph.addTab("Durée des captures", JStmpCapture);
     ongletsGraph.addTab("Nombre de pages chargées", JPnbChargedPages);
     ongletsGraph.addTab("Poid des pages chargées", jScrollPane);
     ongletsGraph.addTab("Nombre de cookies créés", jScrollPaneCookie);
-    ongletsGraph.addTab("Le site le plus utlisé", JPmostViewedSite);
-    ongletsGraph.addTab("Methode HTTP la plus utilisée", JPmethode);
+    ongletsGraph.addTab("Le site le plus utlisé", JSmostViewedSite);
+    ongletsGraph.addTab("Methode HTTP la plus utilisée", JSmethode);
 
 
     JPanel gestBD = new JPanel();

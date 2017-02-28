@@ -3,6 +3,7 @@ package controleur;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,6 +36,14 @@ public class CtrlActualisation implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if ((e.getSource()).equals(actu)){
 			try{
+				ArrayList<String> ar = analyseur.getCapturesNames();
+				for (String s : ar) {
+					System.out.println(s);
+				}
+
+
+
+
 				HashMap<String, HashMap<String, Object>> data = this.analyseur.getData(v.getData());
 
 				HashMap<String, Object> methodeUsed = data.get("methodeUsed");
@@ -62,27 +71,29 @@ public class CtrlActualisation implements ActionListener {
 		v.clearJPMethode();
 
 		JPanel JPmetode = new JPanel();
-		JLabel txtmethode = new JLabel("Methode HTTP la plus utilisée : ");
-		JLabel methode = new JLabel(methodeUsed.toString());
+		JPmetode.setLayout(new BoxLayout(JPmetode, BoxLayout.Y_AXIS));
+		JLabel txtmethode = new JLabel("<html>Methode HTTP la plus utilisée : " + methodeUsed.toString()+"<br><br>");
 
 		JPmetode.add(txtmethode);
-		JPmetode.add(methode);
 		JPmetode.add(createDemoPanel(methodeUsed, "Methode HTTP la plus utilisée"));
 		v.addJPmethode(JPmetode);
 	}
 
 	public void poidPageCharged(HashMap<String, Object> poidPageCharged, HashMap<String, Object> nbPagesCharged){
-		String expr="";
-		String exprde= "";
+		String expr="<ul>";
+		String exprde= "<ul>";
 		HashMap<String, Object> vincent = new HashMap<String, Object>();
 		for (String s : poidPageCharged.keySet()) {
 			if(nbPagesCharged.containsKey(s)){
 				int val =(int)poidPageCharged.get(s)/(int)nbPagesCharged.get(s);
 				vincent.put(s, val);
-				expr = expr + s +" : "+ val + ", <br> ";
-				exprde = exprde + s+ " : "+ poidPageCharged.get(s)+" <br> ";
+				expr = expr + "<li>" + s +" : "+ val + "</li>";
+				exprde = exprde +"<li>"+ s+ " : "+ poidPageCharged.get(s)+" </li> ";
 			}
 		}
+		expr=expr+"</ul>";
+		exprde=exprde+"</ul>";
+
 		if(!expr.isEmpty()){
 			v.clearJPweigtChargedPages();
 
@@ -104,13 +115,14 @@ public class CtrlActualisation implements ActionListener {
 	}
 
 	public void nbCookiesCreated(HashMap<String, Object> nbCookiesCreated){
-		String expr="";
+		String expr="<ul>";
 		for (String s : nbCookiesCreated.keySet()) {
 			if(nbCookiesCreated.containsKey(s)){
-				expr = expr + s +" : "+ nbCookiesCreated.get(s) + ", <br> ";
+				expr = expr + "<li>" + s +" : "+ nbCookiesCreated.get(s) + "</li>";
 			}
 		}
 
+		expr = expr + "</ul>";
 		JLabel txtnbCookiesCreated = new JLabel("<html> Liste des cookie cree : "+ expr);
 		JPanel g = new JPanel();
 		g.add(txtnbCookiesCreated);
@@ -131,11 +143,10 @@ public class CtrlActualisation implements ActionListener {
 			v.clearJPMostViewedSite();
 
 			JPanel JPmostViewedSite = new JPanel();
-			JLabel txtmostViewedSite = new JLabel("Le site le plus utlisé : ");
-			JLabel mostViewedSite = new JLabel(strMax);
+			JPmostViewedSite.setLayout(new BoxLayout(JPmostViewedSite, BoxLayout.Y_AXIS));
+			JLabel txtmostViewedSite = new JLabel("<html>Le site le plus utlisé : "+strMax +"<br><br>");
 
 			JPmostViewedSite.add(txtmostViewedSite);
-			JPmostViewedSite.add(mostViewedSite);
 			JPmostViewedSite.add(createDemoPanel(nbPagesCharged, "site le plus utlisé"));
 			v.addJPmostViewedSite(JPmostViewedSite);
 		}
@@ -153,19 +164,18 @@ public class CtrlActualisation implements ActionListener {
 
 
 	public void tempSite(HashMap<String, Object> temps){
-		String str = new String("");
+		String str = new String("<ul>");
 		for (String s : temps.keySet()) {
-			str= s+" -> " + temps.get(s)+" ";
+			str=str+"<li>"+ s+" -> " + temps.get(s)+" </li>";
 		}
-
+		str=str+"</ul>";
 		v.cleartempsSite();
 
 		JPanel JPtempsSite = new JPanel();
-		JLabel txttempsSite = new JLabel("Temps par site ");
-		JLabel mosttempsSite = new JLabel(str);
+		JPtempsSite.setLayout(new BoxLayout(JPtempsSite, BoxLayout.Y_AXIS));
+		JLabel txttempsSite = new JLabel("<html> Temps par site : "+ str);
 
 		JPtempsSite.add(txttempsSite);
-		JPtempsSite.add(mosttempsSite);
 		JPtempsSite.add(createDemoPanel(temps, "Temps par site"));
 		v.addtempsSite(JPtempsSite);
 	}
