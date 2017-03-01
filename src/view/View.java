@@ -59,7 +59,7 @@ public class View{
     txtportlog.setMinimumSize(new Dimension(200,30));
     c.gridx=0;
     c.gridy=0;
-    
+
     onglet1_1.add(txtportlog, c);
 
     proxyPortLogiciel = new JSpinner();
@@ -109,7 +109,7 @@ public class View{
     txtprox =new JLabel("Utilisez vous un autre proxy ?");
     txtprox.setPreferredSize(new Dimension(220,30));
     txtprox.setMinimumSize(new Dimension(220,30));
-    txtprox.setVisible(false);
+    txtprox.setEnabled(false);
     c.gridx=0;
     c.gridy=2;
     onglet1_1.add(txtprox, c);
@@ -122,8 +122,8 @@ public class View{
     proxy_non.setPreferredSize(new Dimension(150,30));
     proxy_non.setMinimumSize(new Dimension(150,30));
     proxy_non.setSelected(true);
-    proxy_non.setVisible(false);
-    proxy_oui.setVisible(false);
+    proxy_non.setEnabled(false);
+    proxy_oui.setEnabled(false);
     bgAutoMan.add(proxy_oui);
     bgAutoMan.add(proxy_non);
 
@@ -141,14 +141,14 @@ public class View{
     txtproxy = new JLabel("Adresse du proxy : ");
     txtproxy.setPreferredSize(new Dimension(200,30));
     txtproxy.setMinimumSize(new Dimension(200,30));
-    txtproxy.setVisible(false);
+    txtproxy.setEnabled(false);
 
     c.gridx=0;
     c.gridy=3;
     onglet1_1.add(txtproxy, c);
 
-    adressProxySysteme = new JTextField("");
-    adressProxySysteme.setVisible(false);
+    adressProxySysteme = new JTextField("http://proxyetu.iut-nantes.univ-nantes.prive");
+    adressProxySysteme.setEnabled(false);
 
     c.gridx=1;
     c.gridy=3;
@@ -157,7 +157,7 @@ public class View{
     txtport = new JLabel("Port du proxy : ");
     txtport.setPreferredSize(new Dimension(200,30));
     txtport.setMinimumSize(new Dimension(200,30));
-    txtport.setVisible(false);
+    txtport.setEnabled(false);
 
     c.gridx=0;
     c.gridy=4;
@@ -166,7 +166,7 @@ public class View{
     proxyPort = new JSpinner();
     proxyPort.setPreferredSize(new Dimension(200,30));
     proxyPort.setMinimumSize(new Dimension(200,30));
-    proxyPort.setVisible(false);
+    proxyPort.setEnabled(false);
 
     c.gridx=1;
     c.gridy=4;
@@ -376,33 +376,33 @@ public class View{
   }
 
   public void ConfigMan(){
-    txtprox.setVisible(true);
-    proxy_oui.setVisible(true);
-    proxy_non.setVisible(true);
+    txtprox.setEnabled(true);
+    proxy_oui.setEnabled(true);
+    proxy_non.setEnabled(true);
   }
 
   public void ConfigAuto(){
-    txtprox.setVisible(false);
-    proxy_oui.setVisible(false);
-    proxy_non.setVisible(false);
+    txtprox.setEnabled(false);
+    proxy_oui.setEnabled(false);
+    proxy_non.setEnabled(false);
     proxy_non.setSelected(true);
     this.configProxyNon();
   }
 
   public void configProxyOui(){
-    txtproxy.setVisible(true);
-    adressProxySysteme.setVisible(true);
+    txtproxy.setEnabled(true);
+    adressProxySysteme.setEnabled(true);
     adressProxySysteme.setText("http://proxyetu.iut-nantes.univ-nantes.prive");
-    txtport.setVisible(true);
-    proxyPort.setVisible(true);
+    txtport.setEnabled(true);
+    proxyPort.setEnabled(true);
     proxyPort.setValue(3128);
   }
 
   public void configProxyNon(){
-    txtproxy.setVisible(false);
-    adressProxySysteme.setVisible(false);
-    txtport.setVisible(false);
-    proxyPort.setVisible(false);
+    txtproxy.setEnabled(false);
+    adressProxySysteme.setEnabled(false);
+    txtport.setEnabled(false);
+    proxyPort.setEnabled(false);
   }
 
   public void beforeStop(){
