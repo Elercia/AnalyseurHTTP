@@ -55,7 +55,7 @@ public class View{
 
 
     JLabel txtportlog = new JLabel("Port à écouter : ");
-    txtportlog.setPreferredSize(new Dimension(200,30));
+    txtportlog.setPreferredSize(new Dimension(250,30));
     txtportlog.setMinimumSize(new Dimension(200,30));
     c.gridx=0;
     c.gridy=0;
@@ -64,7 +64,7 @@ public class View{
 
     proxyPortLogiciel = new JSpinner();
     proxyPortLogiciel.setValue(9999);
-    proxyPortLogiciel.setPreferredSize(new Dimension(100,30));
+    proxyPortLogiciel.setPreferredSize(new Dimension(250,30));
     proxyPortLogiciel.setMinimumSize(new Dimension(100,30));
     c.gridx=1;
     c.gridy=0;
@@ -72,7 +72,7 @@ public class View{
 
 
     JLabel txtparam =new JLabel("Configuration du réseaux :");
-    txtparam.setPreferredSize(new Dimension(200,30));
+    txtparam.setPreferredSize(new Dimension(250,30));
     txtparam.setMinimumSize(new Dimension(200,30));
     c.gridx=0;
     c.gridy=1;
@@ -80,11 +80,11 @@ public class View{
 
     ButtonGroup bgProxy = new ButtonGroup();
     param_auto = new JRadioButton("Automatique");
-    param_auto.setPreferredSize(new Dimension(150,30));
+    param_auto.setPreferredSize(new Dimension(250,30));
     param_auto.setMinimumSize(new Dimension(150,30));
     param_auto.setSelected(true);
     param_man = new JRadioButton("Manuel");
-    param_man.setPreferredSize(new Dimension(150,30));
+    param_man.setPreferredSize(new Dimension(250,30));
     param_man.setMinimumSize(new Dimension(150,30));
     bgProxy.add(param_auto);
     bgProxy.add(param_man);
@@ -107,7 +107,7 @@ public class View{
 
 
     txtprox =new JLabel("Utilisez vous un autre proxy ?");
-    txtprox.setPreferredSize(new Dimension(220,30));
+    txtprox.setPreferredSize(new Dimension(250,30));
     txtprox.setMinimumSize(new Dimension(220,30));
     txtprox.setEnabled(false);
     c.gridx=0;
@@ -116,10 +116,10 @@ public class View{
 
     ButtonGroup bgAutoMan = new ButtonGroup();
     proxy_oui = new JRadioButton("Oui");
-    proxy_oui.setPreferredSize(new Dimension(150,30));
+    proxy_oui.setPreferredSize(new Dimension(250,30));
     proxy_oui.setMinimumSize(new Dimension(150,30));
     proxy_non = new JRadioButton("Non");
-    proxy_non.setPreferredSize(new Dimension(150,30));
+    proxy_non.setPreferredSize(new Dimension(250,30));
     proxy_non.setMinimumSize(new Dimension(150,30));
     proxy_non.setSelected(true);
     proxy_non.setEnabled(false);
@@ -139,7 +139,7 @@ public class View{
     proxy_non.addActionListener(control_prox);
 
     txtproxy = new JLabel("Adresse du proxy : ");
-    txtproxy.setPreferredSize(new Dimension(200,30));
+    txtproxy.setPreferredSize(new Dimension(250,30));
     txtproxy.setMinimumSize(new Dimension(200,30));
     txtproxy.setEnabled(false);
 
@@ -155,7 +155,7 @@ public class View{
     onglet1_1.add(adressProxySysteme, c);
 
     txtport = new JLabel("Port du proxy : ");
-    txtport.setPreferredSize(new Dimension(200,30));
+    txtport.setPreferredSize(new Dimension(250,30));
     txtport.setMinimumSize(new Dimension(200,30));
     txtport.setEnabled(false);
 
@@ -164,7 +164,7 @@ public class View{
     onglet1_1.add(txtport, c);
 
     proxyPort = new JSpinner();
-    proxyPort.setPreferredSize(new Dimension(200,30));
+    proxyPort.setPreferredSize(new Dimension(250,30));
     proxyPort.setMinimumSize(new Dimension(200,30));
     proxyPort.setEnabled(false);
 
@@ -177,7 +177,7 @@ public class View{
     onglet1_3.setLayout(new FlowLayout());
 
     stop = new JButton("Stop");
-    stop.setPreferredSize(new Dimension(100, 30));
+    stop.setPreferredSize(new Dimension(250, 30));
     stop.setMinimumSize(new Dimension(100, 30));
     stop.setVisible(false);
     c.gridx=1;
@@ -187,7 +187,7 @@ public class View{
     stop.addActionListener(ctrlStop);
 
     start = new JButton("Start");
-    start.setPreferredSize(new Dimension(100, 30));
+    start.setPreferredSize(new Dimension(250, 30));
     start.setMinimumSize(new Dimension(100, 30));
     c.gridx=1;
     c.gridy=5;
