@@ -54,6 +54,7 @@ public class View{
 
     proxyPortLogiciel = new JSpinner();
     proxyPortLogiciel.setValue(9999);
+    proxyPortLogiciel.setPreferredSize(new Dimension(100,30));
     c.gridx=1;
     c.gridy=0;
     onglet1_1.add(proxyPortLogiciel, c);
@@ -62,14 +63,17 @@ public class View{
     onglet1_1.add(bricolage2);*/
 
     JLabel txtparam =new JLabel("Configuration du réseaux :");
+    txtparam.setPreferredSize(new Dimension(200,30));
     c.gridx=0;
     c.gridy=1;
     onglet1_1.add(txtparam, c);
 
     ButtonGroup bgProxy = new ButtonGroup();
     param_auto = new JRadioButton("Automatique");
+    param_auto.setPreferredSize(new Dimension(150,30));
     param_auto.setSelected(true);
     param_man = new JRadioButton("Manuel");
+    param_man.setPreferredSize(new Dimension(150,30));
     // ajout des boutons radio dans le groupe bgAutoMan
     bgProxy.add(param_auto);
     bgProxy.add(param_man);
@@ -95,6 +99,7 @@ public class View{
 
 
     txtprox =new JLabel("Utilisez vous un autre proxy ?");
+    txtprox.setPreferredSize(new Dimension(200,30));
     txtprox.setVisible(false);
     //onglet1_2.add(txtprox);
     c.gridx=0;
@@ -103,7 +108,9 @@ public class View{
 
     ButtonGroup bgAutoMan = new ButtonGroup();
     proxy_oui = new JRadioButton("Oui");
+    proxy_oui.setPreferredSize(new Dimension(150,30));
     proxy_non = new JRadioButton("Non");
+    proxy_non.setPreferredSize(new Dimension(150,30));
     proxy_non.setSelected(true);
     proxy_non.setVisible(false);
     proxy_oui.setVisible(false);
@@ -123,6 +130,7 @@ public class View{
     proxy_non.addActionListener(control_prox);
 
     txtproxy = new JLabel("Adresse du proxy : ");
+    txtproxy.setPreferredSize(new Dimension(200,30));
     txtproxy.setVisible(false);
 
     c.gridx=0;
@@ -140,6 +148,7 @@ public class View{
     onglet1_2.add(bricolage);*/
 
     txtport = new JLabel("Port du proxy : ");
+    txtport.setPreferredSize(new Dimension(200,30));
     txtport.setVisible(false);
 
     c.gridx=0;
@@ -147,6 +156,7 @@ public class View{
     onglet1_1.add(txtport, c);
 
     proxyPort = new JSpinner();
+    proxyPort.setPreferredSize(new Dimension(200,30));
     proxyPort.setVisible(false);
 
     c.gridx=1;
