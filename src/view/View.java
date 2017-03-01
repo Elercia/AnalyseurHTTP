@@ -41,20 +41,30 @@ public class View{
     this.onglets = new JTabbedPane(SwingConstants.TOP);
 
     JPanel onglet1_1 = new JPanel();
-    onglet1_1.setLayout(new GridLayout(2, 3));//l,c
+    onglet1_1.setLayout(new GridBagLayout());
+    GridBagConstraints c = new GridBagConstraints();
+
+    // TODO: 01/03/17
+
 
     JLabel txtportlog = new JLabel("Port à écouter : ");
-    onglet1_1.add(txtportlog);
+    c.gridx=0;
+    c.gridy=0;
+    onglet1_1.add(txtportlog, c);
 
     proxyPortLogiciel = new JSpinner();
     proxyPortLogiciel.setValue(9999);
-    onglet1_1.add(proxyPortLogiciel);
+    c.gridx=1;
+    c.gridy=0;
+    onglet1_1.add(proxyPortLogiciel, c);
 
-    JLabel bricolage2 = new JLabel("");
-    onglet1_1.add(bricolage2);
+    /*JLabel bricolage2 = new JLabel("");
+    onglet1_1.add(bricolage2);*/
 
     JLabel txtparam =new JLabel("Configuration du réseaux :");
-    onglet1_1.add(txtparam);
+    c.gridx=0;
+    c.gridy=1;
+    onglet1_1.add(txtparam, c);
 
     ButtonGroup bgProxy = new ButtonGroup();
     param_auto = new JRadioButton("Automatique");
@@ -63,20 +73,33 @@ public class View{
     // ajout des boutons radio dans le groupe bgAutoMan
     bgProxy.add(param_auto);
     bgProxy.add(param_man);
-    onglet1_1.add(param_auto);
-    onglet1_1.add(param_man);
+
+    c.gridx=1;
+    c.gridy=1;
+    onglet1_1.add(param_auto, c);
+
+    c.gridx=2;
+    c.gridy=1;
+    onglet1_1.add(param_man, c);
     CtrlConfiguration control_conf = new CtrlConfiguration(param_auto, param_man, this);
     param_auto.addActionListener(control_conf);
     param_man.addActionListener(control_conf);
 
 
 
-    JPanel onglet1_2 = new JPanel();
-    onglet1_2.setLayout(new GridLayout(3, 3));
+    /*JPanel onglet1_2 = new JPanel();
+    onglet1_2.setLayout(new GridLayout(3, 3));*/
+
+    // TODO: 01/03/17
+
+
 
     txtprox =new JLabel("Utilisez vous un autre proxy ?");
     txtprox.setVisible(false);
-    onglet1_2.add(txtprox);
+    //onglet1_2.add(txtprox);
+    c.gridx=0;
+    c.gridy=2;
+    onglet1_1.add(txtprox, c);
 
     ButtonGroup bgAutoMan = new ButtonGroup();
     proxy_oui = new JRadioButton("Oui");
@@ -87,8 +110,13 @@ public class View{
     // ajout des boutons radio dans le groupe bgAutoMan
     bgAutoMan.add(proxy_oui);
     bgAutoMan.add(proxy_non);
-    onglet1_2.add(proxy_oui);
-    onglet1_2.add(proxy_non);
+
+    c.gridx=1;
+    c.gridy=2;
+    onglet1_1.add(proxy_oui, c);
+    c.gridx=2;
+    c.gridy=2;
+    onglet1_1.add(proxy_non, c);
 
     CtrlProxy control_prox = new CtrlProxy(proxy_oui, proxy_non, this);
     proxy_oui.addActionListener(control_prox);
@@ -96,22 +124,34 @@ public class View{
 
     txtproxy = new JLabel("Adresse du proxy : ");
     txtproxy.setVisible(false);
-    onglet1_2.add(txtproxy);
+
+    c.gridx=0;
+    c.gridy=3;
+    onglet1_1.add(txtproxy, c);
 
     adressProxySysteme = new JTextField("");
     adressProxySysteme.setVisible(false);
-    onglet1_2.add(adressProxySysteme);
 
-    JLabel bricolage = new JLabel("");
-    onglet1_2.add(bricolage);
+    c.gridx=1;
+    c.gridy=3;
+    onglet1_1.add(adressProxySysteme, c);
+
+    /*JLabel bricolage = new JLabel("");
+    onglet1_2.add(bricolage);*/
 
     txtport = new JLabel("Port du proxy : ");
     txtport.setVisible(false);
-    onglet1_2.add(txtport);
+
+    c.gridx=0;
+    c.gridy=4;
+    onglet1_1.add(txtport, c);
 
     proxyPort = new JSpinner();
     proxyPort.setVisible(false);
-    onglet1_2.add(proxyPort);
+
+    c.gridx=1;
+    c.gridy=4;
+    onglet1_1.add(proxyPort, c);
 
 
     JPanel onglet1_3 = new JPanel();
@@ -135,10 +175,12 @@ public class View{
     onglet1_3.add(chargement);
 
     JPanel onglet1_G = new JPanel();
-    onglet1_G.setLayout(new GridLayout(3, 1));//l,c
+    onglet1_G.setLayout(new GridLayout(2, 1));//l,c
+
+    // TODO: 01/03/17
 
     onglet1_G.add(onglet1_1);
-    onglet1_G.add(onglet1_2);
+    //onglet1_G.add(onglet1_2);
     onglet1_G.add(onglet1_3);
 
     onglets.addTab("Analyseur", onglet1_G);
