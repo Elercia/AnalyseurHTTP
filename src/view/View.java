@@ -41,29 +41,39 @@ public class View{
     this.onglets = new JTabbedPane(SwingConstants.TOP);
 
     JPanel onglet1_1 = new JPanel();
-    onglet1_1.setLayout(new GridBagLayout());
+    //onglet1_1.setMinimumSize(new Dimension(800, 250));
+
+    JScrollPane jSonglet1_1 = new JScrollPane(onglet1_1);
+    jSonglet1_1.getVerticalScrollBar().setUnitIncrement(20);
+
+
+    GridBagLayout layout = new GridBagLayout();
+    onglet1_1.setLayout(layout);
     GridBagConstraints c = new GridBagConstraints();
 
     // TODO: 01/03/17
 
 
     JLabel txtportlog = new JLabel("Port à écouter : ");
+    txtportlog.setPreferredSize(new Dimension(200,30));
+    txtportlog.setMinimumSize(new Dimension(200,30));
     c.gridx=0;
     c.gridy=0;
+    
     onglet1_1.add(txtportlog, c);
 
     proxyPortLogiciel = new JSpinner();
     proxyPortLogiciel.setValue(9999);
     proxyPortLogiciel.setPreferredSize(new Dimension(100,30));
+    proxyPortLogiciel.setMinimumSize(new Dimension(100,30));
     c.gridx=1;
     c.gridy=0;
     onglet1_1.add(proxyPortLogiciel, c);
 
-    /*JLabel bricolage2 = new JLabel("");
-    onglet1_1.add(bricolage2);*/
 
     JLabel txtparam =new JLabel("Configuration du réseaux :");
     txtparam.setPreferredSize(new Dimension(200,30));
+    txtparam.setMinimumSize(new Dimension(200,30));
     c.gridx=0;
     c.gridy=1;
     onglet1_1.add(txtparam, c);
@@ -71,10 +81,11 @@ public class View{
     ButtonGroup bgProxy = new ButtonGroup();
     param_auto = new JRadioButton("Automatique");
     param_auto.setPreferredSize(new Dimension(150,30));
+    param_auto.setMinimumSize(new Dimension(150,30));
     param_auto.setSelected(true);
     param_man = new JRadioButton("Manuel");
     param_man.setPreferredSize(new Dimension(150,30));
-    // ajout des boutons radio dans le groupe bgAutoMan
+    param_man.setMinimumSize(new Dimension(150,30));
     bgProxy.add(param_auto);
     bgProxy.add(param_man);
 
@@ -91,17 +102,14 @@ public class View{
 
 
 
-    /*JPanel onglet1_2 = new JPanel();
-    onglet1_2.setLayout(new GridLayout(3, 3));*/
-
     // TODO: 01/03/17
 
 
 
     txtprox =new JLabel("Utilisez vous un autre proxy ?");
-    txtprox.setPreferredSize(new Dimension(200,30));
+    txtprox.setPreferredSize(new Dimension(220,30));
+    txtprox.setMinimumSize(new Dimension(220,30));
     txtprox.setVisible(false);
-    //onglet1_2.add(txtprox);
     c.gridx=0;
     c.gridy=2;
     onglet1_1.add(txtprox, c);
@@ -109,12 +117,13 @@ public class View{
     ButtonGroup bgAutoMan = new ButtonGroup();
     proxy_oui = new JRadioButton("Oui");
     proxy_oui.setPreferredSize(new Dimension(150,30));
+    proxy_oui.setMinimumSize(new Dimension(150,30));
     proxy_non = new JRadioButton("Non");
     proxy_non.setPreferredSize(new Dimension(150,30));
+    proxy_non.setMinimumSize(new Dimension(150,30));
     proxy_non.setSelected(true);
     proxy_non.setVisible(false);
     proxy_oui.setVisible(false);
-    // ajout des boutons radio dans le groupe bgAutoMan
     bgAutoMan.add(proxy_oui);
     bgAutoMan.add(proxy_non);
 
@@ -131,6 +140,7 @@ public class View{
 
     txtproxy = new JLabel("Adresse du proxy : ");
     txtproxy.setPreferredSize(new Dimension(200,30));
+    txtproxy.setMinimumSize(new Dimension(200,30));
     txtproxy.setVisible(false);
 
     c.gridx=0;
@@ -144,11 +154,9 @@ public class View{
     c.gridy=3;
     onglet1_1.add(adressProxySysteme, c);
 
-    /*JLabel bricolage = new JLabel("");
-    onglet1_2.add(bricolage);*/
-
     txtport = new JLabel("Port du proxy : ");
     txtport.setPreferredSize(new Dimension(200,30));
+    txtport.setMinimumSize(new Dimension(200,30));
     txtport.setVisible(false);
 
     c.gridx=0;
@@ -157,6 +165,7 @@ public class View{
 
     proxyPort = new JSpinner();
     proxyPort.setPreferredSize(new Dimension(200,30));
+    proxyPort.setMinimumSize(new Dimension(200,30));
     proxyPort.setVisible(false);
 
     c.gridx=1;
@@ -168,33 +177,34 @@ public class View{
     onglet1_3.setLayout(new FlowLayout());
 
     stop = new JButton("Stop");
-    stop.setPreferredSize(new Dimension(100, 25));
+    stop.setPreferredSize(new Dimension(100, 30));
+    stop.setMinimumSize(new Dimension(100, 30));
     stop.setVisible(false);
-    onglet1_3.add(stop);
+    c.gridx=1;
+    c.gridy=5;
+    onglet1_1.add(stop, c);
     CtrlStop ctrlStop = new CtrlStop(stop, this, analyseur);
     stop.addActionListener(ctrlStop);
 
     start = new JButton("Start");
-    start.setPreferredSize(new Dimension(100, 25));
-    onglet1_3.add(start);
+    start.setPreferredSize(new Dimension(100, 30));
+    start.setMinimumSize(new Dimension(100, 30));
+    c.gridx=1;
+    c.gridy=5;
+    onglet1_1.add(start, c);
     CtrlStart ctrlStart = new CtrlStart(start, this, analyseur);
     start.addActionListener(ctrlStart);
 
     chargement=new JLabel("Chargement ....");
     chargement.setVisible(false);
-    onglet1_3.add(chargement);
+    c.gridx=2;
+    c.gridy=5;
+    onglet1_1.add(chargement, c);
 
-    JPanel onglet1_G = new JPanel();
-    onglet1_G.setLayout(new GridLayout(2, 1));//l,c
 
     // TODO: 01/03/17
 
-    onglet1_G.add(onglet1_1);
-    //onglet1_G.add(onglet1_2);
-    onglet1_G.add(onglet1_3);
-
-    onglets.addTab("Analyseur", onglet1_G);
-
+    onglets.addTab("Analyseur", jSonglet1_1);
 
     JTabbedPane ongletsGraph = new JTabbedPane(SwingConstants.TOP);
 
