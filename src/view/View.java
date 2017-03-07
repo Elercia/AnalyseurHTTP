@@ -55,14 +55,15 @@ public class View{
 
 
     JLabel txtportlog = new JLabel("<html> <FONT size=\"6\">Port à écouter : </FONT>");
-    txtportlog.setPreferredSize(new Dimension(350,50));
-    txtportlog.setMinimumSize(new Dimension(300,50));
+    txtportlog.setPreferredSize(new Dimension(400,50));
+    txtportlog.setMinimumSize(new Dimension(400,50));
     c.gridx=0;
     c.gridy=0;
 
     onglet1_1.add(txtportlog, c);
 
     proxyPortLogiciel = new JSpinner();
+    proxyPortLogiciel.setFont(new Font("", Font.PLAIN, 17));
     proxyPortLogiciel.setValue(9999);
     proxyPortLogiciel.setPreferredSize(new Dimension(250,40));
     proxyPortLogiciel.setMinimumSize(new Dimension(100,40));
@@ -72,18 +73,20 @@ public class View{
 
 
     JLabel txtparam =new JLabel("<html> <FONT size=\"6\">Configuration du réseaux :</FONT>");
-    txtparam.setPreferredSize(new Dimension(350,50));
-    txtparam.setMinimumSize(new Dimension(300,50));
+    txtparam.setPreferredSize(new Dimension(400,50));
+    txtparam.setMinimumSize(new Dimension(400,50));
     c.gridx=0;
     c.gridy=1;
     onglet1_1.add(txtparam, c);
 
     ButtonGroup bgProxy = new ButtonGroup();
     param_auto = new JRadioButton("Automatique");
+    param_auto.setFont(new Font("", Font.PLAIN, 17));
     param_auto.setPreferredSize(new Dimension(250,50));
     param_auto.setMinimumSize(new Dimension(150,50));
     param_auto.setSelected(true);
     param_man = new JRadioButton("Manuel");
+    param_man.setFont(new Font("", Font.PLAIN, 17));
     param_man.setPreferredSize(new Dimension(250,50));
     param_man.setMinimumSize(new Dimension(150,50));
     bgProxy.add(param_auto);
@@ -107,8 +110,8 @@ public class View{
 
 
     txtprox =new JLabel("<html> <FONT size=\"6\">Utilisez vous un autre proxy ?</FONT>");
-    txtprox.setPreferredSize(new Dimension(350,50));
-    txtprox.setMinimumSize(new Dimension(300,50));
+    txtprox.setPreferredSize(new Dimension(400,50));
+    txtprox.setMinimumSize(new Dimension(400,50));
     txtprox.setEnabled(false);
     c.gridx=0;
     c.gridy=2;
@@ -116,9 +119,11 @@ public class View{
 
     ButtonGroup bgAutoMan = new ButtonGroup();
     proxy_oui = new JRadioButton("Oui");
+    proxy_oui.setFont(new Font("", Font.PLAIN, 17));
     proxy_oui.setPreferredSize(new Dimension(250,50));
     proxy_oui.setMinimumSize(new Dimension(150,50));
     proxy_non = new JRadioButton("Non");
+    proxy_non.setFont(new Font("", Font.PLAIN, 17));
     proxy_non.setPreferredSize(new Dimension(250,50));
     proxy_non.setMinimumSize(new Dimension(150,50));
     proxy_non.setSelected(true);
@@ -139,8 +144,8 @@ public class View{
     proxy_non.addActionListener(control_prox);
 
     txtproxy = new JLabel("<html> <FONT size=\"6\">Adresse du proxy : </FONT>");
-    txtproxy.setPreferredSize(new Dimension(350,50));
-    txtproxy.setMinimumSize(new Dimension(300,50));
+    txtproxy.setPreferredSize(new Dimension(400,50));
+    txtproxy.setMinimumSize(new Dimension(400,50));
     txtproxy.setEnabled(false);
 
     c.gridx=0;
@@ -148,6 +153,9 @@ public class View{
     onglet1_1.add(txtproxy, c);
 
     adressProxySysteme = new JTextField("http://proxyetu.iut-nantes.univ-nantes.prive");
+    adressProxySysteme.setFont(new Font("", Font.PLAIN, 17));
+    adressProxySysteme.setSize(new Dimension(400, 50));
+    adressProxySysteme.setPreferredSize(new Dimension(400, 50));
     adressProxySysteme.setEnabled(false);
 
     c.gridx=1;
@@ -155,8 +163,8 @@ public class View{
     onglet1_1.add(adressProxySysteme, c);
 
     txtport = new JLabel("<html> <FONT size=\"6\">Port du proxy : </FONT>");
-    txtport.setPreferredSize(new Dimension(350,50));
-    txtport.setMinimumSize(new Dimension(300,50));
+    txtport.setPreferredSize(new Dimension(400,50));
+    txtport.setMinimumSize(new Dimension(400,50));
     txtport.setEnabled(false);
 
     c.gridx=0;
@@ -164,6 +172,7 @@ public class View{
     onglet1_1.add(txtport, c);
 
     proxyPort = new JSpinner();
+    proxyPort.setFont(new Font("", Font.PLAIN, 17));
     proxyPort.setPreferredSize(new Dimension(250,40));
     proxyPort.setMinimumSize(new Dimension(200,40));
     proxyPort.setEnabled(false);
