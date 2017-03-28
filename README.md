@@ -14,3 +14,8 @@ chmod a+x AnalyseurHTTP.jar
 Une aide à l'utilisation du programme est disponible dans la section Aide du menu.
 Se menu se trouve dans la bar en haut du porgramme.
 
+## Sources 
+Les sources du programme sont disponible dans le dossier `src`.
+Vous retrouverez le dossier `view` la partie concernant le visuel de notre programme.
+Le dossier `controleur` correspond à la jonction entre la vue et le modèle.
+Le dossier `model` quand à lui donne accès aux coeur du programme.
